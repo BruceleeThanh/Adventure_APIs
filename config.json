@@ -1,0 +1,23 @@
+{
+  "domain": "http://localhost",
+  "port": 25763,
+  "log_path": "logs/",
+  "upload_path": {
+    "root": "/uploads",
+    "image": "/images"
+  },
+  "mongodb_url": "mongodb://localhost:27017/adventure",
+  "mail": {
+    "username": "AKIAI4WP5XWRRE2G4WEA",
+    "apikey": "AjYhk4rhVycgqJXcWCV/bhBW2i1OyIr/ei9GcWPg1cri",
+    "from": "\"AZStack\" <info@azstack.co>",
+    "host": "email-smtp.us-west-2.amazonaws.com",
+    "port": 2587
+  },
+  "fb": {
+    "appId": "1759487717653055 ",
+    "appSecret": "f92ddc3ce788a252372e1e417a00133b",
+    "version": "v2.6"
+  },
+  "time_zone": "Asia/Saigon"
+}

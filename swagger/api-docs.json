@@ -1,0 +1,1447 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Adventure API",
+        "description": "API for admin/managing and client/viewing",
+        "termsOfService": "http://swagger.io/terms/"
+    },
+    "basePath": "/",
+    "tags": [{
+        "name": "user"
+    }, {
+        "name": "friend"
+    }, {
+        "name": "friend_request"
+    }, {
+        "name": "file"
+    }],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/api/user/sign_up": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "description": "user signup",
+                "operationId": "user_signup",
+                "parameters": [{
+                    "name": "phone_number_email",
+                    "in": "formData",
+                    "description": "phone number or email",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "password",
+                    "in": "formData",
+                    "description": "password",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "first_name",
+                    "in": "formData",
+                    "description": "first_name",
+                    "required": false,
+                    "type": "string"
+                }, {
+                    "name": "last_name",
+                    "in": "formData",
+                    "description": "last_name",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Email or phone_number is existed; -2: DB error; -3: Email or phone_number is required; -4 : Email is existed; -5 : Phone number is existed  ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "example": "123456"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "loint@gmail.com"
+                                        },
+                                        "phone_number": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "gender": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "birthday": {
+                                            "type": "date-time",
+                                            "example": "1993-07-05T04:27:58.144Z"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "religion": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "intro": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "fb_id": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "cover": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        },
+                                        "last_visited_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "email is existed"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/login": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "description": "user login",
+                "operationId": "user_login",
+                "parameters": [{
+                    "name": "phone_number_email",
+                    "in": "formData",
+                    "description": "phone number or email",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "password",
+                    "in": "formData",
+                    "description": "password",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Email or phone_number is not existed; -2: DB error; -3: Email or phone_number is required;  ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "example": "123456"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "loint@gmail.com"
+                                        },
+                                        "phone_number": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "gender": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "birthday": {
+                                            "type": "date-time",
+                                            "example": "1993-07-05T04:27:58.144Z"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "religion": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "intro": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "fb_id": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "cover": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        },
+                                        "last_visited_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "923749hwhff2rhfwhf-fhfhdkwehf-fhdfjdfhd"
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "email is existed"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/fb_login": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "description": "user fb login",
+                "operationId": "fb_login",
+                "parameters": [{
+                    "name": "fb_token",
+                    "in": "formData",
+                    "description": "fb_token",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -2: DB error; -3: Account is existed  ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "example": "123456"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "loint@gmail.com"
+                                        },
+                                        "phone_number": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "gender": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "birthday": {
+                                            "type": "date-time",
+                                            "example": "1993-07-05T04:27:58.144Z"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "religion": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "intro": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "fb_id": {
+                                            "type": "string",
+                                            "example": "fw23fwefw23r2rwfwwf"
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "cover": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        },
+                                        "last_visited_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "923749hwhff2rhfwhf-fhfhdkwehf-fhdfjdfhd"
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "email is existed"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/profile": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "description": "user profile",
+                "operationId": "user_profile",
+                "parameters": [{
+                    "name": "token",
+                    "in": "query",
+                    "description": "token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "_id",
+                    "in": "query",
+                    "description": "user id",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Email or phone_number is not existed; -2: DB error; -3: Token is not found; -4 : User is not found' ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "example": "123456"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "loint@gmail.com"
+                                        },
+                                        "phone_number": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "gender": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "birthday": {
+                                            "type": "date-time",
+                                            "example": "1993-07-05T04:27:58.144Z"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "religion": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "intro": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "fb_id": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "cover": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        },
+                                        "last_visited_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "token is not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/friend/browse": {
+            "get": {
+                "tags": [
+                    "friend"
+                ],
+                "description": "list friend of an user",
+                "operationId": "list_friend",
+                "parameters": [{
+                    "name": "token",
+                    "in": "query",
+                    "description": "token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "page",
+                    "in": "query",
+                    "description": "page to pagination",
+                    "required": false,
+                    "type": "number"
+                }, {
+                    "name": "perPage",
+                    "in": "query",
+                    "description": "item per page for pagination",
+                    "required": false,
+                    "type": "number"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Friend is not found; ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "example": "123456"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "loint@gmail.com"
+                                        },
+                                        "phone_number": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "gender": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "birthday": {
+                                            "type": "date-time",
+                                            "example": "1993-07-05T04:27:58.144Z"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "religion": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "intro": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "fb_id": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "cover": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        },
+                                        "last_visited_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        }
+                                    }
+                                },
+                                "total": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "token is not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/friend/suggest_friend": {
+            "get": {
+                "tags": [
+                    "friend"
+                ],
+                "description": "suggest friend",
+                "operationId": "suggest_friend",
+                "parameters": [{
+                    "name": "token",
+                    "in": "query",
+                    "description": "token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "page",
+                    "in": "query",
+                    "description": "page to pagination",
+                    "required": false,
+                    "type": "number"
+                }, {
+                    "name": "perPage",
+                    "in": "query",
+                    "description": "item per page for pagination",
+                    "required": false,
+                    "type": "number"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : User is not found;   ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "loint"
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "example": "123456"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "loint@gmail.com"
+                                        },
+                                        "phone_number": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "gender": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "birthday": {
+                                            "type": "date-time",
+                                            "example": "1993-07-05T04:27:58.144Z"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "religion": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "intro": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "fb_id": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "cover": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        },
+                                        "last_visited_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        }
+                                    }
+                                },
+                                "total": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "token is not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/friend_request/send_request": {
+            "post": {
+                "tags": [
+                    "friend_request"
+                ],
+                "description": "request add friend",
+                "operationId": "request_add_friend",
+                "parameters": [{
+                    "name": "token",
+                    "in": "formData",
+                    "description": "token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "user",
+                    "in": "formData",
+                    "description": "user id",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Can not add yourself; -5 : User id is not existed; -6 : Error. Request sent;  ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "sender": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "recipient": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "status": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "token is not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/friend_request/confirm": {
+            "post": {
+                "tags": [
+                    "friend_request"
+                ],
+                "description": "confirm add friend",
+                "operationId": "confirm_add_friend",
+                "parameters": [{
+                    "name": "token",
+                    "in": "formData",
+                    "description": "token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "_id",
+                    "in": "formData",
+                    "description": "friend request id",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Request is not exits; -5 : Request is not sent; -6 : Can not confirm friend;  ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "user_one": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "user_two": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "token is not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/friend_request/browse": {
+            "get": {
+                "tags": [
+                    "friend_request"
+                ],
+                "description": "list request friend of an user",
+                "operationId": "list_request",
+                "parameters": [{
+                    "name": "token",
+                    "in": "query",
+                    "description": "token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "page",
+                    "in": "query",
+                    "description": "page to pagination",
+                    "required": false,
+                    "type": "number"
+                }, {
+                    "name": "perPage",
+                    "in": "query",
+                    "description": "item per page for pagination",
+                    "required": false,
+                    "type": "number"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Friend request is not found'; ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "recipient": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "sender": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "5769097529f87b5c271728e5"
+                                                },
+                                                "first_name": {
+                                                    "type": "string",
+                                                    "example": "loint"
+                                                },
+                                                "last_name": {
+                                                    "type": "string",
+                                                    "example": "loint"
+                                                },
+                                                "password": {
+                                                    "type": "string",
+                                                    "example": "123456"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "loint@gmail.com"
+                                                },
+                                                "phone_number": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "gender": {
+                                                    "type": "number",
+                                                    "example": 0
+                                                },
+                                                "birthday": {
+                                                    "type": "date-time",
+                                                    "example": "1993-07-05T04:27:58.144Z"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "religion": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "intro": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "fb_id": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "cover": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "created_at": {
+                                                    "type": "date-time",
+                                                    "example": "2016-10-05T04:27:58.144Z"
+                                                }
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        }
+                                    }
+                                },
+                                "total": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "token is not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/status/create": {
+            "post": {
+                "tags": [
+                    "status"
+                ],
+                "description": "add status",
+                "operationId": "add_status",
+                "parameters": [{
+                    "name": "token",
+                    "in": "formData",
+                    "description": "token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "content",
+                    "in": "formData",
+                    "description": "content",
+                    "required": false,
+                    "type": "string"
+                }, {
+                    "name": "image_description",
+                    "in": "formData",
+                    "description": "image and description. Example : [{'url':'https...','description':'aaa',{'url':'https...','description':'bbb'}]",
+                    "required": false,
+                    "type": "string"
+                }, {
+                    "name": "type",
+                    "in": "formData",
+                    "description": "type 1: Normal Status , 2: Status in Travel_Discuss , 3: Status in Group",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: content or images is required; ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "owner": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "test status"
+                                        },
+                                        "images": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "5769097529f87b5c271728e5"
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "test description"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "type": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "token is not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/status/time_line": {
+            "get": {
+                "tags": [
+                    "status"
+                ],
+                "description": "timeline",
+                "operationId": "timeline",
+                "parameters": [{
+                    "name": "token",
+                    "in": "query",
+                    "description": "token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "user",
+                    "in": "query",
+                    "description": "user id",
+                    "required": false,
+                    "type": "string"
+                }, {
+                    "name": "page",
+                    "in": "query",
+                    "description": "page to pagination",
+                    "required": false,
+                    "type": "number"
+                }, {
+                    "name": "perPage",
+                    "in": "query",
+                    "description": "item per page for pagination",
+                    "required": false,
+                    "type": "number"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Timeline is not found ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "owner": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "5769097529f87b5c271728e5"
+                                                },
+                                                "first_name": {
+                                                    "type": "string",
+                                                    "example": "loint"
+                                                },
+                                                "last_name": {
+                                                    "type": "string",
+                                                    "example": "loint"
+                                                },
+                                                "password": {
+                                                    "type": "string",
+                                                    "example": "123456"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "loint@gmail.com"
+                                                },
+                                                "phone_number": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "gender": {
+                                                    "type": "number",
+                                                    "example": 0
+                                                },
+                                                "birthday": {
+                                                    "type": "date-time",
+                                                    "example": "1993-07-05T04:27:58.144Z"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "religion": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "intro": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "fb_id": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "cover": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "created_at": {
+                                                    "type": "date-time",
+                                                    "example": "2016-10-05T04:27:58.144Z"
+                                                }
+                                            }
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "test status"
+                                        },
+                                        "images": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "5769097529f87b5c271728e5"
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "test description"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "type": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "token is not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/status/new_feeds": {
+            "get": {
+                "tags": [
+                    "status"
+                ],
+                "description": "new_feeds",
+                "operationId": "new_feeds",
+                "parameters": [{
+                    "name": "token",
+                    "in": "query",
+                    "description": "token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "page",
+                    "in": "query",
+                    "description": "page to pagination",
+                    "required": false,
+                    "type": "number"
+                }, {
+                    "name": "perPage",
+                    "in": "query",
+                    "description": "item per page for pagination",
+                    "required": false,
+                    "type": "number"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : New Feeds is not found ",
+                                    "example": 1
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "5769097529f87b5c271728e5"
+                                        },
+                                        "owner": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "5769097529f87b5c271728e5"
+                                                },
+                                                "first_name": {
+                                                    "type": "string",
+                                                    "example": "loint"
+                                                },
+                                                "last_name": {
+                                                    "type": "string",
+                                                    "example": "loint"
+                                                },
+                                                "password": {
+                                                    "type": "string",
+                                                    "example": "123456"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "loint@gmail.com"
+                                                },
+                                                "phone_number": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "gender": {
+                                                    "type": "number",
+                                                    "example": 0
+                                                },
+                                                "birthday": {
+                                                    "type": "date-time",
+                                                    "example": "1993-07-05T04:27:58.144Z"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "religion": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "intro": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "fb_id": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "cover": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "created_at": {
+                                                    "type": "date-time",
+                                                    "example": "2016-10-05T04:27:58.144Z"
+                                                }
+                                            }
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "test status"
+                                        },
+                                        "images": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "5769097529f87b5c271728e5"
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "test description"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "type": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "date-time",
+                                            "example": "2016-10-05T04:27:58.144Z"
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "token is not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/file/upload_image": {
+            "post": {
+                "tags": [
+                    "file"
+                ],
+                "description": "file upload image",
+                "operationId": "file_upload_image",
+                "parameters": [{
+                    "name": "token",
+                    "required": true,
+                    "type": "string",
+                    "in": "formData",
+                    "description": "token"
+                }, {
+                    "name": "file",
+                    "required": true,
+                    "type": "file",
+                    "in": "formData",
+                    "description": "file"
+                }],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "1: success; 0: invalid params; -1: file is not image; -2: file is too large; -3: redis error; -4: token not found;",
+                                    "example": 0
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "in case of success",
+                                    "properties": {
+                                        "link": {
+                                            "type": "string",
+                                            "example": "http://localhost:8686/uploads/images/5773d5bf46db47ac20c8275a_1467399918348_rJUlJBE8.png"
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "in case of error",
+                                    "example": "file is too large"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {}
+}
