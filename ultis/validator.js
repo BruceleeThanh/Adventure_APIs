@@ -146,6 +146,38 @@ function validType(data, type) {
             }
         }
         return true;
+    } else if (type == 'routes_object_array') {
+        var parsedObject = [];
+        try {
+            parsedObject = JSON.parse(data);
+        } catch (e) {
+            if (e) {
+                return false;
+            }
+        }
+        if (Object.prototype.toString.call(parsedObject) !== '[object Array]') {
+            return false;
+        }
+        if (parsedObject.length === 0) {
+            return false;
+        }
+        for (var i = 0; i < parsedObject.length; i++) {
+            // console.log( parsedObject[i].description);
+            if (typeof parsedObject[i] !== 'object') {
+                return false;
+            }
+            if (Object.keys(parsedObject[i]).length === 0) {
+                return false;
+            }
+            for (var field in parsedObject[i]) {
+                if (typeof parsedObject[i][field] !== 'string') {
+                    if(typeof parsedObject[i][field] !== 'date'){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     } else if (type === 'strings_array') {
         if (typeof data !== 'string') {
             return false;
