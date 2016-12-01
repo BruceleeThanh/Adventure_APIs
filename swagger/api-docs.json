@@ -24,6 +24,9 @@
       "name": "status"
     },
     {
+      "name": "like_status"
+    },
+    {
       "name": "trip"
     },
     {
@@ -1046,6 +1049,20 @@
             "type": "string"
           },
           {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id_trip",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id_group",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "content",
             "in": "formData",
             "description": "content",
@@ -1060,11 +1077,18 @@
             "type": "string"
           },
           {
+            "name": "permission",
+            "in": "formData",
+            "description": "permission (when type == 1) 1: Only me, 2: Friend, 3: Public",
+            "required": false,
+            "type": "number"
+          },
+          {
             "name": "type",
             "in": "formData",
             "description": "type 1: Normal Status , 2: Status in Travel_Discuss , 3: Status in Group",
             "required": true,
-            "type": "string"
+            "type": "number"
           }
         ],
         "responses": {
@@ -1087,6 +1111,14 @@
                     "owner": {
                       "type": "string",
                       "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example:": "5769097529f87b5c271728e5"
+                    },
+                    "id_group": {
+                      "type": "string",
+                      "example:": "5769097529f87b5c271728e5"
                     },
                     "content": {
                       "type": "string",
@@ -1111,13 +1143,25 @@
                         }
                       }
                     },
-                    "type": {
+                    "amount_like": {
                       "type": "number",
-                      "example": 1
+                      "example": 10
+                    },
+                    "amount_comment": {
+                      "type": "number",
+                      "example": 20
                     },
                     "created_at": {
                       "type": "date-time",
                       "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "permission": {
+                      "type": "number",
+                      "example": 3
+                    },
+                    "type": {
+                      "type": "number",
+                      "example": 1
                     }
                   }
                 },
@@ -1357,53 +1401,9 @@
                           "type": "string",
                           "example": "loint"
                         },
-                        "password": {
-                          "type": "string",
-                          "example": "123456"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "loint@gmail.com"
-                        },
-                        "phone_number": {
-                          "type": "string",
-                          "example": ""
-                        },
-                        "gender": {
-                          "type": "number",
-                          "example": 0
-                        },
-                        "birthday": {
-                          "type": "date-time",
-                          "example": "1993-07-05T04:27:58.144Z"
-                        },
-                        "address": {
-                          "type": "string",
-                          "example": ""
-                        },
-                        "religion": {
-                          "type": "string",
-                          "example": ""
-                        },
-                        "intro": {
-                          "type": "string",
-                          "example": ""
-                        },
-                        "fb_id": {
-                          "type": "string",
-                          "example": ""
-                        },
                         "avatar": {
                           "type": "string",
                           "example": ""
-                        },
-                        "cover": {
-                          "type": "string",
-                          "example": ""
-                        },
-                        "created_at": {
-                          "type": "date-time",
-                          "example": "2016-10-05T04:27:58.144Z"
                         }
                       }
                     },
@@ -1430,6 +1430,18 @@
                         }
                       }
                     },
+                    "amount_like":{
+                      "type":"number",
+                      "example":10
+                    },
+                    "amount_comment":{
+                      "type":"number",
+                      "example":30
+                    },
+                    "permission":{
+                      "type":"number",
+                      "example":3
+                    },
                     "type": {
                       "type": "number",
                       "example": 1
@@ -1437,6 +1449,111 @@
                     "created_at": {
                       "type": "date-time",
                       "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/like_status/like": {
+      "post": {
+        "tags": [
+          "like_status"
+        ],
+        "description": "Like or Unlike",
+        "operationId": "like",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_status",
+            "in": "formData",
+            "description": "id_status",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Status is not exist ",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "test status"
+                        },
+                        "images": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "5769097529f87b5c271728e5"
+                              },
+                              "image": {
+                                "type": "string",
+                                "example": ""
+                              },
+                              "description": {
+                                "type": "string",
+                                "example": "test description"
+                              }
+                            }
+                          }
+                        },
+                        "amount_like": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "amount_comment": {
+                          "type": "number",
+                          "example": 20
+                        },
+                        "type": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    },
+                    "is_like": {
+                      "type": "number",
+                      "example": 1
                     }
                   }
                 },

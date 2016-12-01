@@ -7,6 +7,16 @@ var schema = mongoose.Schema({
         ref: 'User',
         required: true
     },
+    id_trip: {
+        type: Schema.Types.ObjectId,
+        ref: 'Trip',
+        required: false
+    },
+    id_group: {
+        type: Schema.Types.ObjectId,
+        ref: 'Group',
+        required: false
+    },
     content: {
         type: String,
         required: false
@@ -18,13 +28,28 @@ var schema = mongoose.Schema({
         }], // id , url , description
         required: false
     },
-    type: {
-        type: String, // type 1: Normal Status , 2: Status in Travel_Discuss , 3: Status in Group
-        default: 1
+    amount_like: {
+        type: Number,
+        required: false,
+        default: 0
+    },
+    amount_comment: {
+        type: Number,
+        required: false,
+        default: 0
     },
     created_at: {
         type: Date,
         required: false
+    },
+    permission: {
+        type: Number, //permission 1: Only me, 2: Friend, 3: Public (permission use to type == 1)
+        required: false,
+    },
+    type: {
+        type: Number, // type 1: Normal Status , 2: Status in Travel_Discuss , 3: Status in Group
+        required: true,
+        default: 1
     }
 });
 

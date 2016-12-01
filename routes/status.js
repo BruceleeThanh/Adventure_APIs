@@ -9,14 +9,22 @@ var helper = require(path.join(__dirname, '../', 'ultis/helper.js'));
 var status = require(path.join(__dirname, '../', 'cores/status.js'));
 var friend = require(path.join(__dirname, '../', 'cores/friend.js'));
 
-module.exports = function(app, redisClient) {
+module.exports = function (app, redisClient) {
 
-    app.post('/api/status/create', function(req, res) {
+    app.post('/api/status/create', function (req, res) {
         var data = {};
         var fields = [{
             name: 'token',
             type: 'string',
             required: true
+        }, {
+            name: 'id_trip',
+            type: 'string',
+            required: false
+        }, {
+            name: 'id_group',
+            type: 'string',
+            required: false
         }, {
             name: 'content',
             type: 'string',
@@ -26,16 +34,20 @@ module.exports = function(app, redisClient) {
             type: 'image_description_object_array',
             required: false
         }, {
+            name: 'permission',
+            type: 'number',
+            required: false
+        }, {
             name: 'type',
-            type: 'string',
+            type: 'number',
             required: true
         }];
 
         var currentUser = null;
         var image_description = null;
         async.series({
-            validate: function(callback) {
-                validator(req.body, fields, function(error, result) {
+            validate: function (callback) {
+                validator(req.body, fields, function (error, result) {
                     if (error) {
                         return callback(error, null);
                     } else {
@@ -48,8 +60,8 @@ module.exports = function(app, redisClient) {
                     }
                 });
             },
-            getLoggedin: function(callback) {
-                authentication.getLoggedin(redisClient, data.token, function(error, result) {
+            getLoggedin: function (callback) {
+                authentication.getLoggedin(redisClient, data.token, function (error, result) {
                     if (error) {
                         return callback(-1, null);
                     } else if (!result) {
@@ -61,35 +73,19 @@ module.exports = function(app, redisClient) {
                     }
                 });
             },
-            create: function(callback) {
-                // if (image_description === null) {
-                //     return callback(null, null);
-                // } else if (image_description.length > 0) {
-                //     var options = {
-                //         owner: data.owner,
-                //         content: data.content,
-                //         images: image_description,
-                //         type: data.type
-                //     };
-                //     status.create(options, function (error, result) {
-                //         if (error) {
-                //             return callback(error, null);
-                //         } else {
-                //             return callback(null, result);
-                //         }
-                //     });
-                // } else {
-                //     return callback(null, null);
-                // }
+            create: function (callback) {
                 console.log(typeof image_description);
                 if (data.content || data.image_description) {
                     var options = {
                         owner: data.owner,
+                        id_trip: data.id_trip,
+                        id_group: data.id_group,
                         content: data.content,
                         images: image_description,
+                        permission: data.permission,
                         type: data.type
                     };
-                    status.create(options, function(error, result) {
+                    status.create(options, function (error, result) {
                         if (error) {
                             return callback(error, null);
                         } else {
@@ -100,7 +96,7 @@ module.exports = function(app, redisClient) {
                     return callback(-4, null);
                 }
             }
-        }, function(error, results) {
+        }, function (error, results) {
             if (error) {
                 var code = error;
                 var message = '';
@@ -131,7 +127,7 @@ module.exports = function(app, redisClient) {
     });
 
 
-    app.get('/api/status/time_line', function(req, res) {
+    app.get('/api/status/time_line', function (req, res) {
         var data = {};
         var fields = [{
             name: 'token',
@@ -157,8 +153,8 @@ module.exports = function(app, redisClient) {
         var currentUser = null;
         var userId = null;
         async.series({
-            validate: function(callback) {
-                validator(req.query, fields, function(error, result) {
+            validate: function (callback) {
+                validator(req.query, fields, function (error, result) {
                     if (error) {
                         return callback(error, null);
                     } else {
@@ -167,8 +163,8 @@ module.exports = function(app, redisClient) {
                     }
                 });
             },
-            getLoggedin: function(callback) {
-                authentication.getLoggedin(redisClient, data.token, function(error, result) {
+            getLoggedin: function (callback) {
+                authentication.getLoggedin(redisClient, data.token, function (error, result) {
                     if (error) {
                         return callback(-1, null);
                     } else if (!result) {
@@ -188,10 +184,10 @@ module.exports = function(app, redisClient) {
                     }
                 });
             },
-            getOwnStatus: function(callback) {
+            getOwnStatus: function (callback) {
                 status.getTimeLine({
                     owner: userId
-                }, function(error, results) {
+                }, function (error, results) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
@@ -201,7 +197,7 @@ module.exports = function(app, redisClient) {
                     }
                 });
             }
-        }, function(error, results) {
+        }, function (error, results) {
             if (error) {
                 var code = error;
                 var message = '';
@@ -222,18 +218,17 @@ module.exports = function(app, redisClient) {
                     message: message
                 });
             } else {
-                var foundStatus = results.getOwnStatus.get;
-                var total = results.getOwnStatus.total;
+                var foundStatus = results.getOwnStatus;
                 res.json({
                     code: 1,
                     data: foundStatus,
-                    total: total
+                    total: foundStatus.length
                 });
             }
         });
     });
 
-    app.get('/api/status/new_feeds', function(req, res) {
+    app.get('/api/status/new_feeds', function (req, res) {
         var data = {};
         var fields = [{
             name: 'token',
@@ -255,8 +250,8 @@ module.exports = function(app, redisClient) {
         var currentUser = null;
         var lstFriend = [];
         async.series({
-            validate: function(callback) {
-                validator(req.query, fields, function(error, result) {
+            validate: function (callback) {
+                validator(req.query, fields, function (error, result) {
                     if (error) {
                         return callback(error, null);
                     } else {
@@ -265,8 +260,8 @@ module.exports = function(app, redisClient) {
                     }
                 });
             },
-            getLoggedin: function(callback) {
-                authentication.getLoggedin(redisClient, data.token, function(error, result) {
+            getLoggedin: function (callback) {
+                authentication.getLoggedin(redisClient, data.token, function (error, result) {
                     if (error) {
                         return callback(-1, null);
                     } else if (!result) {
@@ -278,8 +273,8 @@ module.exports = function(app, redisClient) {
                     }
                 });
             },
-            getFriend: function(callback) {
-                friend.findFriend({ _id: currentUser._id }, function(error, result) {
+            getFriend: function (callback) {
+                friend.findFriend({_id: currentUser._id}, function (error, result) {
                     if (error === -1) {
                         return callback(null, null);
                     } else if (error) {
@@ -298,12 +293,13 @@ module.exports = function(app, redisClient) {
                     }
                 });
             },
-            new_feeds: function(callback) {
+            new_feeds: function (callback) {
                 var opts = {
                     _id: lstFriend,
-                    type: 1 // normal status
+                    permission: [2, 3], // 2: friend, 3: public
+                    type: 1 // 1: normal status
                 };
-                status.getNewFeeds(opts, function(error, result) {
+                status.getNewFeeds(currentUser._id, opts, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
@@ -313,7 +309,7 @@ module.exports = function(app, redisClient) {
                     }
                 });
             }
-        }, function(error, results) {
+        }, function (error, results) {
             if (error) {
                 var code = error;
                 var message = '';
@@ -334,12 +330,11 @@ module.exports = function(app, redisClient) {
                     message: message
                 });
             } else {
-                var foundStatus = results.new_feeds.get;
-                var total = results.new_feeds.total;
+                var foundStatus = results.new_feeds;
                 res.json({
                     code: 1,
                     data: foundStatus,
-                    total: total
+                    total: foundStatus.length
                 });
             }
         });

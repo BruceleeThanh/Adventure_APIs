@@ -6,19 +6,19 @@ var path = require('path');
 var Place = require(path.join(__dirname, '../', 'schemas/place.js'));
 var Trip = require(path.join(__dirname, '../', 'schemas/trip.js'));
 
-exports.checkExitsTrip = function (data, callback) {
+exports.checkTripExits = function (data, callback) {
     var query = Trip.findOne({
         _id : data
     });
     query.exec(function (error, result) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
-            if (typeof callback === 'function') return callback(-2);
+            if (typeof callback === 'function') return callback(-2, null);
         } else {
             if (!result) {
-                if (typeof callback === 'function') return callback(-1);
+                if (typeof callback === 'function') return callback(-1, null);
             }
-            if (typeof callback === 'function') return callback(null);
+            if (typeof callback === 'function') return callback(null, result);
         }
     })
 }

@@ -1,52 +1,30 @@
 /**
  * Created by Brucelee Thanh on 30/11/2016.
  */
-var path = require('path');
+
 var async = require('async');
+var path = require('path');
 var validator = require(path.join(__dirname, '../', 'ultis/validator.js'));
 var authentication = require(path.join(__dirname, '../', 'ultis/authentication.js'));
-var trip_map = require(path.join(__dirname, '../', 'cores/trip_map.js'));
+var LikeStatus = require(path.join(__dirname, '../', 'schemas/like_status.js'));
+var Status = require(path.join(__dirname, '../', 'schemas/status.js'));
+var like_status = require(path.join(__dirname, '../', 'cores/like_status.js'));
 
 module.exports = function (app, redisClient) {
-    app.post('/api/trip_map/create_place', function (req, res) {
+    // Use to both Like and Unlike
+    app.post('/api/like_status/like', function (req, res) {
         var data = {};
         var fields = [{
             name: 'token',
             type: 'string',
             required: true
         }, {
-            name: 'id_trip',
-            type: 'string',
+            name: 'id_status',
+            type: 'hex_string',
             required: true
-        }, {
-            name: 'order',
-            type: 'number',
-            required: false
-        }, {
-            name: 'title',
-            type: 'string',
-            required: false
-        }, {
-            name: 'latitude',
-            type: 'string',
-            required: false
-        }, {
-            name: 'longitude',
-            type: 'string',
-            required: false
-        }, {
-            name: 'content',
-            type: 'string',
-            required: false
-        }, {
-            name: 'type',
-            type: 'number',
-            required: false
-        }, {
-            name: 'status',
-            type: 'number',
-            required: false
         }];
+        var is_like = null;
+        var currentUser = null;
         async.series({
             validate: function (callback) {
                 validator(req.body, fields, function (error, result) {
@@ -65,37 +43,38 @@ module.exports = function (app, redisClient) {
                     } else if (!result) {
                         return callback(-3, null);
                     } else {
+                        currentUser = JSON.parse(result);
+                        data.owner = currentUser._id;
                         return callback(null, null);
                     }
                 });
             },
-            checkTripExits: function (callback) {
-                trip_map.checkTripExits(data.id_trip, function (error, result) {
+            likeOrUnlike: function (callback) {
+                like_status.checkLikeStatusExits(data.id_status, data.owner, function (error, result) {
                     if (error === -1) {
-                        return callback(-4, null);
+                        like_status.doingLike(data, function (error, result) {
+                            if (error === -1) {
+                                return callback(-4, null);
+                            } else if (error) {
+                                return callback(error, null);
+                            } else {
+                                is_like = 1;
+                                return callback(null, result);
+                            }
+                        });
                     } else if (error) {
                         return callback(error, null);
                     } else {
-                        return callback(null, null);
-                    }
-                })
-            },
-            create: function (callback) {
-                var options = {
-                    id_trip: data.id_trip,
-                    order: data.order,
-                    title: data.title,
-                    latitude: data.latitude,
-                    longitude: data.longitude,
-                    content: data.content,
-                    type: data.type,
-                    status: data.status
-                };
-                trip_map.createPlace(options, function (error, result) {
-                    if (error) {
-                        return callback(error, null);
-                    } else {
-                        return callback(null, result);
+                        like_status.doingUnLike(data, function (error, result) {
+                            if (error === -1) {
+                                return callback(-4, null);
+                            } else if (error) {
+                                return callback(error, null);
+                            } else {
+                                is_like = 0;
+                                return callback(null, result);
+                            }
+                        });
                     }
                 });
             }
@@ -103,27 +82,30 @@ module.exports = function (app, redisClient) {
             if (error) {
                 var code = error;
                 var message = '';
-                if (code == -1) {
+                if (error === -1) {
                     message = 'Redis error';
                 } else if (error === -2) {
                     message = 'DB error';
                 } else if (error === -3) {
                     message = 'Token is not found';
                 } else if (error === -4) {
-                    message = 'Trip is not exist';
+                    message = 'Status is not exits';
                 } else {
-                    message = error;
                     code = 0;
+                    message = error;
                 }
                 res.json({
                     code: code,
                     message: message
                 });
             } else {
-                var foundTripMap = result.create.toObject();
+                var updateStatus = result.likeOrUnlike;
                 res.json({
                     code: 1,
-                    data: foundTripMap
+                    data: {
+                        status: updateStatus,
+                        is_like: is_like
+                    }
                 });
             }
         });
