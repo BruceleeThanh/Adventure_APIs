@@ -27,4 +27,4 @@ var memberGroupSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('MemberGroup', memberGroupSchema);
+module.exports = mongoose.model('Member_Group', memberGroupSchema);

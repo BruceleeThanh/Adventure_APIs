@@ -1,40 +1,46 @@
 /**
- * Created by Brucelee Thanh on 30/11/2016.
+ * Created by Brucelee Thanh on 02/12/2016.
  */
-
-var async = require('async');
 var path = require('path');
+var async = require('async');
+var uuid = require('node-uuid');
 var validator = require(path.join(__dirname, '../', 'ultis/validator.js'));
 var authentication = require(path.join(__dirname, '../', 'ultis/authentication.js'));
-var LikeStatus = require(path.join(__dirname, '../', 'schemas/like_status.js'));
-var Status = require(path.join(__dirname, '../', 'schemas/status.js'));
-var like_status = require(path.join(__dirname, '../', 'cores/like_status.js'));
-var status = require(path.join(__dirname, '../', 'cores/status.js'));
+var config = require(path.join(__dirname, '../', 'config.json'));
+var mail = require(path.join(__dirname, '../', 'ultis/mail.js'));
+var helper = require(path.join(__dirname, '../', 'ultis/helper.js'));
+var news = require(path.join(__dirname, '../', 'cores/news.js'));
+var friend = require(path.join(__dirname, '../', 'cores/friend.js'));
 
 module.exports = function (app, redisClient) {
-    app.post('/api/like_status/browse', function (req, res) {
+    app.get('/api/news/time_line', function (req, res) {
         var data = {};
         var fields = [{
             name: 'token',
             type: 'string',
             required: true
         }, {
-            name: 'id_status',
-            type: 'string',
-            required: true
+            name: 'user',
+            type: 'hex_string',
+            required: false
         }, {
             name: 'page',
             type: 'number',
-            required: false
+            required: false,
+            min: 1
         }, {
-            name: 'per_page',
+            name: 'perPage',
             type: 'number',
-            required: false
+            required: false,
+            min: 10,
+            max: 100
         }];
+
         var currentUser = null;
+        var userId = null;
         async.series({
             validate: function (callback) {
-                validator(req.body, fields, function (error, result) {
+                validator(req.query, fields, function (error, result) {
                     if (error) {
                         return callback(error, null);
                     } else {
@@ -51,37 +57,31 @@ module.exports = function (app, redisClient) {
                         return callback(-3, null);
                     } else {
                         currentUser = JSON.parse(result);
+                        if (data.user) {
+                            if (currentUser._id !== data.user) {
+                                userId = data.user;
+                            } else {
+                                userId = currentUser._id;
+                            }
+                        } else {
+                            userId = currentUser._id;
+                        }
                         return callback(null, null);
                     }
                 });
             },
-            checkStatusExits: function (callback) {
-                status.checkStatusExits(data.id_status, function (error, result) {
+            getOwnStatus: function (callback) {
+                news.getTimeLine({
+                    owner: userId
+                }, function (error, results) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
                         return callback(error, null);
                     } else {
-                        return callback(null, null);
-                    }
-                })
-            },
-            browse: function (callback) {
-                var option = {
-                    id_status: data.id_status,
-                    id_user: currentUser._id,
-                    page: data.page,
-                    per_page: data.per_page
-                };
-                like_status.getAll(option, function (error, results) {
-                    if (error == -1) {
-                        return callback(-5, null);
-                    } else if (error) {
-                        return callback(error, null);
-                    } else {
                         return callback(null, results);
                     }
-                })
+                });
             }
         }, function (error, results) {
             if (error) {
@@ -94,9 +94,7 @@ module.exports = function (app, redisClient) {
                 } else if (error === -3) {
                     message = 'Token is not found';
                 } else if (error === -4) {
-                    message = 'Status is not found';
-                } else if (error === -5) {
-                    message = 'LikeStatus is not found';
+                    message = 'Timeline is not found';
                 } else {
                     message = error;
                     code = 0;
@@ -106,33 +104,39 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
-                var foundLikeStatus = results.browse;
+                var foundStatus = results.getOwnStatus;
                 res.json({
                     code: 1,
-                    data: foundLikeStatus,
-                    total: foundLikeStatus.length
+                    data: foundStatus,
+                    total: foundStatus.length
                 });
             }
         });
     });
-
-    // Use to both Like and Unlike
-    app.post('/api/like_status/like', function (req, res) {
+    app.get('/api/news/news_feed', function (req, res) {
         var data = {};
         var fields = [{
             name: 'token',
             type: 'string',
             required: true
         }, {
-            name: 'id_status',
-            type: 'hex_string',
-            required: true
+            name: 'page',
+            type: 'number',
+            required: false,
+            min: 1
+        }, {
+            name: 'perPage',
+            type: 'number',
+            required: false,
+            min: 10,
+            max: 100
         }];
-        var is_like = null;
+
         var currentUser = null;
+        var lstFriend = [];
         async.series({
             validate: function (callback) {
-                validator(req.body, fields, function (error, result) {
+                validator(req.query, fields, function (error, result) {
                     if (error) {
                         return callback(error, null);
                     } else {
@@ -149,41 +153,48 @@ module.exports = function (app, redisClient) {
                         return callback(-3, null);
                     } else {
                         currentUser = JSON.parse(result);
-                        data.owner = currentUser._id;
+                        lstFriend.push(currentUser._id);
                         return callback(null, null);
                     }
                 });
             },
-            likeOrUnlike: function (callback) {
-                like_status.checkLikeStatusExits(data.id_status, data.owner, function (error, result) {
+            getFriend: function (callback) {
+                friend.findFriend({_id: currentUser._id}, function (error, result) {
                     if (error === -1) {
-                        like_status.doingLike(data, function (error, result) {
-                            if (error === -1) {
-                                return callback(-4, null);
-                            } else if (error) {
-                                return callback(error, null);
-                            } else {
-                                is_like = 1;
-                                return callback(null, result);
-                            }
-                        });
+                        return callback(null, null);
                     } else if (error) {
                         return callback(error, null);
                     } else {
-                        like_status.doingUnLike(data, function (error, result) {
-                            if (error === -1) {
-                                return callback(-4, null);
-                            } else if (error) {
-                                return callback(error, null);
-                            } else {
-                                is_like = 0;
-                                return callback(null, result);
+                        var friends = result.get;
+                        for (i in friends) {
+                            if (friends[i].user_one._id.toHexString() !== currentUser._id) {
+                                lstFriend.push(friends[i].user_one._id);
                             }
-                        });
+                            if (friends[i].user_two._id.toHexString() !== currentUser._id) {
+                                lstFriend.push(friends[i].user_two._id);
+                            }
+                        }
+                        return callback(null, null);
+                    }
+                });
+            },
+            news_feed: function (callback) {
+                var opts = {
+                    _id: lstFriend,
+                    permission: [2, 3], // 2: friend, 3: public
+                    type: 1 // 1: normal status
+                };
+                news.getNewsFeed(currentUser._id, opts, function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, result);
                     }
                 });
             }
-        }, function (error, result) {
+        }, function (error, results) {
             if (error) {
                 var code = error;
                 var message = '';
@@ -194,23 +205,21 @@ module.exports = function (app, redisClient) {
                 } else if (error === -3) {
                     message = 'Token is not found';
                 } else if (error === -4) {
-                    message = 'Status is not exits';
+                    message = 'News Feed is not found';
                 } else {
-                    code = 0;
                     message = error;
+                    code = 0;
                 }
                 res.json({
                     code: code,
                     message: message
                 });
             } else {
-                var updateStatus = result.likeOrUnlike;
+                var foundStatus = results.news_feed;
                 res.json({
                     code: 1,
-                    data: {
-                        status: updateStatus,
-                        is_like: is_like
-                    }
+                    data: foundStatus,
+                    total: foundStatus.length
                 });
             }
         });

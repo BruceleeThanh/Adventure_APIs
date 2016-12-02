@@ -27,10 +27,16 @@
       "name": "like_status"
     },
     {
+      "name": "comment_status"
+    },
+    {
       "name": "trip"
     },
     {
       "name": "trip_map"
+    },
+    {
+      "name": "news"
     }
   ],
   "schemes": [
@@ -99,11 +105,11 @@
                     },
                     "first_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "last_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "password": {
                       "type": "string",
@@ -111,7 +117,7 @@
                     },
                     "email": {
                       "type": "string",
-                      "example": "loint@gmail.com"
+                      "example": "Brucelee Thanh@gmail.com"
                     },
                     "phone_number": {
                       "type": "string",
@@ -212,11 +218,11 @@
                     },
                     "first_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "last_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "password": {
                       "type": "string",
@@ -224,7 +230,7 @@
                     },
                     "email": {
                       "type": "string",
-                      "example": "loint@gmail.com"
+                      "example": "Brucelee Thanh@gmail.com"
                     },
                     "phone_number": {
                       "type": "string",
@@ -322,11 +328,11 @@
                     },
                     "first_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "last_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "password": {
                       "type": "string",
@@ -334,7 +340,7 @@
                     },
                     "email": {
                       "type": "string",
-                      "example": "loint@gmail.com"
+                      "example": "Brucelee Thanh@gmail.com"
                     },
                     "phone_number": {
                       "type": "string",
@@ -439,11 +445,11 @@
                     },
                     "first_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "last_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "password": {
                       "type": "string",
@@ -451,7 +457,7 @@
                     },
                     "email": {
                       "type": "string",
-                      "example": "loint@gmail.com"
+                      "example": "Brucelee Thanh@gmail.com"
                     },
                     "phone_number": {
                       "type": "string",
@@ -559,11 +565,11 @@
                     },
                     "first_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "last_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "password": {
                       "type": "string",
@@ -571,7 +577,7 @@
                     },
                     "email": {
                       "type": "string",
-                      "example": "loint@gmail.com"
+                      "example": "Brucelee Thanh@gmail.com"
                     },
                     "phone_number": {
                       "type": "string",
@@ -683,11 +689,11 @@
                     },
                     "first_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "last_name": {
                       "type": "string",
-                      "example": "loint"
+                      "example": "Brucelee Thanh"
                     },
                     "password": {
                       "type": "string",
@@ -695,7 +701,7 @@
                     },
                     "email": {
                       "type": "string",
-                      "example": "loint@gmail.com"
+                      "example": "Brucelee Thanh@gmail.com"
                     },
                     "phone_number": {
                       "type": "string",
@@ -952,11 +958,11 @@
                         },
                         "first_name": {
                           "type": "string",
-                          "example": "loint"
+                          "example": "Brucelee Thanh"
                         },
                         "last_name": {
                           "type": "string",
-                          "example": "loint"
+                          "example": "Brucelee Thanh"
                         },
                         "password": {
                           "type": "string",
@@ -964,7 +970,7 @@
                         },
                         "email": {
                           "type": "string",
-                          "example": "loint@gmail.com"
+                          "example": "Brucelee Thanh@gmail.com"
                         },
                         "phone_number": {
                           "type": "string",
@@ -1176,10 +1182,10 @@
         }
       }
     },
-    "/api/status/time_line": {
+    "/api/news/time_line": {
       "get": {
         "tags": [
-          "status"
+          "news"
         ],
         "description": "timeline",
         "operationId": "timeline",
@@ -1239,11 +1245,11 @@
                         },
                         "first_name": {
                           "type": "string",
-                          "example": "loint"
+                          "example": "Brucelee Thanh"
                         },
                         "last_name": {
                           "type": "string",
-                          "example": "loint"
+                          "example": "Brucelee Thanh"
                         },
                         "password": {
                           "type": "string",
@@ -1251,7 +1257,7 @@
                         },
                         "email": {
                           "type": "string",
-                          "example": "loint@gmail.com"
+                          "example": "Brucelee Thanh@gmail.com"
                         },
                         "phone_number": {
                           "type": "string",
@@ -1339,13 +1345,13 @@
         }
       }
     },
-    "/api/status/new_feeds": {
+    "/api/news/news_feed": {
       "get": {
         "tags": [
-          "status"
+          "news"
         ],
-        "description": "new_feeds",
-        "operationId": "new_feeds",
+        "description": "News Feed",
+        "operationId": "news_feed",
         "parameters": [
           {
             "name": "token",
@@ -1395,11 +1401,11 @@
                         },
                         "first_name": {
                           "type": "string",
-                          "example": "loint"
+                          "example": "Brucelee Thanh"
                         },
                         "last_name": {
                           "type": "string",
-                          "example": "loint"
+                          "example": "Brucelee Thanh"
                         },
                         "avatar": {
                           "type": "string",
@@ -1430,17 +1436,17 @@
                         }
                       }
                     },
-                    "amount_like":{
-                      "type":"number",
-                      "example":10
+                    "amount_like": {
+                      "type": "number",
+                      "example": 10
                     },
-                    "amount_comment":{
-                      "type":"number",
-                      "example":30
+                    "amount_comment": {
+                      "type": "number",
+                      "example": 30
                     },
-                    "permission":{
-                      "type":"number",
-                      "example":3
+                    "permission": {
+                      "type": "number",
+                      "example": 3
                     },
                     "type": {
                       "type": "number",
@@ -1449,8 +1455,112 @@
                     "created_at": {
                       "type": "date-time",
                       "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "is_like": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "is_comment": {
+                      "type": "number",
+                      "example": 20
                     }
                   }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/like_status/browse": {
+      "post": {
+        "tags": [
+          "like_status"
+        ],
+        "description": "Show list like of a status",
+        "operationId": "browse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_status",
+            "in": "formData",
+            "description": "id_status",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "formData",
+            "description": "page",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "formData",
+            "description": "per_page",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: Status is not found; -5: LikeStatus is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "example": 10
                 },
                 "message": {
                   "type": "string",
@@ -1554,6 +1664,187 @@
                     "is_like": {
                       "type": "number",
                       "example": 1
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/comment_status/browse": {
+      "post": {
+        "tags": [
+          "comment_status"
+        ],
+        "description": "Show list comment of a status",
+        "operationId": "browse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_status",
+            "in": "formData",
+            "description": "id_status",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "formData",
+            "description": "page",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "formData",
+            "description": "per_page",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: Status is not found; -5: CommentStatus is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },
+                    "content":{
+                      "type":"string",
+                      "example":"This is content of comment"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "example": 10
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/comment_status/create": {
+      "post": {
+        "tags": [
+          "comment_status"
+        ],
+        "description": "Comment of status",
+        "operationId": "create",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_status",
+            "in": "formData",
+            "description": "id_status",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "content",
+            "in": "formData",
+            "description": "content",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Status is not exist; -5: Content is require ",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "id_status":{
+                          "type":"string",
+                          "example":"5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "test status"
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
                     }
                   }
                 },

@@ -26,4 +26,4 @@ var commentStatusSchema = Schema({
     }
 });
 
-module.exports = mongoose.model('CommentStatus', commentStatusSchema);
+module.exports = mongoose.model('Comment_Status', commentStatusSchema);

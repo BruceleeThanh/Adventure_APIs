@@ -23,4 +23,4 @@ var requestGroup = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('RequestGroup', requestGroup);
+module.exports = mongoose.model('Request_Group', requestGroup);

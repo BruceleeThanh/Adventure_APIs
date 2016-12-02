@@ -22,4 +22,4 @@ var likeStatusSchema = Schema({
     }
 });
 
-module.exports = mongoose.model('LikeStatus', likeStatusSchema);
+module.exports = mongoose.model('Like_Status', likeStatusSchema);
