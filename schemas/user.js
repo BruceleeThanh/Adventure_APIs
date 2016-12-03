@@ -16,8 +16,7 @@ var userSchema = mongoose.Schema({
     email: {
         type: String,
         required: false,
-        default: null,
-        unique: true
+        default: null
     },
     phone_number:{
         type:String,
@@ -70,8 +69,7 @@ var userSchema = mongoose.Schema({
     },
     created_at:{
         type:String,
-        required:false,
-        default:Date.now
+        required:false
     },
     latest_active:{
         type:String,
