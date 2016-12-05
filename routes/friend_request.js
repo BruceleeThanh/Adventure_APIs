@@ -80,8 +80,7 @@ module.exports = function (app, redisClient) {
             send_request: function (callback) {
                 var options = {
                     sender: currentUser._id,
-                    recipient: data._id,
-                    status: 0
+                    recipient: data._id
                 };
                 friend_request.create(options, function (error, result) {
                     if (error) {
@@ -106,7 +105,7 @@ module.exports = function (app, redisClient) {
                 } else if (error === -5) {
                     message = 'User id is not existed';
                 } else if (error === -6) {
-                    message = 'Error. Request sent';
+                    message = 'Error. Request already send';
                 } else {
                     message = error;
                     code = 0;
@@ -194,10 +193,7 @@ module.exports = function (app, redisClient) {
                 });
             },
             accept: function (callback) {
-                var updateData = {
-                    status: 1
-                };
-                friend_request.update(request, updateData, function (error, result) {
+                friend_request.removeFriendRequest(request.sender, currentUser._id, function (error, result) {
                     if (error) {
                         return callback(error, null);
                     } else {
@@ -333,12 +329,11 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
-                var foundFriend = results.browse.get;
-                var total = results.browse.count;
+                var foundFriend = results.browse;
                 res.json({
                     code: 1,
                     data: foundFriend,
-                    total: total
+                    total: foundFriend.length
                 });
             }
         });

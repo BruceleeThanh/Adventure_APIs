@@ -18,8 +18,7 @@ var friendRequestSchema = mongoose.Schema({
     },
     created_at:{
         type:Date,
-        required:false,
-        default:Date.now()
+        required:false
     }
 });
 
