@@ -57,12 +57,12 @@ var userSchema = mongoose.Schema({
         required:false,
         default:null
     },
-    profile_photo:{
+    avatar:{
         type:String,
         required:false,
         default:null
     },
-    cover_photo:{
+    cover:{
         type:String,
         required:false,
         default:null
