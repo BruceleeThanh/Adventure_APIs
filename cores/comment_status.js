@@ -74,6 +74,7 @@ exports.getAll = function (data, callback) { // data : Obj(id_status, page, per_
     }
     query.select('_id owner id_status content created_at');
     query.populate('owner', '_id first_name last_name avatar');
+    query.sort({created_at: -1});
     query.exec(function (error, results) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
