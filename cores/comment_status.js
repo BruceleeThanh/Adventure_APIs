@@ -72,7 +72,7 @@ exports.getAll = function (data, callback) { // data : Obj(id_status, page, per_
         offset = (data.page - 1) * data.per_page;
         query.limit(limit).offset(offset);
     }
-    query.select('_id owner content created_at');
+    query.select('_id owner id_status content created_at');
     query.populate('owner', '_id first_name last_name avatar');
     query.exec(function (error, results) {
         if (error) {
