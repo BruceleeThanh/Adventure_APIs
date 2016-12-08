@@ -22,7 +22,7 @@ exports.create = function (data, callback) {
                 }
             });
         },
-        createCommentStatus:function (callback) {
+        createCommentStatus: function (callback) {
             var currentDate = new Date();
             data.created_at = currentDate;
             var creatingCommentStatus = new CommentStatus(data);
@@ -37,7 +37,7 @@ exports.create = function (data, callback) {
                 }
             });
         },
-        increaseCommentStatus:function (callback) {
+        increaseCommentStatus: function (callback) {
             var increase = {
                 amount_comment: statusExits.amount_comment + 1
             };
@@ -50,11 +50,11 @@ exports.create = function (data, callback) {
             });
         }
     }, function (error, result) {
-        if(error === -1){
+        if (error === -1) {
             return callback(-4, null);
-        }else if(error){
+        } else if (error) {
             return callback(error, null);
-        }else{
+        } else {
             return callback(null, result.createCommentStatus);
         }
     });
@@ -63,7 +63,7 @@ exports.create = function (data, callback) {
 
 exports.getAll = function (data, callback) { // data : Obj(id_status, page, per_page)
     var query = CommentStatus.find({
-        id_status:data.id_status
+        id_status: data.id_status
     });
     var limit = 10;
     var offset = 0;
@@ -89,7 +89,7 @@ exports.getAll = function (data, callback) { // data : Obj(id_status, page, per_
     });
 };
 
-exports.checkCommentStatusExits = function (id_status, owner, callback) {
+exports.checkUserAlreadyCommentOnStatus = function (id_status, owner, callback) {
     var query = CommentStatus.findOne({
         id_status: id_status,
         owner: owner
@@ -105,4 +105,38 @@ exports.checkCommentStatusExits = function (id_status, owner, callback) {
             if (typeof callback === 'function') return callback(null, result);
         }
     });
-}
+};
+
+exports.checkCommentStatusExits = function (data, callback) {
+    var query = CommentStatus.findOne({
+        _id: data.id_comment,
+        id_status: data.id_status,
+        owner: data.owner
+    });
+    query.exec(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (!result) {
+                if (typeof callback === 'function') return callback(-1, null);
+            }
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+
+exports.updateContentOfCommentStatus = function (idComment, content, callback) {
+    CommentStatus.findByIdAndUpdate(idComment, {$set: {content: content}}, {new: true}, function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (!result) {
+                if (typeof callback === 'function') return callback(-1, null);
+            }
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+

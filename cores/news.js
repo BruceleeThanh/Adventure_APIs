@@ -86,7 +86,7 @@ exports.getNewsFeed = function (id_user, data, callback) {
                         });
                     },
                     checkComment: function (callback) {
-                        comment_status.checkCommentStatusExits(item._id, id_user, function (error, result) {
+                        comment_status.checkUserAlreadyCommentOnStatus(item._id, id_user, function (error, result) {
                             if (error) {
                                 item.is_comment = 0;
                                 return callback(null, null);

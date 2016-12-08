@@ -1783,7 +1783,7 @@
         "tags": [
           "comment_status"
         ],
-        "description": "Comment of status",
+        "description": "Comment on status",
         "operationId": "create",
         "parameters": [
           {
@@ -1815,6 +1815,94 @@
                 "code": {
                   "type": "integer",
                   "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Status is not exist; -5: Content is require ",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "id_status":{
+                          "type":"string",
+                          "example":"5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "test status"
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/comment_status/edit_content": {
+      "post": {
+        "tags": [
+          "comment_status"
+        ],
+        "description": "Edit comment on status",
+        "operationId": "edit_content",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_status",
+            "in": "formData",
+            "description": "id_status",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_comment",
+            "in": "formData",
+            "description": "id_comment",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "content",
+            "in": "formData",
+            "description": "content",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Status is not exist; -5: Comment is not exits; -6: Can not update comment ",
                   "example": 1
                 },
                 "data": {
