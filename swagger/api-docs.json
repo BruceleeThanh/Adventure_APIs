@@ -1947,6 +1947,56 @@
         }
       }
     },
+    "/api/comment_status/delete": {
+      "post": {
+        "tags": [
+          "comment_status"
+        ],
+        "description": "Delete a comment on status",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_status",
+            "in": "formData",
+            "description": "id_status",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_comment",
+            "in": "formData",
+            "description": "id_comment",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Status is not exist; -5: Comment is not exits; -6: Can not delete comment ",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/file/upload_image": {
       "post": {
         "tags": [

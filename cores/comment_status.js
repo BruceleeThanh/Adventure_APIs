@@ -140,3 +140,16 @@ exports.updateContentOfCommentStatus = function (idComment, content, callback) {
     });
 };
 
+exports.removeCommentStatus = function (id_comment, callback) {
+    CommentStatus.remove({_id:id_comment}, function (error) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (typeof callback === 'function') {
+                return callback(null, null);
+            }
+        }
+    });
+};
+
