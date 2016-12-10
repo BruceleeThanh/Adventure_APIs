@@ -253,39 +253,13 @@ module.exports = function (app, redisClient) {
                     }
                 });
             },
-            checkStatusExits: function (callback) {
-                status.checkStatusExits(data.id_status, function (error, result) {
-                    if (error === -1) {
-                        return callback(-4, null);
-                    } else if (error) {
-                        return callback(error, null);
-                    } else {
-                        return callback(null, null);
-                    }
-                })
-            },
-            checkCommentStatusExits: function (callback) {
-                var options = {
-                    id_comment: data.id_comment,
-                    id_status: data.id_status,
-                    owner: currentUser._id
-                };
-                comment_status.checkCommentStatusExits(options, function (error, result) {
-                    if (error === -1) {
-                        return callback(-5, null);
-                    } else if (error) {
-                        return callback(error, null);
-                    } else {
-                        return callback(null, null);
-                    }
-                });
-            },
-            deleteCommentStatus:function (callback) {
-                comment_status.removeCommentStatus(data.id_comment, function (error, result) {
+            deleteCommentStatus: function (callback) {
+                data.owner = currentUser._id;
+                comment_status.removeCommentStatus(data, function (error, result) {
                     if (error) {
-                        return callback(-6, null);
+                        return callback(error, null);
                     } else {
-                        return callback(null, null);
+                        return callback(null, result);
                     }
                 });
             }
@@ -314,8 +288,14 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
+                var foundStatusUpdate = result.deleteCommentStatus.decreaseCommentStatus;
+                var isComment = result.deleteCommentStatus.checkUserAlreadyCommentOnStatus;
                 res.json({
-                    code: 1
+                    code: 1,
+                    data: {
+                        status: foundStatusUpdate,
+                        is_comment: isComment
+                    }
                 });
             }
         });

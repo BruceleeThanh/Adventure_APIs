@@ -89,7 +89,7 @@ exports.getAll = function (data, callback) { // data : Obj(id_status, page, per_
     });
 };
 
-exports.checkUserAlreadyCommentOnStatus = function (id_status, owner, callback) {
+exports.checkUserAlreadyCommentOnStatus = function checkUserAlreadyCommentOnStatus(id_status, owner, callback) {
     var query = CommentStatus.findOne({
         id_status: id_status,
         owner: owner
@@ -107,7 +107,7 @@ exports.checkUserAlreadyCommentOnStatus = function (id_status, owner, callback) 
     });
 };
 
-exports.checkCommentStatusExits = function (data, callback) {
+exports.checkCommentStatusExits = function checkCommentStatusExits(data, callback) {
     var query = CommentStatus.findOne({
         _id: data.id_comment,
         id_status: data.id_status,
@@ -140,15 +140,74 @@ exports.updateContentOfCommentStatus = function (idComment, content, callback) {
     });
 };
 
-exports.removeCommentStatus = function (id_comment, callback) {
-    CommentStatus.remove({_id:id_comment}, function (error) {
+exports.removeCommentStatus = function (data, callback) {
+    var statusExits = null;
+    async.series({
+        checkStatusExits: function (callback) {
+            status.checkStatusExits(data.id_status, function (error, result) {
+                if (error === -1) {
+                    return callback(-4, null);
+                } else if (error) {
+                    return callback(error, null);
+                } else {
+                    statusExits = result;
+                    return callback(null, null);
+                }
+            });
+        },
+        checkCommentStatusExits: function (callback) {
+            checkCommentStatusExits(data, function (error, result) {
+                if (error === -1) {
+                    return callback(-5, null);
+                } else if (error) {
+                    return callback(error, null);
+                } else {
+                    return callback(null, null);
+                }
+            });
+        },
+        removeCommentStatus: function (callback) {
+            CommentStatus.remove({_id: data.id_comment}, function (error) {
+                if (error) {
+                    require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+                    if (typeof callback === 'function') return callback(-6, null);
+                } else {
+                    if (typeof callback === 'function') {
+                        return callback(null, null);
+                    }
+                }
+            });
+        },
+        checkUserAlreadyCommentOnStatus : function (callback) {
+            checkUserAlreadyCommentOnStatus(data.id_status, data.owner, function (error, result) {
+                if(error){
+                    if (error === -1) {
+                        return callback(null, 0);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, 1);
+                    }
+                }
+            });
+        },
+        decreaseCommentStatus: function (callback) {
+            var increase = {
+                amount_comment: statusExits.amount_comment - 1
+            };
+            status.updateStatus(statusExits, increase, function (error, status) {
+                if (error) {
+                    return callback(error, null);
+                } else {
+                    return callback(null, status);
+                }
+            });
+        }
+    }, function (error, result) {
         if (error) {
-            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
-            if (typeof callback === 'function') return callback(-2, null);
+            return callback(error, null);
         } else {
-            if (typeof callback === 'function') {
-                return callback(null, null);
-            }
+            return callback(null, result);
         }
     });
 };

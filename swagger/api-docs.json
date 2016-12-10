@@ -1986,6 +1986,68 @@
                   "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Status is not exist; -5: Comment is not exits; -6: Can not delete comment ",
                   "example": 1
                 },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "test status"
+                        },
+                        "images": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "5769097529f87b5c271728e5"
+                              },
+                              "image": {
+                                "type": "string",
+                                "example": ""
+                              },
+                              "description": {
+                                "type": "string",
+                                "example": "test description"
+                              }
+                            }
+                          }
+                        },
+                        "amount_like": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "amount_comment": {
+                          "type": "number",
+                          "example": 20
+                        },
+                        "type": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    },
+                    "is_comment": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
                 "message": {
                   "type": "string",
                   "description": "in case of error",
