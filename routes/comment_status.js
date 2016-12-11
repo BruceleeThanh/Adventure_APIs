@@ -289,7 +289,7 @@ module.exports = function (app, redisClient) {
                 });
             } else {
                 var foundStatusUpdate = result.deleteCommentStatus.decreaseCommentStatus;
-                var isComment = result.deleteCommentStatus.checkUserAlreadyCommentOnStatus;
+                var isComment = result.deleteCommentStatus.checkOrtherComment;
                 res.json({
                     code: 1,
                     data: {

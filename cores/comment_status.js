@@ -22,6 +22,18 @@ exports.create = function (data, callback) {
                 }
             });
         },
+        increaseCommentStatus: function (callback) {
+            var increase = {
+                amount_comment: statusExits.amount_comment + 1
+            };
+            status.updateStatus(statusExits, increase, function (error, status) {
+                if (error) {
+                    return callback(error, null);
+                } else {
+                    return callback(null, null);
+                }
+            });
+        },
         createCommentStatus: function (callback) {
             var currentDate = new Date();
             data.created_at = currentDate;
@@ -34,18 +46,6 @@ exports.create = function (data, callback) {
                     if (typeof callback === 'function') {
                         return callback(null, result);
                     }
-                }
-            });
-        },
-        increaseCommentStatus: function (callback) {
-            var increase = {
-                amount_comment: statusExits.amount_comment + 1
-            };
-            status.updateStatus(statusExits, increase, function (error, status) {
-                if (error) {
-                    return callback(error, null);
-                } else {
-                    return callback(null, null);
                 }
             });
         }
@@ -89,7 +89,7 @@ exports.getAll = function (data, callback) { // data : Obj(id_status, page, per_
     });
 };
 
-exports.checkUserAlreadyCommentOnStatus = function checkUserAlreadyCommentOnStatus(id_status, owner, callback) {
+function checkUserAlreadyCommentOnStatus(id_status, owner, callback) {
     var query = CommentStatus.findOne({
         id_status: id_status,
         owner: owner
@@ -102,12 +102,15 @@ exports.checkUserAlreadyCommentOnStatus = function checkUserAlreadyCommentOnStat
             if (!result) {
                 if (typeof callback === 'function') return callback(-1, null);
             }
-            if (typeof callback === 'function') return callback(null, result);
+            if (typeof callback === 'function') {
+                return callback(null, result);
+            }
         }
     });
 };
+exports.checkUserAlreadyCommentOnStatus = checkUserAlreadyCommentOnStatus;
 
-exports.checkCommentStatusExits = function checkCommentStatusExits(data, callback) {
+function checkCommentStatusExits(data, callback) {
     var query = CommentStatus.findOne({
         _id: data.id_comment,
         id_status: data.id_status,
@@ -125,6 +128,7 @@ exports.checkCommentStatusExits = function checkCommentStatusExits(data, callbac
         }
     });
 };
+exports.checkCommentStatusExits = checkCommentStatusExits;
 
 exports.updateContentOfCommentStatus = function (idComment, content, callback) {
     CommentStatus.findByIdAndUpdate(idComment, {$set: {content: content}}, {new: true}, function (error, result) {
@@ -166,6 +170,18 @@ exports.removeCommentStatus = function (data, callback) {
                 }
             });
         },
+        decreaseCommentStatus: function (callback) {
+            var decrease = {
+                amount_comment: statusExits.amount_comment - 1
+            };
+            status.updateStatus(statusExits, decrease, function (error, status) {
+                if (error) {
+                    return callback(error, null);
+                } else {
+                    return callback(null, status);
+                }
+            });
+        },
         removeCommentStatus: function (callback) {
             CommentStatus.remove({_id: data.id_comment}, function (error) {
                 if (error) {
@@ -178,31 +194,18 @@ exports.removeCommentStatus = function (data, callback) {
                 }
             });
         },
-        checkUserAlreadyCommentOnStatus : function (callback) {
+        checkOrtherComment: function (callback) {
             checkUserAlreadyCommentOnStatus(data.id_status, data.owner, function (error, result) {
-                if(error){
-                    if (error === -1) {
-                        return callback(null, 0);
-                    } else if (error) {
-                        return callback(error, null);
-                    } else {
-                        return callback(null, 1);
-                    }
+                if (error === -1) {
+                    return callback(null, 0);
+                } else if (error) {
+                    return callback(error, null);
+                } else {
+                    return callback(null, 1);
                 }
             });
         },
-        decreaseCommentStatus: function (callback) {
-            var increase = {
-                amount_comment: statusExits.amount_comment - 1
-            };
-            status.updateStatus(statusExits, increase, function (error, status) {
-                if (error) {
-                    return callback(error, null);
-                } else {
-                    return callback(null, status);
-                }
-            });
-        }
+
     }, function (error, result) {
         if (error) {
             return callback(error, null);
