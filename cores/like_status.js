@@ -132,7 +132,7 @@ exports.getAll = function (data, callback) { //data: Obj(id_status, id_user, pag
                 if (error) {
                     require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
                     if (typeof callback === 'function') return callback(-2, null);
-                } else if (results.length < 0) {
+                } else if (results.length <= 0) {
                     if (typeof callback === 'function') return callback(-1, null);
                 } else {
                     if (typeof callback === 'function') {
