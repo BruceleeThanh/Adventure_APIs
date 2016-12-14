@@ -27,7 +27,8 @@ module.exports.getLoggedin = function(redisClient, token, callback) {
     redisClient.get(token, function(error, reply) {
         if (error) {
             require(path.join(__dirname, '/logger.js'))().log('error', JSON.stringify(error));
-            if (typeof callback === 'function') return callback(JSON.stringify(error), null);
+            if (typeof callback
+                === 'function') return callback(JSON.stringify(error), null);
         } else {
             if (typeof callback === 'function') return callback(error, reply);
         }

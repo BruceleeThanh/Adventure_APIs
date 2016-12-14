@@ -197,6 +197,13 @@
             "description": "password",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "fcm_token",
+            "in": "formData",
+            "description": "fcm_token",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -277,6 +284,10 @@
                       "example": "2016-10-05T04:27:58.144Z"
                     },
                     "token": {
+                      "type": "string",
+                      "example": "923749hwhff2rhfwhf-fhfhdkwehf-fhdfjdfhd"
+                    },
+                    "fcm_token": {
                       "type": "string",
                       "example": "923749hwhff2rhfwhf-fhfhdkwehf-fhdfjdfhd"
                     }
@@ -1753,9 +1764,9 @@
                         }
                       }
                     },
-                    "content":{
-                      "type":"string",
-                      "example":"This is content of comment"
+                    "content": {
+                      "type": "string",
+                      "example": "This is content of comment"
                     },
                     "created_at": {
                       "type": "date-time",
@@ -1828,9 +1839,9 @@
                           "type": "string",
                           "example": "5769097529f87b5c271728e5"
                         },
-                        "id_status":{
-                          "type":"string",
-                          "example":"5769097529f87b5c271728e5"
+                        "id_status": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
                         },
                         "owner": {
                           "type": "string",
@@ -1916,9 +1927,9 @@
                           "type": "string",
                           "example": "5769097529f87b5c271728e5"
                         },
-                        "id_status":{
-                          "type":"string",
-                          "example":"5769097529f87b5c271728e5"
+                        "id_status": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
                         },
                         "owner": {
                           "type": "string",

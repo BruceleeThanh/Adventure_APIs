@@ -155,6 +155,10 @@ module.exports = function (app, redisClient) {
             name: 'password',
             type: 'string',
             required: true
+        }, {
+            name: 'fcm_token',
+            type: 'string',
+            required: true
         }];
 
         var currentUser = null;
@@ -167,7 +171,6 @@ module.exports = function (app, redisClient) {
                         return callback(error, null);
                     } else {
                         data = result;
-
                         isEmail = helper.isEmail(data.phone_number_email);
                         isPhone_number = helper.isNumber(data.phone_number_email);
                         if (isEmail) {
@@ -215,7 +218,12 @@ module.exports = function (app, redisClient) {
                 var token = uuid.v4();
                 var foundUser = results.login.toObject();
                 foundUser.token = token;
-                authentication.cacheLogin(redisClient, token, foundUser);
+                foundUser.fcm_token = data.fcm_token;
+                var options = {
+                    _id : foundUser._id,
+                    fcm_token : data.fcm_token
+                }
+                authentication.cacheLogin(redisClient, token, options);
                 res.json({
                     code: 1,
                     data: foundUser

@@ -63,8 +63,8 @@ exports.browse = function(data, callback) {
                 query.limit(limit).offset(offset);
             }
             query.select('_id user_one user_two created_at');
-            query.populate('user_one', '_id first_name last_name email intro fb_id phone_number address gender birthday religion avatar cover created_at');
-            query.populate('user_two', '_id first_name last_name email intro fb_id phone_number address gender birthday religion avatar cover created_at');
+            query.populate('user_one', '_id first_name last_name avatar');
+            query.populate('user_two', '_id first_name last_name avatar');
             query.exec(function(error, results) {
                 if (error) {
                     require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
@@ -158,7 +158,7 @@ exports.findListUserIsNotFriend = function(data, callback) {
                 offset = (data.page - 1) * data.perPage;
                 query.limit(limit).offset(offset);
             }
-            query.select('_id first_name last_name email intro fb_id phone_number address gender birthday religion avatar cover created_at');
+            query.select('_id first_name last_name avatar');
             query.sort({ create_at: -1 });
             query.exec(function(error, results) {
                 if (error) {
@@ -225,8 +225,8 @@ exports.findFriend = function(data, callback) {
                 query.limit(limit).offset(offset);
             }
             query.select('_id user_one user_two created_at');
-            query.populate('user_one', '_id first_name last_name email intro fb_id phone_number address gender birthday religion avatar cover created_at');
-            query.populate('user_two', '_id first_name last_name email intro fb_id phone_number address gender birthday religion avatar cover created_at');
+            query.populate('user_one', '_id first_name last_name avatar');
+            query.populate('user_two', '_id first_name last_name avatar');
             query.sort({ created_at: -1 });
             query.exec(function(error, results) {
                 if (error) {
