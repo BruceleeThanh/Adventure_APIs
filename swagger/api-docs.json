@@ -2139,7 +2139,7 @@
                           "example": ""
                         }
                       }
-                    },,
+                    },
                     "recipient": {
                       "type": "string",
                       "example": "584320495fb09f22ec887707"
