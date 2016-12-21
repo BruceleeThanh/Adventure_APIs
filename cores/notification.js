@@ -53,9 +53,10 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                                 }
                             }
                         }
-                        if(content){
+                        if (content) {
                             notis.push({
-                                id_user: results[i]._id,
+                                sender: results[leng - 1]._id,
+                                recipient: results[i]._id,
                                 id_status: foundStatus._id,
                                 type: 1,
                                 content: content
@@ -81,11 +82,11 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
             }
         },
         function (error, result) {
-            if(error === -1){
+            if (error === -1) {
                 return (-1, null);
-            }else if(error){
+            } else if (error) {
                 return callback(error, null);
-            }else{
+            } else {
                 return callback(null, null);
             }
         });
@@ -102,6 +103,7 @@ exports.getAll = function (data, callback) {
         offset = (data.page - 1) * data.per_page;
         query.limit(limit).offset(offset);
     }
+    query.populate('sender', '_id first_name last_name avatar');
     query.sort({created_at: -1});
     query.exec(function (error, results) {
         if (error) {
@@ -148,11 +150,12 @@ exports.findNotification = function (data, callback) { // data: recipient, objec
     });
 };
 
-function updateOrCreate(data, callback) { // data: id_user, id_status, type, content, created_at
+function updateOrCreate(data, callback) { // data: sender, recipient, id_status, type, content, created_at
     data.viewed = 0;
     data.clicked = 0;
     Notification.update({
-        recipient: data.id_user,
+        sender: data.sender,
+        recipient: data.recipient,
         object: data.id_status,
         type: data.type
     }, data, {upsert: true}, function (error, result) {

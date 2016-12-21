@@ -2119,6 +2119,27 @@
                       "type": "string",
                       "example": "58467c364a9be901f0831663"
                     },
+                    "sender": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },,
                     "recipient": {
                       "type": "string",
                       "example": "584320495fb09f22ec887707"

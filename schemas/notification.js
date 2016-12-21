@@ -6,8 +6,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var notificationSchema = new Schema({
+    sender: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     recipient: { // id_user
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     content: {
