@@ -10,6 +10,7 @@ var trip_map = require(path.join(__dirname, '/trip_map.js'));
 var like_status = require(path.join(__dirname, '/like_status.js'));
 var news = require(path.join(__dirname, '/news.js'));
 var comment_status = require(path.join(__dirname, '/comment_status.js'));
+var notification = require(path.join(__dirname, '/notification.js'));
 
 module.exports = function (app, redisClient) {
     user(app, redisClient);
@@ -22,4 +23,5 @@ module.exports = function (app, redisClient) {
     like_status(app, redisClient);
     news(app, redisClient);
     comment_status(app, redisClient);
+    notification(app, redisClient);
 };

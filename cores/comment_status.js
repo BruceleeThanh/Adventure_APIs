@@ -5,6 +5,7 @@
 var async = require('async');
 var path = require('path');
 var CommentStatus = require(path.join(__dirname, '../', 'schemas/comment_status.js'));
+var User = require(path.join(__dirname, '../', 'schemas/user.js'));
 var status = require(path.join(__dirname, '../', 'cores/status.js'));
 
 exports.create = function (data, callback) {
@@ -79,12 +80,61 @@ exports.getAll = function (data, callback) { // data : Obj(id_status, page, per_
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
             if (typeof callback === 'function') return callback(-2, null);
-        } else if (results.length < 0) {
+        } else if (results.length <= 0) {
             if (typeof callback === 'function') return callback(-1, null);
         } else {
             if (typeof callback === 'function') {
                 return callback(null, results);
             }
+        }
+    });
+};
+
+exports.getAllOwnerDistinct = function (id_status, callback) {
+    var query = CommentStatus.find({id_status: id_status});
+    query.sort({created_at:-1});
+    query.select('owner -_id');
+    query.exec(function (error, owners) {
+        owners = JSON.parse(JSON.stringify(owners));
+        var ownersLeng = owners.length;
+        for(var i =0;i<ownersLeng;i++){ // Chỉ lọc lấy value ko lấy key
+            owners[i] = owners[i].owner;
+        }
+        let set = new Set(owners);
+        var filterOwners = [];
+        for (item of set) {
+            filterOwners.unshift(item);
+        }
+        var users = [];
+        async.eachSeries(filterOwners, function (item, callback) {
+            var query = User.findById(item).select('first_name last_name avatar');
+            query.exec(function (error, result) {
+                if (error) {
+                    return callback(null);
+                } else {
+                    users.push(result);
+                    return callback(null);
+                }
+            });
+        }, function (error) {
+            return callback(null, users);
+        });
+    });
+};
+
+exports.getLatestCommentTime = function (id_status, callback) {
+    var query = CommentStatus.findOne({id_status: id_status});
+    query.sort({created_at:-1});
+    query.select('created_at -_id');
+    query.exec(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (!result) {
+                if (typeof callback === 'function') return callback(-1, null);
+            }
+            if (typeof callback === 'function') return callback(null, result);
         }
     });
 };

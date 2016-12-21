@@ -25,6 +25,22 @@ exports.create = function (data, callback) {
     });
 };
 
+exports.findStatusWithOwner = function (id_status, callback) {
+    var query = Status.findById(id_status);
+    query.populate('owner', '_id first_name last_name avatar');
+    query.exec(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (!result) {
+                if (typeof callback === 'function') return callback(-1, null);
+            }
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+
 exports.checkStatusExits = function (id_status, callback) {
     var query = Status.findOne({
         _id: id_status
@@ -39,7 +55,7 @@ exports.checkStatusExits = function (id_status, callback) {
             }
             if (typeof callback === 'function') return callback(null, result);
         }
-    })
+    });
 };
 
 exports.updateStatus = function (updatingData, data, callback) {

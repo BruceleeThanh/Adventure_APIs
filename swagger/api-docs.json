@@ -24,19 +24,22 @@
       "name": "status"
     },
     {
+      "name": "news"
+    },
+    {
       "name": "like_status"
     },
     {
       "name": "comment_status"
     },
     {
+      "name": "notification"
+    },
+    {
       "name": "trip"
     },
     {
       "name": "trip_map"
-    },
-    {
-      "name": "news"
     }
   ],
   "schemes": [
@@ -202,7 +205,7 @@
             "name": "fcm_token",
             "in": "formData",
             "description": "fcm_token",
-            "required": true,
+            "required": false,
             "type": "string"
           }
         ],
@@ -1832,30 +1835,25 @@
                   "type": "object",
                   "description": "in case of success",
                   "properties": {
-                    "status": {
-                      "type": "object",
-                      "properties": {
-                        "_id": {
-                          "type": "string",
-                          "example": "5769097529f87b5c271728e5"
-                        },
-                        "id_status": {
-                          "type": "string",
-                          "example": "5769097529f87b5c271728e5"
-                        },
-                        "owner": {
-                          "type": "string",
-                          "example": "5769097529f87b5c271728e5"
-                        },
-                        "content": {
-                          "type": "string",
-                          "example": "test status"
-                        },
-                        "created_at": {
-                          "type": "date-time",
-                          "example": "2016-10-05T04:27:58.144Z"
-                        }
-                      }
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_status": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "content": {
+                      "type": "string",
+                      "example": "test status"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
                     }
                   }
                 },
@@ -2058,6 +2056,98 @@
                       "example": 1
                     }
                   }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notification/browse": {
+      "post": {
+        "tags": [
+          "notification"
+        ],
+        "description": "Show list notification of user",
+        "operationId": "browse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "formData",
+            "description": "page",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "formData",
+            "description": "per_page",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: Notification is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "object": {
+                      "type": "string",
+                      "example": "58467c364a9be901f0831663"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "example": "584320495fb09f22ec887707"
+                    },
+                    "content": {
+                      "type": "string",
+                      "example": "<b>Trang Thư</b> và <b>Brucelee Thanh</b> đã bình luận về trạng thái của bạn: hello world"
+                    },
+                    "type": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "clicked": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "viewed": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "example": 10
                 },
                 "message": {
                   "type": "string",

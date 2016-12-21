@@ -8,6 +8,7 @@ var validator = require(path.join(__dirname, '../', 'ultis/validator.js'));
 var authentication = require(path.join(__dirname, '../', 'ultis/authentication.js'));
 var comment_status = require(path.join(__dirname, '../', 'cores/comment_status.js'));
 var status = require(path.join(__dirname, '../', 'cores/status.js'));
+var notification = require(path.join(__dirname, '../', 'cores/notification.js'));
 
 module.exports = function (app, redisClient) {
     app.post('/api/comment_status/create', function (req, res) {
@@ -66,6 +67,17 @@ module.exports = function (app, redisClient) {
                 } else {
                     return callback(-5, null);
                 }
+            },
+            createNotification: function (callback) {
+                notification.commentStatus(data.id_status, function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
+                    }
+                });
             }
         }, function (error, result) {
             if (error) {
@@ -311,6 +323,17 @@ module.exports = function (app, redisClient) {
             name: 'id_status',
             type: 'string',
             required: true
+        }, {
+            name: 'page',
+            type: 'number',
+            required: false,
+            min: 1
+        }, {
+            name: 'per_page',
+            type: 'number',
+            required: false,
+            min: 10,
+            max: 100
         }];
         var currentUser = null;
         async.series({

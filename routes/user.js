@@ -41,7 +41,6 @@ module.exports = function (app, redisClient) {
                         return callback(error, null);
                     } else {
                         data = result;
-
                         isEmail = helper.isEmail(data.phone_number_email);
                         isPhone_number = helper.isNumber(data.phone_number_email);
                         // console.log('email ', isEmail);
