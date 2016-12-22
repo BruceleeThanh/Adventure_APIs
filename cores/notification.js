@@ -154,7 +154,6 @@ function updateOrCreate(data, callback) { // data: sender, recipient, id_status,
     data.viewed = 0;
     data.clicked = 0;
     Notification.update({
-        sender: data.sender,
         recipient: data.recipient,
         object: data.id_status,
         type: data.type
