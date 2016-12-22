@@ -214,34 +214,34 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
-                // if(typeof data.fcm_token == 'undefined'){
-                //     data.fcm_token = "";
-                // }
-                // var token = uuid.v4();
-                // var foundUser = results.login.toObject();
-                // foundUser.token = token;
-                // foundUser.fcm_token = data.fcm_token;
-                //
-                // var options = {
-                //     _id : foundUser._id,
-                //     fcm_token : data.fcm_token
-                // };
-                // console.log(options);
-                // authentication.cacheLogin(redisClient, token, options);
-                // res.json({
-                //     code: 1,
-                //     data: foundUser
-                // });
-
+                if(typeof data.fcm_token == 'undefined'){
+                    data.fcm_token = "";
+                }
                 var token = uuid.v4();
                 var foundUser = results.login.toObject();
                 foundUser.token = token;
-                console.log(foundUser);
-                authentication.cacheLogin(redisClient, token, foundUser);
+                foundUser.fcm_token = data.fcm_token;
+
+                var options = {
+                    _id : foundUser._id,
+                    fcm_token : data.fcm_token
+                };
+                console.log(options);
+                authentication.cacheLogin(redisClient, token, options);
                 res.json({
                     code: 1,
                     data: foundUser
                 });
+
+                // var token = uuid.v4();
+                // var foundUser = results.login.toObject();
+                // foundUser.token = token;
+                // console.log(foundUser);
+                // authentication.cacheLogin(redisClient, token, foundUser);
+                // res.json({
+                //     code: 1,
+                //     data: foundUser
+                // });
             }
         });
     });
