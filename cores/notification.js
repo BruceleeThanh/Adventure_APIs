@@ -7,6 +7,11 @@ var path = require('path');
 var Notification = require(path.join(__dirname, '../', 'schemas/notification.js'));
 var comment_status = require(path.join(__dirname, '../', 'cores/comment_status.js'));
 var status = require(path.join(__dirname, '../', 'cores/status.js'));
+var like_status = require(path.join(__dirname, '../', 'cores/like_status.js'));
+
+/*
+ * Notification types: {1 : comment on status}, {2 : like status}
+ * */
 
 exports.commentStatus = function (id_status, callback) { // data: id_status
     var foundStatus = null;
@@ -24,8 +29,9 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                     }
                 });
             },
-            createNoti: function (callback) {
+            genContent: function (callback) {
                 comment_status.getAllOwnerDistinct(id_status, function (error, results) {
+                    results.unshift(foundStatus.owner);
                     var leng = results.length;
                     for (let i = 0; i < leng; i++) {
                         var content = null;
@@ -38,8 +44,10 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                             content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name + "</b> và <b>" +
                                 results[leng - 2].first_name + " " + results[leng - 2].last_name + "</b> đã bình luận về trạng thái của ";
                         } else if (remain == 1) {
-                            content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name +
-                                "</b> đã bình luận về trạng thái của ";
+                            if(results[leng-1]._id != foundStatus.owner._id){
+                                content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name +
+                                    "</b> đã bình luận về trạng thái của ";
+                            }
                         }
                         if (content) {
                             if (foundStatus) {
@@ -57,7 +65,7 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                             notis.push({
                                 sender: results[leng - 1]._id,
                                 recipient: results[i]._id,
-                                id_status: foundStatus._id,
+                                object: foundStatus._id,
                                 type: 1,
                                 content: content
                             });
@@ -66,7 +74,7 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                     return callback(null, null);
                 });
             },
-            genNotiTimeAndCreate: function (callback) {
+            genTimeAndCreate: function (callback) {
                 comment_status.getLatestCommentTime(id_status, function (error, result) {
                     var leng = notis.length;
                     var latestCommentTime = JSON.parse(JSON.stringify(result));
@@ -79,6 +87,106 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                         return callback(null, null);
                     });
                 });
+            }
+        },
+        function (error, result) {
+            if (error === -1) {
+                return (-1, null);
+            } else if (error) {
+                return callback(error, null);
+            } else {
+                return callback(null, null);
+            }
+        });
+};
+
+exports.likeStatus = function (id_status, callback) {
+    var foundStatus = null;
+    var noti = null;
+    async.series({
+            findStatus: function (callback) {
+                status.findStatusWithOwner(id_status, function (error, result) {
+                    if (error === -1) {
+                        return callback(-1, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        foundStatus = JSON.parse(JSON.stringify(result));
+                        return callback(null, null);
+                    }
+                });
+            },
+            genContent: function (callback) {
+                like_status.getAll({id_status: id_status}, function (error, results) {
+                    var array = [];
+                    array = JSON.parse(JSON.stringify(results));
+                    var content = null;
+                    async.series({
+                        removeOwner: function (callback) {
+                            var leng = array.length;
+                            for (let i = 0; i < leng; i++) {
+                                if (array[i].owner._id == foundStatus.owner._id) {
+                                    array.splice(i, 1);
+                                    return callback(null, null);
+                                }
+                                if (i == leng - 1) {
+                                    return callback(null, null);
+                                }
+                            }
+                        },
+                        genContent: function (callback) {
+                            var leng = array.length;
+                            if (leng > 2) {
+                                content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + "</b>, <b>" +
+                                    array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + "</b> và <b>" +
+                                    (leng - 2) + " người khác</b> đã thích trạng thái của bạn";
+                            } else if (leng == 2) {
+                                content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + "</b> và <b>" +
+                                    array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + "</b> đã thích trạng thái của bạn";
+                            } else if (leng == 1) {
+                                content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name +
+                                    "</b> đã thích trạng thái của bạn";
+                            }
+                            if (content) {
+                                if (foundStatus) {
+                                    if (foundStatus.content != "" && foundStatus.content != null) {
+                                        content = content + ": " + foundStatus.content;
+                                    }
+                                }
+                            }
+                            if (content) {
+                                noti = {
+                                    sender: array[leng - 1].owner._id,
+                                    recipient: foundStatus.owner._id,
+                                    object: foundStatus._id,
+                                    type: 2,
+                                    content: content,
+                                    created_at: array[leng - 1].created_at
+                                };
+                            }
+                            return callback(null, null);
+                        }
+                    }, function (error, result) {
+                        return callback(null, null);
+                    });
+                });
+            },
+            create: function (callback) {
+                if (noti) {
+                    updateOrCreate(noti, function (error, result) {
+                        return callback(null, result);
+                    });
+                } else {
+                    var options = {
+                        recipient: foundStatus.owner._id,
+                        object: foundStatus._id,
+                        type: 2
+                    };
+                    console.log(options);
+                    remove(options, function (error, result) {
+                        return callback(null, null);
+                    });
+                }
             }
         },
         function (error, result) {
@@ -150,12 +258,12 @@ exports.findNotification = function (data, callback) { // data: recipient, objec
     });
 };
 
-function updateOrCreate(data, callback) { // data: sender, recipient, id_status, type, content, created_at
+function updateOrCreate(data, callback) { // data: sender, recipient, object (id_status, id_trip), type, content, created_at
     data.viewed = 0;
     data.clicked = 0;
     Notification.update({
         recipient: data.recipient,
-        object: data.id_status,
+        object: data.object,
         type: data.type
     }, data, {upsert: true}, function (error, result) {
         if (error) {
@@ -170,3 +278,20 @@ function updateOrCreate(data, callback) { // data: sender, recipient, id_status,
     });
 };
 exports.updateOrCreate = updateOrCreate;
+
+function remove(data, callback) { // data: recipient, object, type
+    Notification.remove({
+        recipient: data.recipient,
+        object: data.object,
+        type: data.type
+    }, function (error) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (typeof callback === 'function') {
+                return callback(null, null);
+            }
+        }
+    });
+};

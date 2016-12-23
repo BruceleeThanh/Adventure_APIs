@@ -10,6 +10,7 @@ var LikeStatus = require(path.join(__dirname, '../', 'schemas/like_status.js'));
 var Status = require(path.join(__dirname, '../', 'schemas/status.js'));
 var like_status = require(path.join(__dirname, '../', 'cores/like_status.js'));
 var status = require(path.join(__dirname, '../', 'cores/status.js'));
+var notification = require(path.join(__dirname, '../', 'cores/notification.js'));
 
 module.exports = function (app, redisClient) {
     app.post('/api/like_status/browse', function (req, res) {
@@ -73,7 +74,7 @@ module.exports = function (app, redisClient) {
                     page: data.page,
                     per_page: data.per_page
                 };
-                like_status.getAll(option, function (error, results) {
+                like_status.getAllAndCheckFriend(option, function (error, results) {
                     if (error == -1) {
                         return callback(-5, null);
                     } else if (error) {
@@ -180,6 +181,17 @@ module.exports = function (app, redisClient) {
                                 return callback(null, result);
                             }
                         });
+                    }
+                });
+            },
+            createNotification: function (callback) {
+                notification.likeStatus(data.id_status, function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
                     }
                 });
             }

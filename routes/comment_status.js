@@ -274,6 +274,17 @@ module.exports = function (app, redisClient) {
                         return callback(null, result);
                     }
                 });
+            },
+            createNotification: function (callback) {
+                notification.commentStatus(data.id_status, function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
+                    }
+                });
             }
         }, function (error, result) {
             if (error) {
