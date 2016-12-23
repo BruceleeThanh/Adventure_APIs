@@ -13,7 +13,7 @@ var like_status = require(path.join(__dirname, '../', 'cores/like_status.js'));
  * Notification types: {1 : comment on status}, {2 : like status}
  * */
 
-exports.commentStatus = function (id_status, callback) { // data: id_status
+exports.commentStatus = function (id_status, callback) {
     var foundStatus = null;
     var notis = [];
     async.series({
@@ -69,9 +69,18 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                                 type: 1,
                                 content: content
                             });
+                            return callback(null, null);
+                        }else{
+                            var options = {
+                                recipient: results[i]._id,
+                                object: foundStatus._id,
+                                type: 1
+                            };
+                            remove(options, function (error, result) {
+                                return callback(null, null);
+                            });
                         }
                     }
-                    return callback(null, null);
                 });
             },
             genTimeAndCreate: function (callback) {
