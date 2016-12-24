@@ -31,7 +31,6 @@ exports.commentStatus = function (id_status, callback) {
             },
             genContent: function (callback) {
                 comment_status.getAllOwnerDistinct(id_status, function (error, results) {
-                    results.unshift(foundStatus.owner);
                     var leng = results.length;
                     for (let i = 0; i < leng; i++) {
                         var content = null;
@@ -44,10 +43,8 @@ exports.commentStatus = function (id_status, callback) {
                             content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name + "</b> và <b>" +
                                 results[leng - 2].first_name + " " + results[leng - 2].last_name + "</b> đã bình luận về trạng thái của ";
                         } else if (remain == 1) {
-                            if(results[leng-1]._id != foundStatus.owner._id){
-                                content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name +
-                                    "</b> đã bình luận về trạng thái của ";
-                            }
+                            content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name +
+                                "</b> đã bình luận về trạng thái của ";
                         }
                         if (content) {
                             if (foundStatus) {
@@ -70,7 +67,7 @@ exports.commentStatus = function (id_status, callback) {
                                 content: content
                             });
                             return callback(null, null);
-                        }else{
+                        } else {
                             var options = {
                                 recipient: results[i]._id,
                                 object: foundStatus._id,

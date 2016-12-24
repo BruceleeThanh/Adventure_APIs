@@ -89,7 +89,8 @@ exports.login = function(data, callback) {
                         if (typeof callback === 'function') return callback(-1, null);
                     } else {
                         currentUser = result;
-                        result.last_visited_at = currentDate;
+                        result.latest_active = currentDate;
+                        result.fcm_token = data.fcm_token;
                         result.save(function(error, doc) {
                             if (error) {
                                 throw error;
@@ -110,7 +111,8 @@ exports.login = function(data, callback) {
                         if (typeof callback === 'function') return callback(-1, null);
                     } else {
                         currentUser = result;
-                        result.last_visited_at = currentDate;
+                        result.latest_active = currentDate;
+                        result.fcm_token = data.fcm_token;
                         result.save(function(error, doc) {
                             if (error) {
                                 throw error;
