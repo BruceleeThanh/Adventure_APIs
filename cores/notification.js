@@ -31,47 +31,66 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
             },
             genContent: function (callback) {
                 comment_status.getAllOwnerDistinct(id_status, function (error, results) {
-                    results.unshift(foundStatus.owner);
-                    var leng = results.length;
-                    for (let i = 0; i < leng; i++) {
-                        var content = null;
-                        var remain = leng - (i + 1);
-                        if (remain > 2) {
-                            content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name + "</b>, <b>" +
-                                results[leng - 2].first_name + " " + results[leng - 2].last_name + "</b> và <b>" +
-                                (remain - 2) + " người khác</b> đã bình luận về trạng thái của ";
-                        } else if (remain == 2) {
-                            content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name + "</b> và <b>" +
-                                results[leng - 2].first_name + " " + results[leng - 2].last_name + "</b> đã bình luận về trạng thái của ";
-                        } else if (remain == 1) {
-                            if(results[leng-1]._id != foundStatus.owner._id){
-                                content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name +
-                                    "</b> đã bình luận về trạng thái của ";
-                            }
-                        }
-                        if (content) {
-                            if (foundStatus) {
-                                if (foundStatus.owner._id == results[i]._id) {
-                                    content = content + "bạn";
-                                } else {
-                                    content = content + "<b>" + foundStatus.owner.first_name + " " + foundStatus.owner.last_name + "</b>";
-                                }
-                                if (foundStatus.content != "" && foundStatus.content != null) {
-                                    content = content + ": " + foundStatus.content;
+                    async.series({
+                        checkOwnerExitsInComment: function (callback) {
+                            var leng = results.length;
+                            for (let i = 0; i < leng; i++) {
+                                if (results[i]._id == foundStatus.owner._id) {
+                                    return callback(null, null);
+                                }else{
+                                    if(i == leng - 1){
+                                        results.unshift(foundStatus.owner);
+                                        return callback(null,null);
+                                    }
                                 }
                             }
+                        },
+                        genContent: function (callback) {
+                            var leng = results.length;
+                            for (let i = 0; i < leng; i++) {
+                                var content = null;
+                                var remain = leng - (i + 1);
+                                if (remain > 2) {
+                                    content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name + "</b>, <b>" +
+                                        results[leng - 2].first_name + " " + results[leng - 2].last_name + "</b> và <b>" +
+                                        (remain - 2) + " người khác</b> đã bình luận về trạng thái của ";
+                                } else if (remain == 2) {
+                                    content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name + "</b> và <b>" +
+                                        results[leng - 2].first_name + " " + results[leng - 2].last_name + "</b> đã bình luận về trạng thái của ";
+                                } else if (remain == 1) {
+                                    console.log(results[leng - 1]._id + " " + foundStatus.owner._id);
+                                    content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name +
+                                        "</b> đã bình luận về trạng thái của ";
+                                }
+                                if (content) {
+                                    if (foundStatus) {
+                                        if (foundStatus.owner._id == results[i]._id) {
+                                            content = content + "bạn";
+                                        } else {
+                                            content = content + "<b>" + foundStatus.owner.first_name + " " + foundStatus.owner.last_name + "</b>";
+                                        }
+                                        if (foundStatus.content != "" && foundStatus.content != null) {
+                                            content = content + ": " + foundStatus.content;
+                                        }
+                                    }
+                                }
+                                if (content) {
+                                    notis.push({
+                                        sender: results[leng - 1]._id,
+                                        recipient: results[i]._id,
+                                        object: foundStatus._id,
+                                        type: 1,
+                                        content: content
+                                    });
+                                }
+                                if(i == leng -1){
+                                    return callback(null, null);
+                                }
+                            }
                         }
-                        if (content) {
-                            notis.push({
-                                sender: results[leng - 1]._id,
-                                recipient: results[i]._id,
-                                object: foundStatus._id,
-                                type: 1,
-                                content: content
-                            });
-                        }
-                    }
-                    return callback(null, null);
+                    }, function (error, result) {
+                        return callback(null, null);
+                    });
                 });
             },
             genTimeAndCreate: function (callback) {
