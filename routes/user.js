@@ -158,7 +158,6 @@ module.exports = function (app, redisClient) {
             name: 'fcm_token',
             type: 'string',
             required: false, // not done yet
-            default: "-1"
         }];
 
         var currentUser = null;

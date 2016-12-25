@@ -107,7 +107,7 @@ exports.getAllOwnerDistinct = function (id_status, callback) {
         }
         var users = [];
         async.eachSeries(filterOwners, function (item, callback) {
-            var query = User.findById(item).select('first_name last_name avatar');
+            var query = User.findById(item).select('first_name last_name avatar fcm_token');
             query.exec(function (error, result) {
                 if (error) {
                     return callback(null);

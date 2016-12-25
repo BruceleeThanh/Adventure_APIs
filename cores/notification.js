@@ -8,6 +8,7 @@ var Notification = require(path.join(__dirname, '../', 'schemas/notification.js'
 var comment_status = require(path.join(__dirname, '../', 'cores/comment_status.js'));
 var status = require(path.join(__dirname, '../', 'cores/status.js'));
 var like_status = require(path.join(__dirname, '../', 'cores/like_status.js'));
+var fcm = require(path.join(__dirname, '../', 'ultis/fcm.js'));
 
 /*
  * Notification types: {1 : comment on status}, {2 : like status}
@@ -193,6 +194,7 @@ exports.likeStatus = function (id_status, callback) {
             create: function (callback) {
                 if (noti) {
                     updateOrCreate(noti, function (error, result) {
+                        fcm.sendMessageToUser(foundStatus.owner.fcm_token, noti.content); // test FCM
                         return callback(null, result);
                     });
                 } else {

@@ -27,7 +27,7 @@ exports.create = function (data, callback) {
 
 exports.findStatusWithOwner = function (id_status, callback) {
     var query = Status.findById(id_status);
-    query.populate('owner', '_id first_name last_name avatar');
+    query.populate('owner', '_id first_name last_name avatar fcm_token');
     query.exec(function (error, result) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
