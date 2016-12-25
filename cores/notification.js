@@ -13,7 +13,7 @@ var like_status = require(path.join(__dirname, '../', 'cores/like_status.js'));
  * Notification types: {1 : comment on status}, {2 : like status}
  * */
 
-exports.commentStatus = function (id_status, callback) {
+exports.commentStatus = function (id_status, callback) { // data: id_status
     var foundStatus = null;
     var notis = [];
     async.series({
@@ -31,6 +31,7 @@ exports.commentStatus = function (id_status, callback) {
             },
             genContent: function (callback) {
                 comment_status.getAllOwnerDistinct(id_status, function (error, results) {
+                    results.unshift(foundStatus.owner);
                     var leng = results.length;
                     for (let i = 0; i < leng; i++) {
                         var content = null;
@@ -43,8 +44,10 @@ exports.commentStatus = function (id_status, callback) {
                             content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name + "</b> và <b>" +
                                 results[leng - 2].first_name + " " + results[leng - 2].last_name + "</b> đã bình luận về trạng thái của ";
                         } else if (remain == 1) {
-                            content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name +
-                                "</b> đã bình luận về trạng thái của ";
+                            if(results[leng-1]._id != foundStatus.owner._id){
+                                content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name +
+                                    "</b> đã bình luận về trạng thái của ";
+                            }
                         }
                         if (content) {
                             if (foundStatus) {
@@ -66,18 +69,9 @@ exports.commentStatus = function (id_status, callback) {
                                 type: 1,
                                 content: content
                             });
-                            return callback(null, null);
-                        } else {
-                            var options = {
-                                recipient: results[i]._id,
-                                object: foundStatus._id,
-                                type: 1
-                            };
-                            remove(options, function (error, result) {
-                                return callback(null, null);
-                            });
                         }
                     }
+                    return callback(null, null);
                 });
             },
             genTimeAndCreate: function (callback) {
