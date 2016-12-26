@@ -10,14 +10,14 @@ module.exports.sendMessageToUser = function (deviceId, message) {
         method: 'POST',
         headers: {
             'Content-Type': ' application/json',
-            'Authorization': 'key=AIzaSyCQxGi3kcIMqjQkSWQak2t9kZOrIP-nsj0'
+            'Authorization': 'key=AAAA87u15ZU:APA91bGk5yPTwQRI12u5xo8mzOcMWGFe5VdM6aphKoe5J8q5LLOR3hYmdNj_3jOfGJJyVpsxDIKEmNX05pUkfLI1zowSRb0ukUU_8oOUAjC--BAuZfQvlizgY-DwVqNjQXYwh2RgF6rDktxoOhOn33ot8EiYBCvn4Q',
         },
         body: JSON.stringify(
             {
-                "data": {
-                    "message": message
+                data: {
+                    message: message
                 },
-                "to": deviceId
+                to: deviceId
             }
         )
     }, function (error, response, body) {
