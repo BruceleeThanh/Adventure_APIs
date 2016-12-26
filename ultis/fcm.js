@@ -17,7 +17,7 @@ module.exports.sendMessageToUser = function (deviceId, message) {
                 data: {
                     message: message
                 },
-                to: deviceId
+                to: '/topics/user_' + deviceId
             }
         )
     }, function (error, response, body) {
