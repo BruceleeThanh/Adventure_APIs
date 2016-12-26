@@ -131,6 +131,7 @@ module.exports = function (app, redisClient) {
         }];
         var is_like = null;
         var currentUser = null;
+        var updateStatus = null;
         async.series({
             validate: function (callback) {
                 validator(req.body, fields, function (error, result) {
@@ -165,6 +166,7 @@ module.exports = function (app, redisClient) {
                                 return callback(error, null);
                             } else {
                                 is_like = 1;
+                                updateStatus = result;
                                 return callback(null, result);
                             }
                         });
@@ -178,6 +180,7 @@ module.exports = function (app, redisClient) {
                                 return callback(error, null);
                             } else {
                                 is_like = 0;
+                                updateStatus = result;
                                 return callback(null, result);
                             }
                         });
@@ -185,15 +188,19 @@ module.exports = function (app, redisClient) {
                 });
             },
             createNotification: function (callback) {
-                notification.likeStatus(data.id_status, function (error, result) {
-                    if (error === -1) {
-                        return callback(-4, null);
-                    } else if (error) {
-                        return callback(error, null);
-                    } else {
-                        return callback(null, null);
-                    }
-                });
+                if(updateStatus.amount_like > 0){
+                    notification.likeStatus(data.id_status, function (error, result) {
+                        if (error === -1) {
+                            return callback(-4, null);
+                        } else if (error) {
+                            return callback(error, null);
+                        } else {
+                            return callback(null, null);
+                        }
+                    });
+                }else{
+                    return callback(null, null);
+                }
             }
         }, function (error, result) {
             if (error) {
@@ -216,7 +223,6 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
-                var updateStatus = result.likeOrUnlike;
                 res.json({
                     code: 1,
                     data: {
