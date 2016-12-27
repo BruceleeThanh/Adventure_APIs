@@ -5,7 +5,8 @@
 var request = require('request');
 
 module.exports.sendMessageToUser = function (deviceId, message) {
-    message = message.split("<b>");
+    var mes1 = message.split("<b>");
+    var mes2 = mes1.split("</b>");
     var API_KEY = "AAAA87u15ZU:APA91bGk5yPTwQRI12u5xo8mzOcMWGFe5VdM6aphKoe5J8q5LLOR3hYmdNj_3jOfGJJyVpsxDIKEmNX05pUkfLI1zowSRb0ukUU_8oOUAjC--BAuZfQvlizgY-DwVqNjQXYwh2RgF6rDktxoOhOn33ot8EiYBCvn4Q";
     request({
         url: 'https://fcm.googleapis.com/fcm/send',
@@ -17,7 +18,7 @@ module.exports.sendMessageToUser = function (deviceId, message) {
         body: JSON.stringify(
             {
                 data: {
-                    message: message
+                    message: mes2
                 },
                 to: deviceId
             }
