@@ -141,6 +141,7 @@ exports.likeStatus = function (id_status, callback) {
                     var array = [];
                     array = JSON.parse(JSON.stringify(results));
                     var content = null;
+                    var fcm_content = null;
                     async.series({
                         removeOwner: function (callback) {
                             var leng = array.length;
@@ -160,12 +161,20 @@ exports.likeStatus = function (id_status, callback) {
                                 content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + "</b>, <b>" +
                                     array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + "</b> và <b>" +
                                     (leng - 2) + " người khác</b> đã thích trạng thái của bạn";
+                                fcm_content = array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + ", " +
+                                    array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + " và " +
+                                    (leng - 2) + " người khác đã thích trạng thái của bạn";
                             } else if (leng == 2) {
                                 content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + "</b> và <b>" +
                                     array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + "</b> đã thích trạng thái của bạn";
+                                fcm_content = array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + " và " +
+                                    array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + " đã thích trạng thái của bạn";
+
                             } else if (leng == 1) {
                                 content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name +
                                     "</b> đã thích trạng thái của bạn";
+                                fcm_content = array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name +
+                                    " đã thích trạng thái của bạn";
                             }
                             if (content) {
                                 if (foundStatus) {
@@ -181,6 +190,7 @@ exports.likeStatus = function (id_status, callback) {
                                     object: foundStatus._id,
                                     type: 2,
                                     content: content,
+                                    fcm_content: fcm_content,
                                     created_at: array[leng - 1].created_at
                                 };
                             }
@@ -194,7 +204,7 @@ exports.likeStatus = function (id_status, callback) {
             create: function (callback) {
                 if (noti) {
                     updateOrCreate(noti, function (error, result) {
-                        fcm.sendMessageToUser(foundStatus.owner.fcm_token, noti.content); // test FCM
+                        fcm.sendMessageToUser(foundStatus.owner.fcm_token, noti.fcm_content); // test FCM
                         return callback(null, result);
                     });
                 } else {
@@ -280,6 +290,7 @@ exports.findNotification = function (data, callback) { // data: recipient, objec
 };
 
 function updateOrCreate(data, callback) { // data: sender, recipient, object (id_status, id_trip), type, content, created_at
+    //data.fcm_content = undefined;
     data.viewed = 0;
     data.clicked = 0;
     Notification.update({
