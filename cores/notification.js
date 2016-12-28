@@ -38,10 +38,10 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                             for (let i = 0; i < leng; i++) {
                                 if (results[i]._id == foundStatus.owner._id) {
                                     return callback(null, null);
-                                }else{
-                                    if(i == leng - 1){
+                                } else {
+                                    if (i == leng - 1) {
                                         results.unshift(foundStatus.owner);
-                                        return callback(null,null);
+                                        return callback(null, null);
                                     }
                                 }
                             }
@@ -77,6 +77,7 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                                 }
                                 if (content) {
                                     notis.push({
+                                        sender_avatar: results[leng - 1].avatar,
                                         sender: results[leng - 1]._id,
                                         recipient: results[i]._id,
                                         object: foundStatus._id,
@@ -84,7 +85,7 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                                         content: content
                                     });
                                 }
-                                if(i == leng -1){
+                                if (i == leng - 1) {
                                     return callback(null, null);
                                 }
                             }
@@ -142,6 +143,7 @@ exports.likeStatus = function (id_status, callback) {
                     array = JSON.parse(JSON.stringify(results));
                     var content = null;
                     var fcm_content = null;
+                    var sender_avatar = null;
                     async.series({
                         removeOwner: function (callback) {
                             var leng = array.length;
@@ -184,13 +186,14 @@ exports.likeStatus = function (id_status, callback) {
                                 }
                             }
                             if (content) {
+                                sender_avatar = array[leng - 1].owner.avatar;
                                 noti = {
+                                    sender_avatar: array[leng - 1].owner.avatar,
                                     sender: array[leng - 1].owner._id,
                                     recipient: foundStatus.owner._id,
                                     object: foundStatus._id,
                                     type: 2,
                                     content: content,
-                                    fcm_content: fcm_content,
                                     created_at: array[leng - 1].created_at
                                 };
                             }
@@ -204,7 +207,8 @@ exports.likeStatus = function (id_status, callback) {
             create: function (callback) {
                 if (noti) {
                     updateOrCreate(noti, function (error, result) {
-                        fcm.sendMessageToUser(foundStatus.owner.fcm_token, noti.fcm_content); // test FCM
+                        noti.fcm_content = fcm_content;
+                        fcm.sendMessageToUser(foundStatus.owner.fcm_token, noti); // test FCM
                         return callback(null, result);
                     });
                 } else {
@@ -289,8 +293,7 @@ exports.findNotification = function (data, callback) { // data: recipient, objec
     });
 };
 
-function updateOrCreate(data, callback) { // data: sender, recipient, object (id_status, id_trip), type, content, created_at
-    //data.fcm_content = undefined;
+function updateOrCreate(data, callback) { // data: sender, sender_avatar, recipient, object (id_status, id_trip), type, content, created_at
     data.viewed = 0;
     data.clicked = 0;
     Notification.update({

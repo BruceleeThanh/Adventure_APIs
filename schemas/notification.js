@@ -11,6 +11,11 @@ var notificationSchema = new Schema({
         ref: 'User',
         required: true
     },
+    sender_avatar:{
+        type:String,
+        required:false,
+        default:null
+    },
     recipient: { // id_user
         type: Schema.Types.ObjectId,
         ref: 'User',

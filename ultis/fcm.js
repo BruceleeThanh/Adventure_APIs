@@ -4,7 +4,7 @@
 
 var request = require('request');
 
-module.exports.sendMessageToUser = function (deviceId, message) {
+module.exports.sendMessageToUser = function (deviceId, notification) {
     var API_KEY = "AAAA87u15ZU:APA91bGk5yPTwQRI12u5xo8mzOcMWGFe5VdM6aphKoe5J8q5LLOR3hYmdNj_3jOfGJJyVpsxDIKEmNX05pUkfLI1zowSRb0ukUU_8oOUAjC--BAuZfQvlizgY-DwVqNjQXYwh2RgF6rDktxoOhOn33ot8EiYBCvn4Q";
     request({
         url: 'https://fcm.googleapis.com/fcm/send',
@@ -16,7 +16,11 @@ module.exports.sendMessageToUser = function (deviceId, message) {
         body: JSON.stringify(
             {
                 data: {
-                    message: message
+                    content: notification.fcm_content,
+                    object: notification.object,
+                    sender_avatar:notification.sender_avatar,
+                    type:notification.type,
+
                 },
                 to: deviceId
             }
@@ -30,8 +34,6 @@ module.exports.sendMessageToUser = function (deviceId, message) {
         }
         else {
             console.log('Done!');
-            console.log(response);
-            console.log(body);
         }
     });
 }
