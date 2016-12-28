@@ -125,4 +125,80 @@ module.exports = function (app, redisClient) {
             }
         });
     });
+
+    app.post('/api/status/find_one', function (req, res) {
+        var data = {};
+        var fields = [{
+            name: 'token',
+            type: 'string',
+            required: true
+        }, {
+            name: 'id_status',
+            type: 'string',
+            required: true
+        }];
+        var currentUser = null;
+        async.series({
+            validate: function (callback) {
+                validator(req.body, fields, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        data = result;
+                        return callback(null, null);
+                    }
+                });
+            },
+            getLoggedin: function (callback) {
+                authentication.getLoggedin(redisClient, data.token, function (error, result) {
+                    if (error) {
+                        return callback(-1, null);
+                    } else if (!result) {
+                        return callback(-3, null);
+                    } else {
+                        currentUser = JSON.parse(result);
+                        return callback(null, null);
+                    }
+                });
+            },
+            findOne: function (callback) {
+                status.findOneAndCheckInteract(currentUser._id, data.id_status, function (error, result) {
+                    if(error === -1){
+                        return callback(-4, null);
+                    }else if(error){
+                        return callback(error, null);
+                    }else {
+                        return callback(null, result);
+                    }
+                });
+            }
+        }, function (error, result) {
+            if (error) {
+                var code = error;
+                var message = '';
+                if (error === -1) {
+                    message = 'Redis error';
+                } else if (error === -2) {
+                    message = 'DB error';
+                } else if (error === -3) {
+                    message = 'Token is not found';
+                } else if (error === -4) {
+                    message = 'Status is not found';
+                } else {
+                    message = error;
+                    code = 0;
+                }
+                res.json({
+                    code: code,
+                    message: message
+                });
+            } else {
+                var foundStatus = result.findOne;
+                res.json({
+                    code: 1,
+                    data: foundStatus
+                });
+            }
+        });
+    });
 };

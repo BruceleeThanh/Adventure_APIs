@@ -124,6 +124,7 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
 exports.likeStatus = function (id_status, callback) {
     var foundStatus = null;
     var noti = null;
+    var fcm_content = null;
     async.series({
             findStatus: function (callback) {
                 status.findStatusWithOwner(id_status, function (error, result) {
@@ -142,8 +143,6 @@ exports.likeStatus = function (id_status, callback) {
                     var array = [];
                     array = JSON.parse(JSON.stringify(results));
                     var content = null;
-                    var fcm_content = null;
-                    var sender_avatar = null;
                     async.series({
                         removeOwner: function (callback) {
                             var leng = array.length;
@@ -206,8 +205,9 @@ exports.likeStatus = function (id_status, callback) {
             create: function (callback) {
                 if (noti) {
                     updateOrCreate(noti, function (error, result) {
-                        noti.fcm_content = fcm_content;
-                        fcm.sendMessageToUser(foundStatus.owner.fcm_token, noti); // test FCM
+                        result = JSON.parse(JSON.stringify(result));
+                        result.fcm_token = fcm_content;
+                        fcm.sendMessageToUser(foundStatus.owner.fcm_token, result);
                         return callback(null, result);
                     });
                 } else {
@@ -245,7 +245,6 @@ exports.getAll = function (data, callback) {
         offset = (data.page - 1) * data.per_page;
         query.limit(limit).offset(offset);
     }
-    query.populate('sender', '_id first_name last_name avatar');
     query.sort({created_at: -1});
     query.exec(function (error, results) {
         if (error) {
@@ -295,11 +294,11 @@ exports.findNotification = function (data, callback) { // data: recipient, objec
 function updateOrCreate(data, callback) { // data: sender, sender_avatar, recipient, object (id_status, id_trip), type, content, created_at
     data.viewed = 0;
     data.clicked = 0;
-    Notification.update({
+    Notification.findOneAndUpdate({
         recipient: data.recipient,
         object: data.object,
         type: data.type
-    }, data, {upsert: true}, function (error, result) {
+    }, data, {upsert: true, new :true}, function (error, result) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
             if (typeof callback === 'function') return callback(-2, null);

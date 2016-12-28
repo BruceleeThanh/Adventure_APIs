@@ -1196,6 +1196,131 @@
         }
       }
     },
+    "/api/status/find_one": {
+      "post": {
+        "tags": [
+          "status"
+        ],
+        "description": "Find one Status by ID",
+        "operationId": "find_one",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_status",
+            "in": "formData",
+            "description": "id_status",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Status is not exist ",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },
+                    "content": {
+                      "type": "string",
+                      "example": "test status"
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "5769097529f87b5c271728e5"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": ""
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "test description"
+                          }
+                        }
+                      }
+                    },
+                    "amount_like": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "amount_comment": {
+                      "type": "number",
+                      "example": 30
+                    },
+                    "permission": {
+                      "type": "number",
+                      "example": 3
+                    },
+                    "type": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "is_like": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "is_comment": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/news/time_line": {
       "get": {
         "tags": [
@@ -1472,11 +1597,11 @@
                     },
                     "is_like": {
                       "type": "number",
-                      "example": 10
+                      "example": 1
                     },
                     "is_comment": {
                       "type": "number",
-                      "example": 20
+                      "example": 0
                     }
                   }
                 },

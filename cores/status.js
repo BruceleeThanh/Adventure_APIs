@@ -2,6 +2,8 @@ var async = require('async');
 var path = require('path');
 var config = require(path.join(__dirname, '../', 'config.json'));
 var Status = require(path.join(__dirname, '../', 'schemas/status.js'));
+var like_status = require(path.join(__dirname, '../', 'cores/like_status.js'));
+var comment_status = require(path.join(__dirname, '../', 'cores/comment_status.js'));
 
 exports.create = function (data, callback) {
     var currentDate = new Date();
@@ -25,7 +27,7 @@ exports.create = function (data, callback) {
     });
 };
 
-exports.findStatusWithOwner = function (id_status, callback) {
+function findStatusWithOwner(id_status, callback) {
     var query = Status.findById(id_status);
     query.populate('owner', '_id first_name last_name avatar fcm_token');
     query.exec(function (error, result) {
@@ -37,6 +39,62 @@ exports.findStatusWithOwner = function (id_status, callback) {
                 if (typeof callback === 'function') return callback(-1, null);
             }
             if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+exports.findStatusWithOwner = findStatusWithOwner;
+
+exports.findOneAndCheckInteract = function (id_user, id_status, callback) {
+    var foundStatus = null;
+    async.series({
+        findOne: function (callback) {
+            findStatusWithOwner(id_status, function (error, result) {
+                if (error === -1) {
+                    return callback(-1, null);
+                } else if (error) {
+                    return callback(error, null);
+                } else {
+                    foundStatus = JSON.parse(JSON.stringify(result));
+                    foundStatus.owner.fcm_token = undefined;
+                    return callback(null, null);
+                }
+            });
+        },
+        checkInteract : function (callback) {
+            async.parallel({
+                checkLike: function (callback) {
+                    like_status.checkLikeStatusExits(id_status, id_user, function (error, result) {
+                        if (error) {
+                            foundStatus.is_like = 0;
+                            return callback(null, null);
+                        } else {
+                            foundStatus.is_like = 1;
+                            return callback(null, null);
+                        }
+                    });
+                },
+                checkComment: function (callback) {
+                    comment_status.checkUserAlreadyCommentOnStatus(id_status, id_user, function (error, result) {
+                        if (error) {
+                            foundStatus.is_comment = 0;
+                            return callback(null, null);
+                        } else {
+                            foundStatus.is_comment = 1;
+                            return callback(null, null);
+                        }
+                    });
+                }
+            }, function (error, result) {
+                return callback(null, null);
+            });
+        }
+    }, function (error, result) {
+        if (error === -1) {
+            return callback(-1, null);
+        } else if (error) {
+            return callback(error, null);
+        } else {
+            return callback(null, foundStatus);
         }
     });
 };
