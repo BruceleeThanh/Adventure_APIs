@@ -186,7 +186,6 @@ exports.likeStatus = function (id_status, callback) {
                                 }
                             }
                             if (content) {
-                                sender_avatar = array[leng - 1].owner.avatar;
                                 noti = {
                                     sender_avatar: array[leng - 1].owner.avatar,
                                     sender: array[leng - 1].owner._id,
