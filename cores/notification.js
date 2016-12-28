@@ -206,7 +206,7 @@ exports.likeStatus = function (id_status, callback) {
                 if (noti) {
                     updateOrCreate(noti, function (error, result) {
                         result = JSON.parse(JSON.stringify(result));
-                        result.fcm_token = fcm_content;
+                        result.fcm_content = fcm_content;
                         fcm.sendMessageToUser(foundStatus.owner.fcm_token, result);
                         return callback(null, result);
                     });
