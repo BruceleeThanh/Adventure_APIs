@@ -17,6 +17,7 @@ var fcm = require(path.join(__dirname, '../', 'ultis/fcm.js'));
 exports.commentStatus = function (id_status, callback) { // data: id_status
     var foundStatus = null;
     var notis = [];
+    var fcm_content = null;
     async.series({
             findStatus: function (callback) {
                 status.findStatusWithOwner(id_status, function (error, result) {
@@ -55,23 +56,33 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                                     content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name + "</b>, <b>" +
                                         results[leng - 2].first_name + " " + results[leng - 2].last_name + "</b> và <b>" +
                                         (remain - 2) + " người khác</b> đã bình luận về trạng thái của ";
+                                    fcm_content = results[leng - 1].first_name + " " + results[leng - 1].last_name + ", " +
+                                        results[leng - 2].first_name + " " + results[leng - 2].last_name + " và " +
+                                        (remain - 2) + " người khác đã bình luận về trạng thái của ";
                                 } else if (remain == 2) {
                                     content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name + "</b> và <b>" +
                                         results[leng - 2].first_name + " " + results[leng - 2].last_name + "</b> đã bình luận về trạng thái của ";
+                                    fcm_content = results[leng - 1].first_name + " " + results[leng - 1].last_name + " và " +
+                                        results[leng - 2].first_name + " " + results[leng - 2].last_name + " đã bình luận về trạng thái của ";
+
                                 } else if (remain == 1) {
-                                    console.log(results[leng - 1]._id + " " + foundStatus.owner._id);
                                     content = "<b>" + results[leng - 1].first_name + " " + results[leng - 1].last_name +
                                         "</b> đã bình luận về trạng thái của ";
+                                    fcm_content = results[leng - 1].first_name + " " + results[leng - 1].last_name +
+                                        " đã bình luận về trạng thái của ";
                                 }
                                 if (content) {
                                     if (foundStatus) {
                                         if (foundStatus.owner._id == results[i]._id) {
                                             content = content + "bạn";
+                                            fcm_content = fcm_content + "bạn";
                                         } else {
                                             content = content + "<b>" + foundStatus.owner.first_name + " " + foundStatus.owner.last_name + "</b>";
+                                            fcm_content = fcm_content + foundStatus.owner.first_name + " " + foundStatus.owner.last_name;
                                         }
                                         if (foundStatus.content != "" && foundStatus.content != null) {
                                             content = content + ": " + foundStatus.content;
+                                            fcm_content = fcm_content + ": " + foundStatus.content;
                                         }
                                     }
                                 }
@@ -82,7 +93,8 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                                         recipient: results[i]._id,
                                         object: foundStatus._id,
                                         type: 1,
-                                        content: content
+                                        content: content,
+                                        fcm_content: fcm_content
                                     });
                                 }
                                 if (i == leng - 1) {
@@ -101,7 +113,19 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                     var latestCommentTime = JSON.parse(JSON.stringify(result));
                     async.eachSeries(notis, function (item, callback) {
                         item.created_at = latestCommentTime.created_at;
-                        updateOrCreate(item, function (error, result) {
+                        var option = {
+                            sender_avatar: item.sender_avatar,
+                            sender: item.sender,
+                            recipient: item.recipient,
+                            object: item.object,
+                            type: item.type,
+                            content: item.content,
+                            created_at: item.created_at
+                        }
+                        updateOrCreate(option, function (error, result) {
+                            result = JSON.parse(JSON.stringify(result));
+                            result.fcm_content = item.fcm_content;
+                            fcm.sendMessageToUser(foundStatus.owner.fcm_token, result);
                             return callback(null);
                         });
                     }, function (error) {
@@ -298,7 +322,7 @@ function updateOrCreate(data, callback) { // data: sender, sender_avatar, recipi
         recipient: data.recipient,
         object: data.object,
         type: data.type
-    }, data, {upsert: true, new :true}, function (error, result) {
+    }, data, {upsert: true, new: true}, function (error, result) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
             if (typeof callback === 'function') return callback(-2, null);
