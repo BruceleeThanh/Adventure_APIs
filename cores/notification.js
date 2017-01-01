@@ -94,7 +94,8 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                                         object: foundStatus._id,
                                         type: 1,
                                         content: content,
-                                        fcm_content: fcm_content
+                                        fcm_content: fcm_content,
+                                        fcm_token: results[i].fcm_token
                                     });
                                 }
                                 if (i == leng - 1) {
@@ -125,7 +126,9 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                         updateOrCreate(option, function (error, result) {
                             result = JSON.parse(JSON.stringify(result));
                             result.fcm_content = item.fcm_content;
-                            fcm.sendMessageToUser(foundStatus.owner.fcm_token, result);
+                            if(item.fcm_token != undefined && item.fcm_token != null && item.fcm_token != ""){
+                                fcm.sendMessageToUser(foundStatus.owner.fcm_token, result);
+                            }
                             return callback(null);
                         });
                     }, function (error) {
