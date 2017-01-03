@@ -182,7 +182,9 @@ module.exports = function (app, redisClient) {
                 var opts = {
                     _id: lstFriend,
                     permission: [2, 3], // 2: friend, 3: public
-                    type: 1 // 1: normal status
+                    type: 1, // 1: normal status
+                    page : data.page,
+                    per_page : data.per_page
                 };
                 news.getNewsFeed(currentUser._id, opts, function (error, result) {
                     if (error === -1) {
