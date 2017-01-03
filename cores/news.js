@@ -15,9 +15,9 @@ exports.getTimeLine = function (data, callback) {
     });
     var limit = 10;
     var offset = 0;
-    if (data.page !== undefined && data.perPage !== undefined) {
-        limit = data.perPage;
-        offset = (data.page - 1) * data.perPage;
+    if (data.page !== undefined && data.per_page !== undefined) {
+        limit = data.per_page;
+        offset = (data.page - 1) * data.per_page;
         query.limit(limit).offset(offset);
     }
     query.select('_id owner content images type created_at');
@@ -48,9 +48,9 @@ exports.getNewsFeed = function (id_user, data, callback) {
             });
             var limit = 10;
             var offset = 0;
-            if (data.page !== undefined && data.perPage !== undefined) {
-                limit = data.perPage;
-                offset = (data.page - 1) * data.perPage;
+            if (data.page !== undefined && data.per_page !== undefined) {
+                limit = data.per_page;
+                offset = (data.page - 1) * data.per_page;
                 query.limit(limit).offset(offset);
             }
             query.select('_id owner content images amount_like amount_comment type permission created_at');

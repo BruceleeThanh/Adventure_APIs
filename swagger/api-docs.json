@@ -553,7 +553,7 @@
             "type": "number"
           },
           {
-            "name": "perPage",
+            "name": "per_page",
             "in": "query",
             "description": "item per page for pagination",
             "required": false,
@@ -677,7 +677,7 @@
             "type": "number"
           },
           {
-            "name": "perPage",
+            "name": "per_page",
             "in": "query",
             "description": "item per page for pagination",
             "required": false,
@@ -935,7 +935,7 @@
             "type": "number"
           },
           {
-            "name": "perPage",
+            "name": "per_page",
             "in": "query",
             "description": "item per page for pagination",
             "required": false,
@@ -1351,7 +1351,7 @@
             "type": "number"
           },
           {
-            "name": "perPage",
+            "name": "per_page",
             "in": "query",
             "description": "item per page for pagination",
             "required": false,
@@ -1507,7 +1507,7 @@
             "type": "number"
           },
           {
-            "name": "perPage",
+            "name": "per_page",
             "in": "query",
             "description": "item per page for pagination",
             "required": false,

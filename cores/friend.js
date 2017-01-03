@@ -30,9 +30,9 @@ exports.browse = function(data, callback) {
             });
             var limit = 10;
             var offset = 0;
-            if (data.page !== undefined && data.perPage !== undefined) {
-                limit = data.perPage;
-                offset = (data.page - 1) * data.perPage;
+            if (data.page !== undefined && data.per_page !== undefined) {
+                limit = data.per_page;
+                offset = (data.page - 1) * data.per_page;
                 query.limit(limit).offset(offset);
             }
 
@@ -57,9 +57,9 @@ exports.browse = function(data, callback) {
             });
             var limit = 10;
             var offset = 0;
-            if (data.page !== undefined && data.perPage !== undefined) {
-                limit = data.perPage;
-                offset = (data.page - 1) * data.perPage;
+            if (data.page !== undefined && data.per_page !== undefined) {
+                limit = data.per_page;
+                offset = (data.page - 1) * data.per_page;
                 query.limit(limit).offset(offset);
             }
             query.select('_id user_one user_two created_at');
@@ -129,9 +129,9 @@ exports.findListUserIsNotFriend = function(data, callback) {
             });
             var limit = 10;
             var offset = 0;
-            if (data.page !== undefined && data.perPage !== undefined) {
-                limit = data.perPage;
-                offset = (data.page - 1) * data.perPage;
+            if (data.page !== undefined && data.per_page !== undefined) {
+                limit = data.per_page;
+                offset = (data.page - 1) * data.per_page;
                 query.limit(limit).offset(offset);
             }
             query.exec(function(error, result) {
@@ -153,9 +153,9 @@ exports.findListUserIsNotFriend = function(data, callback) {
             });
             var limit = 10;
             var offset = 0;
-            if (data.page !== undefined && data.perPage !== undefined) {
-                limit = data.perPage;
-                offset = (data.page - 1) * data.perPage;
+            if (data.page !== undefined && data.per_page !== undefined) {
+                limit = data.per_page;
+                offset = (data.page - 1) * data.per_page;
                 query.limit(limit).offset(offset);
             }
             query.select('_id first_name last_name avatar');
@@ -193,9 +193,9 @@ exports.findFriend = function(data, callback) {
             });
             var limit = 10;
             var offset = 0;
-            if (data.page !== undefined && data.perPage !== undefined) {
-                limit = data.perPage;
-                offset = (data.page - 1) * data.perPage;
+            if (data.page !== undefined && data.per_page !== undefined) {
+                limit = data.per_page;
+                offset = (data.page - 1) * data.per_page;
                 query.limit(limit).offset(offset);
             }
             query.exec(function(error, result) {
@@ -219,9 +219,9 @@ exports.findFriend = function(data, callback) {
             });
             var limit = 10;
             var offset = 0;
-            if (data.page !== undefined && data.perPage !== undefined) {
-                limit = data.perPage;
-                offset = (data.page - 1) * data.perPage;
+            if (data.page !== undefined && data.per_page !== undefined) {
+                limit = data.per_page;
+                offset = (data.page - 1) * data.per_page;
                 query.limit(limit).offset(offset);
             }
             query.select('_id user_one user_two created_at');

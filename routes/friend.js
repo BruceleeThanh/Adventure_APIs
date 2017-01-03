@@ -23,7 +23,7 @@ module.exports = function(app, redisClient) {
             required: false,
             min: 1
         }, {
-            name: 'perPage',
+            name: 'per_page',
             type: 'number',
             required: false,
             min: 10,
@@ -109,7 +109,7 @@ module.exports = function(app, redisClient) {
             required: false,
             min: 1
         }, {
-            name: 'perPage',
+            name: 'per_page',
             type: 'number',
             required: false,
             min: 10,
