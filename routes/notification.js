@@ -102,10 +102,6 @@ module.exports = function (app, redisClient) {
             name: 'token',
             type: 'string',
             required: true
-        }, {
-            name: 'list_id_notification',
-            type: 'strings_array',
-            required: true
         }];
         var currentUser = null;
         var list_id_notification = [];
@@ -116,9 +112,6 @@ module.exports = function (app, redisClient) {
                         return callback(error, null);
                     } else {
                         data = result;
-                        if (data.list_id_notification) {
-                            list_id_notification = JSON.parse(JSON.stringify(data.list_id_notification));
-                        }
                         return callback(null, null);
                     }
                 });
@@ -136,17 +129,16 @@ module.exports = function (app, redisClient) {
                 });
             },
             viewed: function (callback) {
-                var leng = list_id_notification.length;
-                for (let i = 0; i < leng; i++) {
-                    Notification.findByIdAndUpdate(list_id_notification[i], {viewed: 1}, {new: true}, function (error, result) {
-
-                    });
-                    if (i == leng - 1) {
-                        return callback(null, null);
+                Notification.update({_id: currentUser._id, viewed: 0}, {viewed: 1}, {multi: true}, function (error, results) {
+                    if (error) {
+                        require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+                        if (typeof callback === 'function') return callback(-4, null);
+                    } else {
+                        if (typeof callback === 'function') return callback(null, results);
                     }
-                }
+                });
             }
-        }, function (error, result) {
+        }, function (error, results) {
             if (error) {
                 var code = error;
                 var message = '';
@@ -156,6 +148,8 @@ module.exports = function (app, redisClient) {
                     message = 'DB error';
                 } else if (error === -3) {
                     message = 'Token is not found';
+                } else if(error === -4){
+                    message = 'Can not make all notification as viewed';
                 } else {
                     message = error;
                     code = 0;
@@ -166,9 +160,11 @@ module.exports = function (app, redisClient) {
                 });
             }
             else {
+                var foundNotifications = results.viewed;
                 res.json({
                     code: 1,
-                    data: 'Done'
+                    data: foundNotifications,
+                    total : foundNotifications.length
                 });
             }
         });
@@ -229,7 +225,7 @@ module.exports = function (app, redisClient) {
                     message = 'DB error';
                 } else if (error === -3) {
                     message = 'Token is not found';
-                } else if(error === -4){
+                } else if (error === -4) {
                     message = 'Can not update this notification';
                 } else {
                     message = error;
