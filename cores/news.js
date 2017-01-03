@@ -51,7 +51,7 @@ exports.getNewsFeed = function (id_user, data, callback) {
             if (data.page !== undefined && data.per_page !== undefined) {
                 limit = data.per_page;
                 offset = (data.page - 1) * data.per_page;
-                query.limit(limit).offset(offset);
+                query.skip(offset).limit(limit);
             }
             query.select('_id owner content images amount_like amount_comment type permission created_at');
             query.populate('owner', '_id first_name last_name avatar');
