@@ -2245,25 +2245,12 @@
                       "example": "58467c364a9be901f0831663"
                     },
                     "sender": {
-                      "type": "object",
-                      "properties": {
-                        "_id": {
-                          "type": "string",
-                          "example": "5769097529f87b5c271728e5"
-                        },
-                        "first_name": {
-                          "type": "string",
-                          "example": "Brucelee Thanh"
-                        },
-                        "last_name": {
-                          "type": "string",
-                          "example": "Brucelee Thanh"
-                        },
-                        "avatar": {
-                          "type": "string",
-                          "example": ""
-                        }
-                      }
+                      "type": "string",
+                      "example": "58467c364a9be901f0831663"
+                    },
+                    "sender_avatar": {
+                      "type": "string",
+                      "example": "anh0001.jpg"
                     },
                     "recipient": {
                       "type": "string",
@@ -2294,6 +2281,143 @@
                 "total": {
                   "type": "number",
                   "example": 10
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notification/viewed": {
+      "post": {
+        "tags": [
+          "notification"
+        ],
+        "description": "Update viewed for list notification",
+        "operationId": "viewed",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "list_id_notification",
+            "in": "formData",
+            "description": "list id_notification. Example: ['5769097529f87b5c271728e5', '5769097529f87b5c271728e5', ...]",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "string",
+                  "description": "in case of success",
+                  "example": "Done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notification/clicked": {
+      "post": {
+        "tags": [
+          "notification"
+        ],
+        "description": "Update clicked for notification",
+        "operationId": "clicked",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_notification",
+            "in": "formData",
+            "description": "id_notification",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: Can not update this notification;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "object": {
+                      "type": "string",
+                      "example": "58467c364a9be901f0831663"
+                    },
+                    "sender": {
+                      "type": "string",
+                      "example": "58467c364a9be901f0831663"
+                    },
+                    "sender_avatar": {
+                      "type": "string",
+                      "example": "anh0001.jpg"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "example": "584320495fb09f22ec887707"
+                    },
+                    "content": {
+                      "type": "string",
+                      "example": "<b>Trang Thư</b> và <b>Brucelee Thanh</b> đã bình luận về trạng thái của bạn: hello world"
+                    },
+                    "type": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "clicked": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "viewed": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
                 },
                 "message": {
                   "type": "string",
