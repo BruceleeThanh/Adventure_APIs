@@ -132,6 +132,7 @@ module.exports = function (app, redisClient) {
         var is_like = null;
         var currentUser = null;
         var updateStatus = null;
+        var hasFcm = null;
         async.series({
             validate: function (callback) {
                 validator(req.body, fields, function (error, result) {
@@ -167,6 +168,7 @@ module.exports = function (app, redisClient) {
                             } else {
                                 is_like = 1;
                                 updateStatus = result;
+                                hasFcm = true;
                                 return callback(null, result);
                             }
                         });
@@ -181,6 +183,7 @@ module.exports = function (app, redisClient) {
                             } else {
                                 is_like = 0;
                                 updateStatus = result;
+                                hasFcm = false;
                                 return callback(null, result);
                             }
                         });
@@ -188,19 +191,15 @@ module.exports = function (app, redisClient) {
                 });
             },
             createNotification: function (callback) {
-                if(updateStatus.amount_like > 0){
-                    notification.likeStatus(data.id_status, function (error, result) {
-                        if (error === -1) {
-                            return callback(-4, null);
-                        } else if (error) {
-                            return callback(error, null);
-                        } else {
-                            return callback(null, null);
-                        }
-                    });
-                }else{
-                    return callback(null, null);
-                }
+                notification.likeStatus(data.id_status, hasFcm,function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
+                    }
+                });
             }
         }, function (error, result) {
             if (error) {

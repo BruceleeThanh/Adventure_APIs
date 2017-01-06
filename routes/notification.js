@@ -104,7 +104,6 @@ module.exports = function (app, redisClient) {
             required: true
         }];
         var currentUser = null;
-        var list_id_notification = [];
         async.series({
             validate: function (callback) {
                 validator(req.body, fields, function (error, result) {

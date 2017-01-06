@@ -148,7 +148,7 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
         });
 };
 
-exports.likeStatus = function (id_status, callback) {
+exports.likeStatus = function (id_status, hasFcm, callback) {
     var foundStatus = null;
     var noti = null;
     var fcm_content = null;
@@ -234,8 +234,12 @@ exports.likeStatus = function (id_status, callback) {
                     updateOrCreate(noti, function (error, result) {
                         result = JSON.parse(JSON.stringify(result));
                         result.fcm_content = fcm_content;
-                        fcm.sendMessageToUser(foundStatus.owner.fcm_token, result);
-                        return callback(null, result);
+                        if(hasFcm){
+                            fcm.sendMessageToUser(foundStatus.owner.fcm_token, result);
+                            return callback(null, result);
+                        }else{
+                            return callback(null, result);
+                        }
                     });
                 } else {
                     var options = {

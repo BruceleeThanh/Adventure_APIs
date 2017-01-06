@@ -2307,13 +2307,6 @@
             "description": "token",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "list_id_notification",
-            "in": "formData",
-            "description": "list id_notification. Example: ['5769097529f87b5c271728e5', '5769097529f87b5c271728e5', ...]",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2326,9 +2319,50 @@
                   "example": 1
                 },
                 "data": {
-                  "type": "string",
+                  "type": "object",
                   "description": "in case of success",
-                  "example": "Done"
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "object": {
+                      "type": "string",
+                      "example": "58467c364a9be901f0831663"
+                    },
+                    "sender": {
+                      "type": "string",
+                      "example": "58467c364a9be901f0831663"
+                    },
+                    "sender_avatar": {
+                      "type": "string",
+                      "example": "anh0001.jpg"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "example": "584320495fb09f22ec887707"
+                    },
+                    "content": {
+                      "type": "string",
+                      "example": "<b>Trang Thư</b> và <b>Brucelee Thanh</b> đã bình luận về trạng thái của bạn: hello world"
+                    },
+                    "type": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "clicked": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "viewed": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
                 },
                 "message": {
                   "type": "string",
