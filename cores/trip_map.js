@@ -6,9 +6,9 @@ var path = require('path');
 var Place = require(path.join(__dirname, '../', 'schemas/place.js'));
 var Trip = require(path.join(__dirname, '../', 'schemas/trip.js'));
 
-exports.checkTripExits = function (data, callback) {
+exports.checkTripExits = function (id_trip, callback) {
     var query = Trip.findOne({
-        _id : data
+        _id : id_trip
     });
     query.exec(function (error, result) {
         if (error) {

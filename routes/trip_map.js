@@ -81,17 +81,7 @@ module.exports = function (app, redisClient) {
                 })
             },
             create: function (callback) {
-                var options = {
-                    id_trip: data.id_trip,
-                    order: data.order,
-                    title: data.title,
-                    latitude: data.latitude,
-                    longitude: data.longitude,
-                    content: data.content,
-                    type: data.type,
-                    status: data.status
-                };
-                trip_map.createPlace(options, function (error, result) {
+                trip_map.createPlace(data, function (error, result) {
                     if (error) {
                         return callback(error, null);
                     } else {
@@ -120,7 +110,7 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
-                var foundTripMap = result.create.toObject();
+                var foundTripMap = result.create;
                 res.json({
                     code: 1,
                     data: foundTripMap

@@ -14,7 +14,8 @@ var tripSchema = mongoose.Schema({
     id_group: {
         type: Schema.Types.ObjectId,
         ref: 'Group',
-        required: false
+        required: false,
+        default: null
     },
     name: {
         type: String,
@@ -33,6 +34,11 @@ var tripSchema = mongoose.Schema({
     },
     end_at: {
         type: Date,
+        required: false,
+        default: null
+    },
+    destination_summary: {
+        type: String,
         required: false,
         default: null
     },
@@ -56,6 +62,11 @@ var tripSchema = mongoose.Schema({
         required: false,
         default: null
     },
+    images: {
+        type: Schema.Types.Mixed,
+        required: false,
+        default: null
+    },
     prepare: {
         type: String,
         required: false,
@@ -71,10 +82,20 @@ var tripSchema = mongoose.Schema({
         required: false,
         default: Date.now()
     },
-    rating: {
-        type: Schema.Types.Mixed,
+    amount_member:{
+        type: Number,
         required: false,
-        default: null
+        default: 1 // when just created
+    },
+    amount_interested:{
+        type: Number,
+        required: false,
+        default: 0
+    },
+    star:{
+        type: Number,
+        required: false,
+        default: 0
     },
     permission: {
         type: Number,

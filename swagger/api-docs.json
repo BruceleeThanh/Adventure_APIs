@@ -1605,6 +1605,11 @@
                     }
                   }
                 },
+                "total": {
+                  "type": "number",
+                  "description": "total of record",
+                  "example": 10
+                },
                 "message": {
                   "type": "string",
                   "description": "in case of error",
@@ -2517,6 +2522,187 @@
         }
       }
     },
+    "/api/trip/browse": {
+      "get": {
+        "tags": [
+          "trip"
+        ],
+        "description": "browse public trip",
+        "operationId": "browse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page to pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "item per page for pagination",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "test status"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "this's description"
+                    },
+                    "start_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "end_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "destination_summary": {
+                      "type": "string",
+                      "example": "description summary"
+                    },
+                    "expense": {
+                      "type": "string",
+                      "example": "100$"
+                    },
+                    "amount_people": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "vehicles": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "1",
+                          "2"
+                        ]
+                      }
+                    },
+                    "routes": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "5769097529f87b5c271728e5"
+                          },
+                          "start_at": {
+                            "type": "date-time",
+                            "example": "2016-10-05T04:27:58.144Z"
+                          },
+                          "end_at": {
+                            "type": "date-time",
+                            "example": "2016-10-05T04:27:58.144Z"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "This's title"
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "This's content"
+                          }
+                        }
+                      }
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "url",
+                          "other url"
+                        ]
+                      }
+                    },
+                    "prepare": {
+                      "type": "string",
+                      "example": "This's prepare"
+                    },
+                    "note": {
+                      "type": "string",
+                      "example": "This's note"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "permission": {
+                      "type": "number",
+                      "example": 3
+                    },
+                    "type": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "description": "total of record",
+                  "example": 10
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/trip/create": {
       "post": {
         "tags": [
@@ -2549,14 +2735,21 @@
           {
             "name": "start_at",
             "in": "formData",
-            "description": "start_at. Example:\"2016-10-05T04:27:58.144Z\"",
+            "description": "start_at. Example: 2016-10-05T04:27:58.144Z",
             "required": false,
             "type": "string"
           },
           {
             "name": "end_at",
             "in": "formData",
-            "description": "end_at. Example:\"2016-10-05T04:27:58.144Z\"",
+            "description": "end_at. Example: 2016-10-05T04:27:58.144Z",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "destination_summary",
+            "in": "formData",
+            "description": "destination summary",
             "required": false,
             "type": "string"
           },
@@ -2577,7 +2770,7 @@
           {
             "name": "vehicles",
             "in": "formData",
-            "description": "vehicles. Example: [\"1\",\"2\",\"3\"...]",
+            "description": "vehicles. Example: [1,2,3]",
             "required": false,
             "type": "string"
           },
@@ -2585,6 +2778,13 @@
             "name": "routes",
             "in": "formData",
             "description": "routes. Example: [{\"start_at\":\"2016-10-05T04:27:58.144Z\",\"end_at\":\"2016-10-05T04:27:58.144Z\",\"title\":\"This's title\",\"content\":\"This's content\"},{}]",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "images",
+            "in": "formData",
+            "description": "images. Example: [\"some images url\", \"some other images url\"]",
             "required": false,
             "type": "string"
           },
@@ -2606,7 +2806,7 @@
             "name": "permission",
             "in": "formData",
             "description": "permission 1: Only me, 2: Friend, 3: Public, 4: In a group",
-            "required": false,
+            "required": true,
             "type": "integer"
           },
           {
@@ -2654,6 +2854,10 @@
                       "type": "date-time",
                       "example": "2016-10-05T04:27:58.144Z"
                     },
+                    "destination_summary": {
+                      "type": "string",
+                      "example": "description summary"
+                    },
                     "expense": {
                       "type": "string",
                       "example": "100$"
@@ -2665,10 +2869,10 @@
                     "vehicles": {
                       "type": "array",
                       "items": {
-                        "type": "string",
+                        "type": "number",
                         "enum": [
-                          "1",
-                          "2"
+                          1,
+                          2
                         ]
                       }
                     },
@@ -2697,6 +2901,16 @@
                             "example": "This's content"
                           }
                         }
+                      }
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "url",
+                          "other url"
+                        ]
                       }
                     },
                     "prepare": {
