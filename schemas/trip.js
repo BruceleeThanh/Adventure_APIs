@@ -92,7 +92,7 @@ var tripSchema = mongoose.Schema({
         required: false,
         default: 0
     },
-    star:{
+    rating:{
         type: Number,
         required: false,
         default: 0

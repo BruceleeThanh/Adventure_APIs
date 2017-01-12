@@ -2594,10 +2594,6 @@
                       "type": "string",
                       "example": "test status"
                     },
-                    "description": {
-                      "type": "string",
-                      "example": "this's description"
-                    },
                     "start_at": {
                       "type": "date-time",
                       "example": "2016-10-05T04:27:58.144Z"
@@ -2614,47 +2610,6 @@
                       "type": "string",
                       "example": "100$"
                     },
-                    "amount_people": {
-                      "type": "number",
-                      "example": 10
-                    },
-                    "vehicles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "1",
-                          "2"
-                        ]
-                      }
-                    },
-                    "routes": {
-                      "type": "array",
-                      "items": {
-                        "properties": {
-                          "_id": {
-                            "type": "string",
-                            "example": "5769097529f87b5c271728e5"
-                          },
-                          "start_at": {
-                            "type": "date-time",
-                            "example": "2016-10-05T04:27:58.144Z"
-                          },
-                          "end_at": {
-                            "type": "date-time",
-                            "example": "2016-10-05T04:27:58.144Z"
-                          },
-                          "title": {
-                            "type": "string",
-                            "example": "This's title"
-                          },
-                          "content": {
-                            "type": "string",
-                            "example": "This's content"
-                          }
-                        }
-                      }
-                    },
                     "images": {
                       "type": "array",
                       "items": {
@@ -2665,25 +2620,21 @@
                         ]
                       }
                     },
-                    "prepare": {
-                      "type": "string",
-                      "example": "This's prepare"
-                    },
-                    "note": {
-                      "type": "string",
-                      "example": "This's note"
-                    },
-                    "created_at": {
-                      "type": "date-time",
-                      "example": "2016-10-05T04:27:58.144Z"
-                    },
-                    "permission": {
+                    "amount_people": {
                       "type": "number",
-                      "example": 3
+                      "example": 10
                     },
-                    "type": {
+                    "amount_member": {
                       "type": "number",
-                      "example": 1
+                      "example": 10
+                    },
+                    "amount_interested": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "rating": {
+                      "type": "number",
+                      "example": 10
                     }
                   }
                 },

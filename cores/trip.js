@@ -37,7 +37,7 @@ exports.getAll = function (data, callback) { // data: {permission, type, page, p
         offset = (data.page - 1) * data.per_page;
         query.skip(offset).limit(limit);
     }
-    query.select('_id owner name start_at end_at destination_summary expense amount_people amount_member amount_interested star rating');
+    query.select('_id owner name start_at end_at destination_summary expense images amount_people amount_member amount_interested rating');
     query.populate('owner', '_id first_name last_name avatar');
     query.sort({created_at: -1});
     query.exec(function (error, results) {
