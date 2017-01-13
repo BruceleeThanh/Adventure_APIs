@@ -27,6 +27,11 @@ var tripSchema = mongoose.Schema({
         required: false,
         default: null
     },
+    start_position:{
+        type: String,
+        required: false,
+        default: null
+    },
     start_at: {
         type: Date,
         required: false,
