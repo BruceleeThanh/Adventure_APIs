@@ -2820,6 +2820,10 @@
                       "type": "string",
                       "example": "this's description"
                     },
+                    "start_position":{
+                      "type":"string",
+                      "example": "start position"
+                    },
                     "start_at": {
                       "type": "date-time",
                       "example": "2016-10-05T04:27:58.144Z"
