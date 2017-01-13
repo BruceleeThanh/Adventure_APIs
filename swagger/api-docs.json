@@ -2635,6 +2635,14 @@
                     "rating": {
                       "type": "number",
                       "example": 10
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "permission": {
+                      "type": "number",
+                      "example": 1
                     }
                   }
                 },
