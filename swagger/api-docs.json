@@ -2632,6 +2632,10 @@
                       "type": "number",
                       "example": 10
                     },
+                    "amount_rating": {
+                      "type": "number",
+                      "example": 10
+                    },
                     "rating": {
                       "type": "number",
                       "example": 10
@@ -2879,6 +2883,22 @@
                     "note": {
                       "type": "string",
                       "example": "This's note"
+                    },
+                    "amount_member": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "amount_interested": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "amount_rating": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "rating": {
+                      "type": "number",
+                      "example": 10
                     },
                     "created_at": {
                       "type": "date-time",
