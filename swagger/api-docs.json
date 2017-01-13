@@ -2594,6 +2594,10 @@
                       "type": "string",
                       "example": "test status"
                     },
+                    "start_position":{
+                      "type":"string",
+                      "example": "start position"
+                    },
                     "start_at": {
                       "type": "date-time",
                       "example": "2016-10-05T04:27:58.144Z"
@@ -2692,6 +2696,13 @@
             "name": "description",
             "in": "formData",
             "description": "description",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start_position",
+            "in": "formData",
+            "description": "start position",
             "required": false,
             "type": "string"
           },

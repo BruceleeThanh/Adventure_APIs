@@ -29,6 +29,10 @@ module.exports = function (app, redisClient) {
             type: 'string',
             required: false
         }, {
+            name: 'start_position',
+            type: 'string',
+            required: false
+        }, {
             name: 'start_at',
             type: 'date',
             required: false,
@@ -120,8 +124,10 @@ module.exports = function (app, redisClient) {
                     owner: data.owner,
                     name: data.name,
                     description: data.description,
+                    start_position: data.start_position,
                     start_at: data.start_at,
                     end_at: data.end_at,
+                    destination_summary: data.destination_summary,
                     expense: data.expense,
                     amount_people: data.amount_people,
                     vehicles: data.vehicles,
