@@ -6,6 +6,7 @@ var async = require('async');
 var validator = require(path.join(__dirname, '../', 'ultis/validator.js'));
 var authentication = require(path.join(__dirname, '../', 'ultis/authentication.js'));
 var trip_map = require(path.join(__dirname, '../', 'cores/trip_map.js'));
+var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
 
 module.exports = function (app, redisClient) {
     app.post('/api/trip_map/create_place', function (req, res) {
@@ -70,7 +71,7 @@ module.exports = function (app, redisClient) {
                 });
             },
             checkTripExits: function (callback) {
-                trip_map.checkTripExits(data.id_trip, function (error, result) {
+                trip.checkTripExits(data.id_trip, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {

@@ -54,3 +54,27 @@ exports.getAll = function (data, callback) { // data: {permission, type, page, p
         }
     });
 };
+
+exports.getDetail = function (id_trip, id_user, callback) {
+    checkTripExits(id_trip, function (error, result) {
+        if(result){
+
+        }
+    });
+};
+
+function checkTripExits(id_trip, callback) {
+    var query = Trip.findById(id_trip);
+    query.exec(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (!result) {
+                if (typeof callback === 'function') return callback(-1, null);
+            }
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+exports.checkTripExits = checkTripExits;

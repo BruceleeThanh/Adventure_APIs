@@ -2940,6 +2940,230 @@
         }
       }
     },
+    "/api/trip/detail": {
+      "post": {
+        "tags": [
+          "trip"
+        ],
+        "description": "get detail trip",
+        "operationId": "detail",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id trip",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "trip":{
+                      "type": "object",
+                      "description": "trip schedule",
+                      "properties":{
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "test status"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "this's description"
+                        },
+                        "start_position":{
+                          "type":"string",
+                          "example": "start position"
+                        },
+                        "start_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        },
+                        "end_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        },
+                        "destination_summary": {
+                          "type": "string",
+                          "example": "description summary"
+                        },
+                        "expense": {
+                          "type": "string",
+                          "example": "100$"
+                        },
+                        "amount_people": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "vehicles": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "enum": [
+                              1,
+                              2
+                            ]
+                          }
+                        },
+                        "routes": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "5769097529f87b5c271728e5"
+                              },
+                              "start_at": {
+                                "type": "date-time",
+                                "example": "2016-10-05T04:27:58.144Z"
+                              },
+                              "end_at": {
+                                "type": "date-time",
+                                "example": "2016-10-05T04:27:58.144Z"
+                              },
+                              "title": {
+                                "type": "string",
+                                "example": "This's title"
+                              },
+                              "content": {
+                                "type": "string",
+                                "example": "This's content"
+                              }
+                            }
+                          }
+                        },
+                        "images": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "url",
+                              "other url"
+                            ]
+                          }
+                        },
+                        "prepare": {
+                          "type": "string",
+                          "example": "This's prepare"
+                        },
+                        "note": {
+                          "type": "string",
+                          "example": "This's note"
+                        },
+                        "amount_member": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "amount_interested": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "amount_rating": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "rating": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        },
+                        "permission": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "type": {
+                          "type": "number",
+                          "example": 1
+                        }
+                      }
+                    },
+                    "places":{
+                      "type":"object",
+                      "description":"trip places - map",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "id_trip": {
+                          "type": "object",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "order": {
+                          "type": "number",
+                          "example": "1"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "This is title"
+                        },
+                        "latitude": {
+                          "type": "string",
+                          "example": "20.992847"
+                        },
+                        "longitude": {
+                          "type": "string",
+                          "example": "105.832085"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "This's content"
+                        },
+                        "type": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "status": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/trip_map/create_place": {
       "post": {
         "tags": [
