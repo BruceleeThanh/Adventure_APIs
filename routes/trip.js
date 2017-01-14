@@ -12,7 +12,7 @@ var mail = require(path.join(__dirname, '../', 'ultis/mail.js'));
 var helper = require(path.join(__dirname, '../', 'ultis/helper.js'));
 var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
 var trip_map = require(path.join(__dirname, '../', 'cores/trip_map.js'));
-var Routes = require(path.join(__dirname, '../', 'schemas/routes.js'));
+var Route = require(path.join(__dirname, '../', 'schemas/route.js'));
 
 module.exports = function (app, redisClient) {
     app.post('/api/trip/create', function (req, res) {
@@ -133,6 +133,7 @@ module.exports = function (app, redisClient) {
                     amount_people: data.amount_people,
                     vehicles: data.vehicles,
                     routes: routes,
+                    images:data.images,
                     prepare: data.prepare,
                     note: data.note,
                     permission: data.permission,

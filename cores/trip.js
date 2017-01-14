@@ -4,12 +4,25 @@
 
 var async = require('async');
 var path = require('path');
+var mongoose = require('mongoose');
 var Trip = require(path.join(__dirname, '../', 'schemas/trip.js'));
+var ObjectId = mongoose.Types.ObjectId;
 
 exports.create = function (data, callback) {
     var currentDate = new Date();
     data.created_at = currentDate;
     console.log(data);
+    if (data.routes) {
+        for (let item in data.routes) {
+            if (data.routes[item] === undefined) {
+                data.routes.splice(item, 1);
+            } else {
+                data.routes[item]._id = new ObjectId();
+                data.routes[item].start_at = new Date(data.routes[item].start_at);
+                data.routes[item].end_at = new Date(data.routes[item].end_at);
+            }
+        }
+    }
     var creatingTrip = new Trip(data);
     creatingTrip.save(function (error, result) {
         if (error) {
@@ -57,7 +70,7 @@ exports.getAll = function (data, callback) { // data: {permission, type, page, p
 
 exports.getDetail = function (id_trip, id_user, callback) {
     checkTripExits(id_trip, function (error, result) {
-        if(result){
+        if (result) {
 
         }
     });
