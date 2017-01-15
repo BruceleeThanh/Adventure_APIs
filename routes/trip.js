@@ -350,8 +350,8 @@ module.exports = function (app, redisClient) {
                 res.json({
                     code: 1,
                     data: {
-                        trip: foundTrip,
-                        places: foundPlaces
+                        schedule: foundTrip,
+                        map: foundPlaces
                     }
                 });
             }
