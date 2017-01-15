@@ -28,6 +28,10 @@ module.exports = function (app, redisClient) {
             type: 'string',
             required: false
         }, {
+            name: 'address',
+            type: 'string',
+            required: false
+        }, {
             name: 'latitude',
             type: 'string',
             required: false

@@ -2976,7 +2976,7 @@
                   "type": "object",
                   "description": "in case of success",
                   "properties": {
-                    "trip":{
+                    "schedule":{
                       "type": "object",
                       "description": "trip schedule",
                       "properties":{
@@ -3105,7 +3105,7 @@
                         }
                       }
                     },
-                    "places":{
+                    "map":{
                       "type":"object",
                       "description":"trip places - map",
                       "properties": {
@@ -3201,6 +3201,13 @@
             "type": "string"
           },
           {
+            "name": "address",
+            "in": "formData",
+            "description": "address",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "latitude",
             "in": "formData",
             "description": "latitude",
@@ -3254,7 +3261,7 @@
                       "example": "5769097529f87b5c271728e5"
                     },
                     "id_trip": {
-                      "type": "object",
+                      "type": "string",
                       "example": "5769097529f87b5c271728e5"
                     },
                     "order": {
@@ -3264,6 +3271,10 @@
                     "title": {
                       "type": "string",
                       "example": "This is title"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "This is address"
                     },
                     "latitude": {
                       "type": "string",

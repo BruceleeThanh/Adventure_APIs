@@ -20,6 +20,11 @@ var placeSchema = {
         required: false,
         default: null
     },
+    address:{
+        type: String,
+        required: false,
+        default: null
+    },
     latitude: {
         type: String,
         required: true,
@@ -32,6 +37,11 @@ var placeSchema = {
     },
     content: {
         type: String,
+        required: false,
+        default: null
+    },
+    created_at: {
+        type: Date,
         required: false,
         default: null
     },
