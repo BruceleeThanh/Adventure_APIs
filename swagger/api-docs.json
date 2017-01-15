@@ -3125,6 +3125,10 @@
                           "type": "string",
                           "example": "This is title"
                         },
+                        "address": {
+                          "type": "string",
+                          "example": "This is address"
+                        },
                         "latitude": {
                           "type": "string",
                           "example": "20.992847"
