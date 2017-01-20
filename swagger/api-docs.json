@@ -40,6 +40,9 @@
     },
     {
       "name": "trip_map"
+    },
+    {
+      "name": "trip_member"
     }
   ],
   "schemes": [
@@ -2594,8 +2597,8 @@
                       "type": "string",
                       "example": "test status"
                     },
-                    "start_position":{
-                      "type":"string",
+                    "start_position": {
+                      "type": "string",
                       "example": "start position"
                     },
                     "start_at": {
@@ -2820,8 +2823,8 @@
                       "type": "string",
                       "example": "this's description"
                     },
-                    "start_position":{
-                      "type":"string",
+                    "start_position": {
+                      "type": "string",
                       "example": "start position"
                     },
                     "start_at": {
@@ -2976,10 +2979,10 @@
                   "type": "object",
                   "description": "in case of success",
                   "properties": {
-                    "schedule":{
+                    "schedule": {
                       "type": "object",
                       "description": "trip schedule",
-                      "properties":{
+                      "properties": {
                         "_id": {
                           "type": "string",
                           "example": "5769097529f87b5c271728e5"
@@ -2996,8 +2999,8 @@
                           "type": "string",
                           "example": "this's description"
                         },
-                        "start_position":{
-                          "type":"string",
+                        "start_position": {
+                          "type": "string",
                           "example": "start position"
                         },
                         "start_at": {
@@ -3105,9 +3108,9 @@
                         }
                       }
                     },
-                    "map":{
-                      "type":"object",
-                      "description":"trip places - map",
+                    "map": {
+                      "type": "object",
+                      "description": "trip places - map",
                       "properties": {
                         "_id": {
                           "type": "string",
@@ -3316,8 +3319,348 @@
           }
         }
       }
+    },
+    "/api/trip_member/request": {
+      "post": {
+        "tags": [
+          "trip_member"
+        ],
+        "description": "request member trip",
+        "operationId": "request",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id trip",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Trip is not found; 5. This request have existed; 6. You have been invited; 7. You're already member",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "status": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trip_member/cancel_request": {
+      "post": {
+        "tags": [
+          "trip_member"
+        ],
+        "description": "cancel request member trip",
+        "operationId": "cancel_request",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id trip",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Trip is not found; 5. This request have existed; 6. You have been invited; 7. You're already member",
+                  "example": 1
+                },
+                "data": {
+                  "type": "string",
+                  "description": "in case of success",
+                  "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trip_member/browse_request": {
+      "post": {
+        "tags": [
+          "trip_member"
+        ],
+        "description": "browse request member trip",
+        "operationId": "browse_request",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id trip",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Trip is not found; 5. Request member trip is not found",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "status": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "description": "total of data array",
+                  "example": 10
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trip_member/browse_invite": {
+      "post": {
+        "tags": [
+          "trip_member"
+        ],
+        "description": "browse invite member trip",
+        "operationId": "browse_invite",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id trip",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Trip is not found; 5. Invite member trip is not found",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "status": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "description": "total of data array",
+                  "example": 10
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trip_member/browse_member": {
+      "post": {
+        "tags": [
+          "trip_member"
+        ],
+        "description": "browse member member trip",
+        "operationId": "browse_member",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id trip",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Trip is not found; 5. Member trip is not found",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "status": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "description": "total of data array",
+                  "example": 10
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
   }
 }
+

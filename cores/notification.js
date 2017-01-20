@@ -126,7 +126,7 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                         updateOrCreate(option, function (error, result) {
                             result = JSON.parse(JSON.stringify(result));
                             result.fcm_content = item.fcm_content;
-                            if(item.fcm_token != undefined && item.fcm_token != null && item.fcm_token != ""){
+                            if (item.fcm_token != undefined && item.fcm_token != null && item.fcm_token != "") {
                                 fcm.sendMessageToUser(foundStatus.owner.fcm_token, result);
                             }
                             return callback(null);
@@ -167,62 +167,70 @@ exports.likeStatus = function (id_status, hasFcm, callback) {
             },
             genContent: function (callback) {
                 like_status.getAll({id_status: id_status}, function (error, results) {
-                    var array = [];
+                    var array = null;
                     array = JSON.parse(JSON.stringify(results));
                     var content = null;
                     async.series({
                         removeOwner: function (callback) {
-                            var leng = array.length;
-                            for (let i = 0; i < leng; i++) {
-                                if (array[i].owner._id == foundStatus.owner._id) {
-                                    array.splice(i, 1);
-                                    return callback(null, null);
+                            if (array) {
+                                var leng = array.length;
+                                for (let i = 0; i < leng; i++) {
+                                    if (array[i].owner._id == foundStatus.owner._id) {
+                                        array.splice(i, 1);
+                                        return callback(null, null);
+                                    }
+                                    if (i == leng - 1) {
+                                        return callback(null, null);
+                                    }
                                 }
-                                if (i == leng - 1) {
-                                    return callback(null, null);
-                                }
+                            }else{
+                                return callback(-1, null);
                             }
                         },
                         genContent: function (callback) {
-                            var leng = array.length;
-                            if (leng > 2) {
-                                content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + "</b>, <b>" +
-                                    array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + "</b> và <b>" +
-                                    (leng - 2) + " người khác</b> đã thích trạng thái của bạn";
-                                fcm_content = array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + ", " +
-                                    array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + " và " +
-                                    (leng - 2) + " người khác đã thích trạng thái của bạn";
-                            } else if (leng == 2) {
-                                content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + "</b> và <b>" +
-                                    array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + "</b> đã thích trạng thái của bạn";
-                                fcm_content = array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + " và " +
-                                    array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + " đã thích trạng thái của bạn";
+                            if (array) {
+                                var leng = array.length;
+                                if (leng > 2) {
+                                    content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + "</b>, <b>" +
+                                        array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + "</b> và <b>" +
+                                        (leng - 2) + " người khác</b> đã thích trạng thái của bạn";
+                                    fcm_content = array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + ", " +
+                                        array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + " và " +
+                                        (leng - 2) + " người khác đã thích trạng thái của bạn";
+                                } else if (leng == 2) {
+                                    content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + "</b> và <b>" +
+                                        array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + "</b> đã thích trạng thái của bạn";
+                                    fcm_content = array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name + " và " +
+                                        array[leng - 2].owner.first_name + " " + array[leng - 2].owner.last_name + " đã thích trạng thái của bạn";
 
-                            } else if (leng == 1) {
-                                content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name +
-                                    "</b> đã thích trạng thái của bạn";
-                                fcm_content = array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name +
-                                    " đã thích trạng thái của bạn";
-                            }
-                            if (content) {
-                                if (foundStatus) {
-                                    if (foundStatus.content != "" && foundStatus.content != null) {
-                                        content = content + ": " + foundStatus.content;
+                                } else if (leng == 1) {
+                                    content = "<b>" + array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name +
+                                        "</b> đã thích trạng thái của bạn";
+                                    fcm_content = array[leng - 1].owner.first_name + " " + array[leng - 1].owner.last_name +
+                                        " đã thích trạng thái của bạn";
+                                }
+                                if (content) {
+                                    if (foundStatus) {
+                                        if (foundStatus.content != "" && foundStatus.content != null) {
+                                            content = content + ": " + foundStatus.content;
+                                        }
                                     }
                                 }
+                                if (content) {
+                                    noti = {
+                                        sender_avatar: array[leng - 1].owner.avatar,
+                                        sender: array[leng - 1].owner._id,
+                                        recipient: foundStatus.owner._id,
+                                        object: foundStatus._id,
+                                        type: 2,
+                                        content: content,
+                                        created_at: array[leng - 1].created_at
+                                    };
+                                }
+                                return callback(null, null);
+                            }else{
+                                return callback(-1, null);
                             }
-                            if (content) {
-                                noti = {
-                                    sender_avatar: array[leng - 1].owner.avatar,
-                                    sender: array[leng - 1].owner._id,
-                                    recipient: foundStatus.owner._id,
-                                    object: foundStatus._id,
-                                    type: 2,
-                                    content: content,
-                                    created_at: array[leng - 1].created_at
-                                };
-                            }
-                            return callback(null, null);
                         }
                     }, function (error, result) {
                         return callback(null, null);
@@ -234,10 +242,10 @@ exports.likeStatus = function (id_status, hasFcm, callback) {
                     updateOrCreate(noti, function (error, result) {
                         result = JSON.parse(JSON.stringify(result));
                         result.fcm_content = fcm_content;
-                        if(hasFcm){
+                        if (hasFcm) {
                             fcm.sendMessageToUser(foundStatus.owner.fcm_token, result);
                             return callback(null, result);
-                        }else{
+                        } else {
                             return callback(null, result);
                         }
                     });

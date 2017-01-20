@@ -12,12 +12,12 @@ exports.createPlace = function (data, callback) {
     console.log(data);
     var creatingPlace = new Place(data);
     creatingPlace.save(function (error, result) {
-        if(error){
+        if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
             if (typeof callback === 'function') {
                 return callback(-2, null);
             }
-        }else{
+        } else {
             if (typeof callback === 'function') {
                 return callback(null, result);
             }
@@ -25,10 +25,11 @@ exports.createPlace = function (data, callback) {
     });
 };
 
-exports.getAllByIdTrip = function(id_trip, callback){
+exports.getAllByIdTrip = function (id_trip, callback) {
     var query = Place.find({
-        id_trip:id_trip
+        id_trip: id_trip
     });
+    query.sort({created_at: 1});
     query.exec(function (error, results) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));

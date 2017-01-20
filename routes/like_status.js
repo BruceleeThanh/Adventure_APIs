@@ -191,15 +191,20 @@ module.exports = function (app, redisClient) {
                 });
             },
             createNotification: function (callback) {
-                notification.likeStatus(data.id_status, hasFcm,function (error, result) {
-                    if (error === -1) {
-                        return callback(-4, null);
-                    } else if (error) {
-                        return callback(error, null);
-                    } else {
-                        return callback(null, null);
-                    }
-                });
+                var option = JSON.parse(JSON.stringify(updateStatus));
+                if (data.owner == option.owner) {
+                    notification.likeStatus(data.id_status, hasFcm, function (error, result) {
+                        if (error === -1) {
+                            return callback(-4, null);
+                        } else if (error) {
+                            return callback(error, null);
+                        } else {
+                            return callback(null, null);
+                        }
+                    });
+                } else {
+                    return callback(null, null);
+                }
             }
         }, function (error, result) {
             if (error) {

@@ -50,7 +50,7 @@ var placeSchema = {
         required: true,
         default: 3
     },
-    status: { //1: Waiting...; 2: Arrived; 3: Passed
+    status: { //1: Just created; 2: Waiting; 3: Passed
         type: Number,
         required: false,
         default: 1
