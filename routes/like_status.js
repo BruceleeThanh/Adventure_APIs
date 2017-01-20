@@ -192,7 +192,7 @@ module.exports = function (app, redisClient) {
             },
             createNotification: function (callback) {
                 var option = JSON.parse(JSON.stringify(updateStatus));
-                if (data.owner == option.owner) {
+                if (data.owner != option.owner) {
                     notification.likeStatus(data.id_status, hasFcm, function (error, result) {
                         if (error === -1) {
                             return callback(-4, null);
