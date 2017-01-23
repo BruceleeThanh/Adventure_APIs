@@ -6,6 +6,7 @@ var async = require('async');
 var path = require('path');
 var mongoose = require('mongoose');
 var Trip = require(path.join(__dirname, '../', 'schemas/trip.js'));
+var trip_member = require(path.join(__dirname, '../', 'cores/trip_member.js'));
 var ObjectId = mongoose.Types.ObjectId;
 
 exports.create = function (data, callback) {
@@ -68,10 +69,31 @@ exports.getAll = function (data, callback) { // data: {permission, type, page, p
     });
 };
 
-exports.getDetail = function (id_trip, id_user, callback) {
-    checkTripExits(id_trip, function (error, result) {
-        if (result) {
-
+exports.findOneAndCheckInteract = function (id_trip, owner, callback) {
+    var foundTrip = null;
+    checkTripExits(id_trip, function (error, resultTrip) {
+        if (resultTrip) {
+            foundTrip = JSON.parse(JSON.stringify(resultTrip));
+            async.parallel({
+                checkMember: function (callback) {
+                    trip_member.checkTripMemberExisted(id_trip, owner, function (error, resultMemberTrip) {
+                        if (error) { // 1. Request member; 2. Invite member; 3. Member; 4. Nothing happen
+                            foundTrip.is_member = 4;
+                            return callback(null, null);
+                        } else {
+                            var foundTripMember = JSON.parse(JSON.stringify(resultMemberTrip));
+                            foundTrip.is_member = foundTripMember.status;
+                            return callback(null, null);
+                        }
+                    });
+                }
+            }, function (error, result) {
+                return callback(null, foundTrip);
+            });
+        }else if(error === -1){
+            return callback(-1, null);
+        } else if(error){
+            return callback(error, null);
         }
     });
 };

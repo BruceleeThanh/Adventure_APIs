@@ -3105,6 +3105,10 @@
                         "type": {
                           "type": "number",
                           "example": 1
+                        },
+                        "is_member": {
+                          "type": "number",
+                          "example": 1
                         }
                       }
                     },

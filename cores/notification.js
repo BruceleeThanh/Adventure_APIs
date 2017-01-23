@@ -34,7 +34,7 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
             genContent: function (callback) {
                 comment_status.getAllOwnerDistinct(id_status, function (error, results) {
                     async.series({
-                        checkOwnerExitsInComment: function (callback) {
+                        checkOwnerExistInComment: function (callback) {
                             var leng = results.length;
                             for (let i = 0; i < leng; i++) {
                                 if (results[i]._id == foundStatus.owner._id) {
@@ -122,7 +122,7 @@ exports.commentStatus = function (id_status, callback) { // data: id_status
                             type: item.type,
                             content: item.content,
                             created_at: item.created_at
-                        }
+                        };
                         updateOrCreate(option, function (error, result) {
                             result = JSON.parse(JSON.stringify(result));
                             result.fcm_content = item.fcm_content;
