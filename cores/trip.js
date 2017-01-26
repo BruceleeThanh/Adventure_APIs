@@ -42,8 +42,7 @@ exports.create = function (data, callback) {
 exports.getAll = function (data, callback) { // data: {permission, type, page, per_page}
     var query = Trip.find({
         permission: data.permission,
-        type: data.type,
-        end_at: {$gt: new Date()}
+        type: data.type
     });
     var limit = 10;
     var offset = 0;
