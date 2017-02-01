@@ -3175,6 +3175,203 @@
         }
       }
     },
+    "/api/trip/interested": {
+      "post": {
+        "tags": [
+          "trip"
+        ],
+        "description": "create trip interested",
+        "operationId": "interested",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id trip",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: Trip is not found",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trip/uninterested": {
+      "post": {
+        "tags": [
+          "trip"
+        ],
+        "description": "delete trip interested",
+        "operationId": "uninterested",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id trip",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: Trip is not found; -5: Trip Interested is not found",
+                  "example": 1
+                },
+                "data": {
+                  "type": "string",
+                  "description": "in case of success",
+                  "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trip/browse_interested": {
+      "post": {
+        "tags": [
+          "trip"
+        ],
+        "description": "browse trip interested",
+        "operationId": "browse_interested",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id trip",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "formData",
+            "description": "page",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "formData",
+            "description": "per_page",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Trip is not found; 5. Trip interested is not found",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "description": "total of data array",
+                  "example": 10
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/trip_map/create_place": {
       "post": {
         "tags": [

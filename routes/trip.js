@@ -12,6 +12,7 @@ var mail = require(path.join(__dirname, '../', 'ultis/mail.js'));
 var helper = require(path.join(__dirname, '../', 'ultis/helper.js'));
 var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
 var trip_map = require(path.join(__dirname, '../', 'cores/trip_map.js'));
+var trip_interested = require(path.join(__dirname, '../', 'cores/trip_interested.js'));
 var Route = require(path.join(__dirname, '../', 'schemas/route.js'));
 
 module.exports = function (app, redisClient) {
@@ -133,7 +134,7 @@ module.exports = function (app, redisClient) {
                     amount_people: data.amount_people,
                     vehicles: data.vehicles,
                     routes: routes,
-                    images:data.images,
+                    images: data.images,
                     prepare: data.prepare,
                     note: data.note,
                     permission: data.permission,
@@ -358,7 +359,6 @@ module.exports = function (app, redisClient) {
         });
     });
 
-    // chưa xong =))
     app.post('/api/trip/interested', function (req, res) {
         var data = {};
         var fields = [{
@@ -406,31 +406,12 @@ module.exports = function (app, redisClient) {
                     }
                 });
             },
-            checkTripMemberExisted: function (callback) {
-                trip_member.checkTripMemberExisted(data.id_trip, data.owner, function (error, result) {
-                    if (error === -1) {
-                        return callback(null, null);
-                    } else if (error) {
-                        return callback(error, null);
-                    } else {
-                        var tripMember = JSON.parse(JSON.stringify(result));
-                        if (tripMember.status == 1) {
-                            return callback(-5, null);
-                        } else if (tripMember.status == 2) {
-                            return callback(-6, null);
-                        } else if (tripMember.status == 3) {
-                            return callback(-7, null);
-                        }
-                    }
-                });
-            },
             create: function (callback) {
                 var option = {
                     id_trip: data.id_trip,
-                    owner: data.owner,
-                    status: 1
+                    owner: data.owner
                 };
-                trip_member.create(option, function (error, result) {
+                trip_interested.create(option, function (error, result) {
                     if (error) {
                         return callback(error, null);
                     } else {
@@ -450,12 +431,6 @@ module.exports = function (app, redisClient) {
                     message = 'Token is not found';
                 } else if (error === -4) {
                     message = 'Trip is not found';
-                } else if (error === -5) {
-                    message = 'This request have existed';
-                } else if (error === -6) {
-                    message = 'You have been invited';
-                } else if (error === -7) {
-                    message = 'You\'re already member';
                 } else {
                     message = error;
                     code = 0;
@@ -465,10 +440,210 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
-                var foundTripMember = result.create;
+                var foundTripInterested = result.create;
                 res.json({
                     code: 1,
-                    data: foundTripMember
+                    data: foundTripInterested
+                });
+            }
+        });
+    });
+
+    app.post('/api/trip/uninterested', function (req, res) {
+        var data = {};
+        var fields = [{
+            name: 'token',
+            type: 'string',
+            required: true
+        }, {
+            name: 'id_trip',
+            type: 'string',
+            required: true
+        }];
+        var currentUser = null;
+        async.series({
+            validate: function (callback) {
+                validator(req.body, fields, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        data = result;
+                        return callback(null, null);
+                    }
+                });
+            },
+            getLoggedin: function (callback) {
+                authentication.getLoggedin(redisClient, data.token, function (error, result) {
+                    if (error) {
+                        return callback(-1, null);
+                    } else if (!result) {
+                        return callback(-3, null);
+                    } else {
+                        currentUser = JSON.parse(result);
+                        data.owner = currentUser._id;
+                        return callback(null, null);
+                    }
+                });
+            },
+            checkTripExisted: function (callback) {
+                trip.checkTripExits(data.id_trip, function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
+                    }
+                });
+            },
+            checkTripInterestedExisted: function (callback) {
+                trip_interested.checkTripInterestedExisted(data.id_trip, data.owner, function (error, result) {
+                    if (error === -1) {
+                        return callback(-5, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
+                    }
+                });
+            },
+            remove: function (callback) {
+                trip_interested.remove(data.id_trip, data.owner, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
+                    }
+                });
+            }
+        }, function (error, result) {
+            if (error) {
+                var code = error;
+                var message = '';
+                if (error === -1) {
+                    message = 'Redis error';
+                } else if (error === -2) {
+                    message = 'DB error';
+                } else if (error === -3) {
+                    message = 'Token is not found';
+                } else if (error === -4) {
+                    message = 'Trip is not found';
+                } else if (error === -5) {
+                    message = 'Trip Interested is not found';
+                } else {
+                    message = error;
+                    code = 0;
+                }
+                res.json({
+                    code: code,
+                    message: message
+                });
+            } else {
+                res.json({
+                    code: 1,
+                    data: 'done'
+                });
+            }
+        });
+    });
+
+    app.post('/api/trip/browse_interested', function (req, res) {
+        var data = {};
+        var fields = [{
+            name: 'token',
+            type: 'string',
+            required: true
+        }, {
+            name: 'id_trip',
+            type: 'string',
+            required: true
+        }, {
+            name: 'page',
+            type: 'number',
+            required: false,
+            min: 1
+        }, {
+            name: 'per_page',
+            type: 'number',
+            required: false,
+            min: 10,
+            max: 100
+        }];
+
+        var currentUser = null;
+        async.series({
+            validate: function (callback) {
+                validator(req.body, fields, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        data = result;
+                        return callback(null, null);
+                    }
+                });
+            },
+            getLoggedin: function (callback) {
+                authentication.getLoggedin(redisClient, data.token, function (error, result) {
+                    if (error) {
+                        return callback(-1, null);
+                    } else if (!result) {
+                        return callback(-3, null);
+                    } else {
+                        currentUser = JSON.parse(result);
+                        return callback(null, null);
+                    }
+                });
+            },
+            checkTripExisted: function (callback) {
+                trip.checkTripExits(data.id_trip, function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
+                    }
+                });
+            },
+            browse: function (callback) {
+                trip_interested.getAll(data, function (error, results) {
+                    if (error === -1) {
+                        return callback(-5, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, results);
+                    }
+                });
+            }
+        }, function (error, results) {
+            if (error) {
+                var code = error;
+                var message = '';
+                if (error === -1) {
+                    message = 'Redis error';
+                } else if (error === -2) {
+                    message = 'DB error';
+                } else if (error === -3) {
+                    message = 'Token is not found';
+                } else if (error === -4) {
+                    message = 'Trip is not found';
+                } else if (error === -5) {
+                    message = 'Trip interested is not found';
+                } else {
+                    message = error;
+                    code = 0;
+                }
+                res.json({
+                    code: code,
+                    message: message
+                });
+            } else {
+                var foundTripInteresteds = results.browse;
+                res.json({
+                    code: 1,
+                    data: foundTripInteresteds,
+                    total: foundTripInteresteds.length
                 });
             }
         });
