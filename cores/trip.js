@@ -124,3 +124,17 @@ function checkTripExits(id_trip, callback) {
     });
 };
 exports.checkTripExits = checkTripExits;
+
+exports.update = function (updatingData, data, callback) {
+    for (var field in data) {
+        updatingData[field] = data[field];
+    }
+    updatingData.save(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};

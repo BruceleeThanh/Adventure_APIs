@@ -371,6 +371,7 @@ module.exports = function (app, redisClient) {
             required: true
         }];
         var currentUser = null;
+        var foundTrip = null;
         async.series({
             validate: function (callback) {
                 validator(req.body, fields, function (error, result) {
@@ -402,6 +403,7 @@ module.exports = function (app, redisClient) {
                     } else if (error) {
                         return callback(error, null);
                     } else {
+                        foundTrip = result;
                         return callback(null, null);
                     }
                 });
@@ -412,6 +414,18 @@ module.exports = function (app, redisClient) {
                     owner: data.owner
                 };
                 trip_interested.create(option, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, result);
+                    }
+                });
+            },
+            increaseInterested: function (callback) {
+                var increase = {
+                    amount_interested: foundTrip.amount_interested + 1
+                };
+                trip.update(foundTrip, increase, function (error, result) {
                     if (error) {
                         return callback(error, null);
                     } else {
@@ -461,6 +475,7 @@ module.exports = function (app, redisClient) {
             required: true
         }];
         var currentUser = null;
+        var foundTrip = null;
         async.series({
             validate: function (callback) {
                 validator(req.body, fields, function (error, result) {
@@ -492,6 +507,7 @@ module.exports = function (app, redisClient) {
                     } else if (error) {
                         return callback(error, null);
                     } else {
+                        foundTrip = result;
                         return callback(null, null);
                     }
                 });
@@ -513,6 +529,18 @@ module.exports = function (app, redisClient) {
                         return callback(error, null);
                     } else {
                         return callback(null, null);
+                    }
+                });
+            },
+            decreaseInterested: function (callback) {
+                var increase = {
+                    amount_interested: foundTrip.amount_interested - 1
+                };
+                trip.update(foundTrip, increase, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, result);
                     }
                 });
             }
