@@ -533,16 +533,19 @@ module.exports = function (app, redisClient) {
                 });
             },
             decreaseInterested: function (callback) {
-                var increase = {
-                    amount_interested: foundTrip.amount_interested - 1
-                };
-                trip.update(foundTrip, increase, function (error, result) {
-                    if (error) {
-                        return callback(error, null);
-                    } else {
-                        return callback(null, result);
-                    }
-                });
+                if (foundTrip.amount_interested > 0) {
+                    var decrease = {
+                        amount_interested: foundTrip.amount_interested - 1
+                    };
+                    trip.update(foundTrip, decrease, function (error, result) {
+                        if (error) {
+                            return callback(error, null);
+                        } else {
+                            return callback(null, result);
+                        }
+                    });
+                } else return callback(null, null);
+
             }
         }, function (error, result) {
             if (error) {
