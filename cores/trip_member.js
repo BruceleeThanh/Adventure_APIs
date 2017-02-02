@@ -131,7 +131,8 @@ exports.checkTripMemberExisted = function (id_trip, owner, callback) {
             if (typeof callback === 'function') return callback(-2, null);
         } else if (!result) {
             if (typeof callback === 'function') return callback(-1, null);
-        } else if (typeof callback === 'function') return callback(null, result);
+        }
+        if (typeof callback === 'function') return callback(null, result);
     });
 };
 
@@ -143,6 +144,7 @@ exports.checkTripMemberExistedById = function (_id, callback) {
             if (typeof callback === 'function') return callback(-2, null);
         } else if (!result) {
             if (typeof callback === 'function') return callback(-1, null);
-        } else if (typeof callback === 'function') return callback(null, result);
+        }
+        if (typeof callback === 'function') return callback(null, result);
     });
 };
