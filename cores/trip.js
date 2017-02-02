@@ -7,6 +7,7 @@ var path = require('path');
 var mongoose = require('mongoose');
 var Trip = require(path.join(__dirname, '../', 'schemas/trip.js'));
 var trip_member = require(path.join(__dirname, '../', 'cores/trip_member.js'));
+var trip_interested = require(path.join(__dirname, '../', 'cores/trip_interested.js'));
 var ObjectId = mongoose.Types.ObjectId;
 
 exports.create = function (data, callback) {
@@ -85,13 +86,24 @@ exports.findOneAndCheckInteract = function (id_trip, owner, callback) {
                             return callback(null, null);
                         }
                     });
+                },
+                checkInterested: function (callback) {
+                    trip_interested.checkTripInterestedExisted(id_trip, owner, function (error, resultInterestedTrip) {
+                        if (error) {
+                            foundTrip.is_interested = 0;
+                            return callback(null, null);
+                        } else {
+                            foundTrip.is_interested = 1;
+                            return callback(null, null);
+                        }
+                    });
                 }
             }, function (error, result) {
                 return callback(null, foundTrip);
             });
-        }else if(error === -1){
+        } else if (error === -1) {
             return callback(-1, null);
-        } else if(error){
+        } else if (error) {
             return callback(error, null);
         }
     });
