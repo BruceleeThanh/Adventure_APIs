@@ -317,9 +317,9 @@ module.exports = function (app, redisClient) {
             getPlaces: function (callback) {
                 trip_map.getAllByIdTrip(data.id_trip, function (error, results) {
                     if (error === -1) {
-                        return callback(-5, null);
+                        return callback(null, null);
                     } else if (error) {
-                        return callback(error, null);
+                        return callback(null, null);
                     } else {
                         return callback(null, results);
                     }

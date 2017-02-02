@@ -2972,7 +2972,7 @@
               "properties": {
                 "code": {
                   "type": "integer",
-                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: Trip is not found",
                   "example": 1
                 },
                 "data": {
@@ -3107,6 +3107,10 @@
                           "example": 1
                         },
                         "is_member": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "is_interested": {
                           "type": "number",
                           "example": 1
                         }

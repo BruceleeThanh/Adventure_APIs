@@ -58,14 +58,16 @@ exports.checkTripInterestedExisted = function (id_trip, owner, callback) {
         owner: owner
     });
     query.exec(function (error, result) {
-        if (error) {
-            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
-            if (typeof callback === 'function') return callback(-2, null);
-        } else if (!result) {
-            if (typeof callback === 'function') return callback(-1, null);
+            if (error) {
+                require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+                if (typeof callback === 'function') return callback(-2, null);
+            } else if (!result) {
+                if (typeof callback === 'function') return callback(-1, null);
+            } else {
+                if (typeof callback === 'function') return callback(null, results);
+            }
         }
-        if (typeof callback === 'function') return callback(null, result);
-    });
+    );
 };
 
 exports.remove = function (id_trip, owner, callback) {
