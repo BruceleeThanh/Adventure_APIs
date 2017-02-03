@@ -57,6 +57,26 @@ exports.remove = function (id_trip, owner, callback) {
     });
 };
 
+exports.getAllByIdTrip = function (id_trip, callback) {
+    var query = TripMember.find({
+        id_trip: id_trip
+    });
+    query.populate('owner', '_id first_name last_name avatar');
+    query.sort({created_at: -1});
+    query.exec(function (error, results) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else if (results.length <= 0) {
+            if (typeof callback === 'function') return callback(-1, null);
+        } else {
+            if (typeof callback === 'function') {
+                return callback(null, results);
+            }
+        }
+    });
+};
+
 exports.getAllRequestByIdTrip = function (id_trip, callback) {
     var query = TripMember.find({
         id_trip: id_trip,

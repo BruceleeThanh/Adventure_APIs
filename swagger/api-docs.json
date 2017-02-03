@@ -3113,6 +3113,32 @@
                         "is_interested": {
                           "type": "number",
                           "example": 1
+                        },
+                        "member": {
+                          "type": "object",
+                          "description": "list member of trip",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "5769097529f87b5c271728e5"
+                            },
+                            "id_trip": {
+                              "type": "string",
+                              "example": "5769097529f87b5c271728e5"
+                            },
+                            "owner": {
+                              "type": "string",
+                              "example": "5769097529f87b5c271728e5"
+                            },
+                            "created_at": {
+                              "type": "date-time",
+                              "example": "2016-10-05T04:27:58.144Z"
+                            },
+                            "status": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
                         }
                       }
                     },

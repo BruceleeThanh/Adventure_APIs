@@ -71,36 +71,49 @@ exports.getAll = function (data, callback) { // data: {permission, type, page, p
 
 exports.findOneAndCheckInteract = function (id_trip, owner, callback) {
     var foundTrip = null;
-    checkTripExits(id_trip, function (error, resultTrip) {
+    checkTripExistedWithOwner(id_trip, function (error, resultTrip) {
         if (resultTrip) {
             foundTrip = JSON.parse(JSON.stringify(resultTrip));
-            async.parallel({
-                checkMember: function (callback) {
-                    trip_member.checkTripMemberExisted(id_trip, owner, function (error, resultMemberTrip) {
-                        if (error) { // 1. Request member; 2. Invite member; 3. Member; 4. Nothing happen
-                            foundTrip.is_member = 4;
+            if (owner == foundTrip.owner._id) {
+                trip_member.getAllByIdTrip(id_trip, function (error, resultMemberTrip) {
+                    foundTrip.member = JSON.parse(JSON.stringify(resultMemberTrip));
+                    return callback(null, foundTrip);
+                });
+            } else {
+                async.parallel({
+                    checkMember: function (callback) {
+                        trip_member.checkTripMemberExisted(id_trip, owner, function (error, resultMemberTrip) {
+                            if (error) { // 1. Request member; 2. Invite member; 3. Member; 4. Nothing happen
+                                foundTrip.is_member = 4;
+                                return callback(null, null);
+                            } else {
+                                var foundTripMember = JSON.parse(JSON.stringify(resultMemberTrip));
+                                foundTrip.is_member = foundTripMember.status;
+                                return callback(null, null);
+                            }
+                        });
+                    },
+                    checkInterested: function (callback) {
+                        trip_interested.checkTripInterestedExisted(id_trip, owner, function (error, resultInterestedTrip) {
+                            if (error) {
+                                foundTrip.is_interested = 0;
+                                return callback(null, null);
+                            } else {
+                                foundTrip.is_interested = 1;
+                                return callback(null, null);
+                            }
+                        });
+                    },
+                    getMember:function (callback) {
+                        trip_member.getAllMemberByIdTrip(id_trip, function (error, resultMemberTrip) {
+                            foundTrip.member = JSON.parse(JSON.stringify(resultMemberTrip));
                             return callback(null, null);
-                        } else {
-                            var foundTripMember = JSON.parse(JSON.stringify(resultMemberTrip));
-                            foundTrip.is_member = foundTripMember.status;
-                            return callback(null, null);
-                        }
-                    });
-                },
-                checkInterested: function (callback) {
-                    trip_interested.checkTripInterestedExisted(id_trip, owner, function (error, resultInterestedTrip) {
-                        if (error) {
-                            foundTrip.is_interested = 0;
-                            return callback(null, null);
-                        } else {
-                            foundTrip.is_interested = 1;
-                            return callback(null, null);
-                        }
-                    });
-                }
-            }, function (error, result) {
-                return callback(null, foundTrip);
-            });
+                        });
+                    }
+                }, function (error, result) {
+                    return callback(null, foundTrip);
+                });
+            }
         } else if (error === -1) {
             return callback(-1, null);
         } else if (error) {
@@ -124,6 +137,23 @@ function checkTripExits(id_trip, callback) {
     });
 };
 exports.checkTripExits = checkTripExits;
+
+function checkTripExistedWithOwner(id_trip, callback) {
+    var query = Trip.findById(id_trip);
+    query.populate('owner', '_id first_name last_name avatar');
+    query.exec(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (!result) {
+                if (typeof callback === 'function') return callback(-1, null);
+            }
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+exports.checkTripExistedWithOwner = checkTripExistedWithOwner;
 
 exports.update = function (updatingData, data, callback) {
     for (var field in data) {
