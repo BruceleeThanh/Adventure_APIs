@@ -12,6 +12,7 @@ var mail = require(path.join(__dirname, '../', 'ultis/mail.js'));
 var helper = require(path.join(__dirname, '../', 'ultis/helper.js'));
 var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
 var trip_map = require(path.join(__dirname, '../', 'cores/trip_map.js'));
+var trip_member = require(path.join(__dirname, '../', 'cores/trip_member.js'));
 var trip_interested = require(path.join(__dirname, '../', 'cores/trip_interested.js'));
 var Route = require(path.join(__dirname, '../', 'schemas/route.js'));
 
@@ -86,6 +87,7 @@ module.exports = function (app, redisClient) {
 
         var currentUser = null;
         var routes = null;
+        var createdTrip = null;
 
         async.series({
             validate: function (callback) {
@@ -144,7 +146,15 @@ module.exports = function (app, redisClient) {
                     if (error) {
                         return callback(error, null);
                     } else {
-                        return callback(null, result);
+                        createdTrip = JSON.parse(JSON.stringify(result));
+                        var option = {
+                            id_trip: createdTrip._id,
+                            owner: createdTrip.owner,
+                            status: 3
+                        };
+                        trip_member.create(option, function (error, result) {
+                            return callback(null, result);
+                        });
                     }
                 });
             }
@@ -171,6 +181,70 @@ module.exports = function (app, redisClient) {
                 res.json({
                     code: 1,
                     data: foundTrip
+                });
+            }
+        });
+    });
+
+    app.get('/api/trip/test', function (req, res) {
+        var trips = null;
+        async.series({
+            browse: function (callback) {
+                var opt = {
+                    permission: 3,
+                    type: 1,
+                    page: null,
+                    per_page: null
+                };
+                trip.getAll(opt, function (error, results) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        trips = JSON.parse(JSON.stringify(results));
+                        return callback(null, null);
+                    }
+                });
+            },
+            createMember:function (callback) {
+                async.eachSeries(trips, function (item, callback) {
+                    var option = {
+                        id_trip: item._id,
+                        owner: item.owner,
+                        status: 3
+                    };
+                    trip_member.create(option, function (error, result) {
+                        return callback(null);
+                    });
+                }, function (error) {
+                    return callback(null, null);
+                });
+            }
+        }, function (error, results) {
+            if (error) {
+                var code = error;
+                var message = '';
+                if (error === -1) {
+                    message = 'Redis error';
+                } else if (error === -2) {
+                    message = 'DB error';
+                } else if (error === -3) {
+                    message = 'Token is not found';
+                } else if (error === -4) {
+                    message = 'Trip is not found';
+                } else {
+                    message = error;
+                    code = 0;
+                }
+                res.json({
+                    code: code,
+                    message: message
+                });
+            } else {
+                res.json({
+                    code: 1,
+                    data: 'done'
                 });
             }
         });
@@ -347,11 +421,13 @@ module.exports = function (app, redisClient) {
                 });
             } else {
                 var foundTrip = results.getTrip;
+                console.log(foundTrip);
                 var foundPlaces = results.getPlaces;
                 res.json({
                     code: 1,
                     data: {
-                        schedule: foundTrip,
+                        schedule: foundTrip.schedule,
+                        members: foundTrip.members,
                         map: foundPlaces
                     }
                 });
@@ -397,7 +473,7 @@ module.exports = function (app, redisClient) {
                 });
             },
             checkTripExisted: function (callback) {
-                trip.checkTripExits(data.id_trip, function (error, result) {
+                trip.checkTripExisted(data.id_trip, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
@@ -501,7 +577,7 @@ module.exports = function (app, redisClient) {
                 });
             },
             checkTripExisted: function (callback) {
-                trip.checkTripExits(data.id_trip, function (error, result) {
+                trip.checkTripExisted(data.id_trip, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
@@ -626,7 +702,7 @@ module.exports = function (app, redisClient) {
                 });
             },
             checkTripExisted: function (callback) {
-                trip.checkTripExits(data.id_trip, function (error, result) {
+                trip.checkTripExisted(data.id_trip, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {

@@ -71,13 +71,18 @@ exports.getAll = function (data, callback) { // data: {permission, type, page, p
 
 exports.findOneAndCheckInteract = function (id_trip, owner, callback) {
     var foundTrip = null;
-    checkTripExistedWithOwner(id_trip, function (error, resultTrip) {
+    var tripMember = null;
+    checkTripExisted(id_trip, function (error, resultTrip) {
         if (resultTrip) {
             foundTrip = JSON.parse(JSON.stringify(resultTrip));
-            if (owner == foundTrip.owner._id) {
+            if (owner == foundTrip.owner) {
                 trip_member.getAllByIdTrip(id_trip, function (error, resultMemberTrip) {
-                    foundTrip.member = JSON.parse(JSON.stringify(resultMemberTrip));
-                    return callback(null, foundTrip);
+                    tripMember = JSON.parse(JSON.stringify(resultMemberTrip));
+                    var option = {
+                        schedule: foundTrip,
+                        members: tripMember
+                    };
+                    return callback(null, option);
                 });
             } else {
                 async.parallel({
@@ -104,14 +109,18 @@ exports.findOneAndCheckInteract = function (id_trip, owner, callback) {
                             }
                         });
                     },
-                    getMember:function (callback) {
+                    getMember: function (callback) {
                         trip_member.getAllMemberByIdTrip(id_trip, function (error, resultMemberTrip) {
-                            foundTrip.member = JSON.parse(JSON.stringify(resultMemberTrip));
+                            tripMember = JSON.parse(JSON.stringify(resultMemberTrip));
                             return callback(null, null);
                         });
                     }
                 }, function (error, result) {
-                    return callback(null, foundTrip);
+                    var option = {
+                        schedule: foundTrip,
+                        members: tripMember
+                    };
+                    return callback(null, option);
                 });
             }
         } else if (error === -1) {
@@ -122,7 +131,7 @@ exports.findOneAndCheckInteract = function (id_trip, owner, callback) {
     });
 };
 
-function checkTripExits(id_trip, callback) {
+function checkTripExisted(id_trip, callback) {
     var query = Trip.findById(id_trip);
     query.exec(function (error, result) {
         if (error) {
@@ -136,24 +145,7 @@ function checkTripExits(id_trip, callback) {
         }
     });
 };
-exports.checkTripExits = checkTripExits;
-
-function checkTripExistedWithOwner(id_trip, callback) {
-    var query = Trip.findById(id_trip);
-    query.populate('owner', '_id first_name last_name avatar');
-    query.exec(function (error, result) {
-        if (error) {
-            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
-            if (typeof callback === 'function') return callback(-2, null);
-        } else {
-            if (!result) {
-                if (typeof callback === 'function') return callback(-1, null);
-            }
-            if (typeof callback === 'function') return callback(null, result);
-        }
-    });
-};
-exports.checkTripExistedWithOwner = checkTripExistedWithOwner;
+exports.checkTripExisted = checkTripExisted;
 
 exports.update = function (updatingData, data, callback) {
     for (var field in data) {

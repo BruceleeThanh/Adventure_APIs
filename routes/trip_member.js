@@ -50,7 +50,7 @@ module.exports = function (app, redisClient) {
                 });
             },
             checkTripExisted: function (callback) {
-                trip.checkTripExits(data.id_trip, function (error, result) {
+                trip.checkTripExisted(data.id_trip, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
@@ -165,7 +165,7 @@ module.exports = function (app, redisClient) {
                 });
             },
             checkTripExisted: function (callback) {
-                trip.checkTripExits(data.id_trip, function (error, result) {
+                trip.checkTripExisted(data.id_trip, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
@@ -274,7 +274,7 @@ module.exports = function (app, redisClient) {
                 });
             },
             checkTripExisted: function (callback) {
-                trip.checkTripExits(data.id_trip, function (error, result) {
+                trip.checkTripExisted(data.id_trip, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
@@ -365,7 +365,7 @@ module.exports = function (app, redisClient) {
                 });
             },
             checkTripExisted: function (callback) {
-                trip.checkTripExits(data.id_trip, function (error, result) {
+                trip.checkTripExisted(data.id_trip, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
@@ -455,7 +455,7 @@ module.exports = function (app, redisClient) {
                 });
             },
             checkTripExisted: function (callback) {
-                trip.checkTripExits(data.id_trip, function (error, result) {
+                trip.checkTripExisted(data.id_trip, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {

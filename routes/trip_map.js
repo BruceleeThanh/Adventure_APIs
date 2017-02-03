@@ -74,8 +74,8 @@ module.exports = function (app, redisClient) {
                     }
                 });
             },
-            checkTripExits: function (callback) {
-                trip.checkTripExits(data.id_trip, function (error, result) {
+            checkTripExisted: function (callback) {
+                trip.checkTripExisted(data.id_trip, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
