@@ -11,6 +11,7 @@ var config = require(path.join(__dirname, '../', 'config.json'));
 var helper = require(path.join(__dirname, '../', 'ultis/helper.js'));
 var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
 var trip_member = require(path.join(__dirname, '../', 'cores/trip_member.js'));
+var Trip = require(path.join(__dirname, '../', 'schemas/trip.js'));
 
 module.exports = function (app, redisClient) {
     app.post('/api/trip_member/request', function (req, res) {
@@ -284,7 +285,7 @@ module.exports = function (app, redisClient) {
                     }
                 });
             },
-            browse:function (callback) {
+            browse: function (callback) {
                 trip_member.getAllRequestByIdTrip(data.id_trip, function (error, results) {
                     if (error === -1) {
                         return callback(-5, null);
@@ -375,7 +376,7 @@ module.exports = function (app, redisClient) {
                     }
                 });
             },
-            browse:function (callback) {
+            browse: function (callback) {
                 trip_member.getAllInviteByIdTrip(data.id_trip, function (error, results) {
                     if (error === -1) {
                         return callback(-5, null);
@@ -461,11 +462,12 @@ module.exports = function (app, redisClient) {
                     } else if (error) {
                         return callback(error, null);
                     } else {
+                        console.log("trip day ne: "+ result);
                         return callback(null, null);
                     }
                 });
             },
-            browse:function (callback) {
+            browse: function (callback) {
                 trip_member.getAllMemberByIdTrip(data.id_trip, function (error, results) {
                     if (error === -1) {
                         return callback(-5, null);
@@ -503,6 +505,204 @@ module.exports = function (app, redisClient) {
                 res.json({
                     code: 1,
                     data: foundTripMemberRequest
+                });
+            }
+        });
+    });
+
+    app.post('/api/trip_member/accept_request', function (req, res) {
+        var data = {};
+        var fields = [{
+            name: 'token',
+            type: 'string',
+            required: true
+        }, {
+            name: 'id_trip_member',
+            type: 'string',
+            required: true
+        }];
+        var currentUser = null;
+        var foundTripMember = null;
+        async.series({
+            validate: function (callback) {
+                validator(req.body, fields, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        data = result;
+                        return callback(null, null);
+                    }
+                });
+            },
+            getLoggedin: function (callback) {
+                authentication.getLoggedin(redisClient, data.token, function (error, result) {
+                    if (error) {
+                        return callback(-1, null);
+                    } else if (!result) {
+                        return callback(-3, null);
+                    } else {
+                        currentUser = JSON.parse(result);
+                        data.owner = currentUser._id;
+                        return callback(null, null);
+                    }
+                });
+            },
+            checkTripMemberExisted: function (callback) {
+                trip_member.checkTripMemberExistedById(data.id_trip_member, function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        foundTripMember = JSON.parse(JSON.stringify(result));
+                        return callback(null, null);
+                    }
+                });
+            },
+            acceptRequest: function (callback) {
+                var option = {
+                    id_trip: foundTripMember.id_trip,
+                    owner: foundTripMember.owner,
+                    status: 3
+                };
+                trip_member.update(option, function (error, result) {
+                    if (error === -1) {
+                        return callback(-5, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, result);
+                    }
+                });
+            },
+            increaseAmountMember: function (callback) {
+                Trip.findByIdAndUpdate(foundTripMember.id_trip, {$inc: {amount_member: 1}}, {new: true}, function (error, result) {
+                    if (error) {
+                        require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+                        if (typeof callback === 'function') return callback(null, null);
+                    } else {
+                        if (typeof callback === 'function') return callback(null, result);
+                    }
+                });
+            }
+        }, function (error, result) {
+            if (error) {
+                var code = error;
+                var message = '';
+                if (error === -1) {
+                    message = 'Redis error';
+                } else if (error === -2) {
+                    message = 'DB error';
+                } else if (error === -3) {
+                    message = 'Token is not found';
+                } else if (error === -4) {
+                    message = 'This request is not found';
+                } else if (error === -5) {
+                    message = 'Cannot accept this request';
+                } else {
+                    message = error;
+                    code = 0;
+                }
+                res.json({
+                    code: code,
+                    message: message
+                });
+            } else {
+                var foundTripMemberRequest = result.acceptRequest;
+                var foundTrip = result.increaseAmountMember;
+                res.json({
+                    code: 1,
+                    data: {
+                        trip_member: foundTripMemberRequest,
+                        schedule: foundTrip
+                    }
+                });
+            }
+        });
+    });
+
+    app.post('/api/trip_member/reject_request', function (req, res) {
+        var data = {};
+        var fields = [{
+            name: 'token',
+            type: 'string',
+            required: true
+        }, {
+            name: 'id_trip_member',
+            type: 'string',
+            required: true
+        }];
+        var currentUser = null;
+        var foundTripMember = null;
+        async.series({
+            validate: function (callback) {
+                validator(req.body, fields, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        data = result;
+                        return callback(null, null);
+                    }
+                });
+            },
+            getLoggedin: function (callback) {
+                authentication.getLoggedin(redisClient, data.token, function (error, result) {
+                    if (error) {
+                        return callback(-1, null);
+                    } else if (!result) {
+                        return callback(-3, null);
+                    } else {
+                        currentUser = JSON.parse(result);
+                        data.owner = currentUser._id;
+                        return callback(null, null);
+                    }
+                });
+            },
+            checkTripMemberExisted: function (callback) {
+                trip_member.checkTripMemberExistedById(data.id_trip_member, function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        foundTripMember = JSON.parse(JSON.stringify(result));
+                        return callback(null, null);
+                    }
+                });
+            },
+            remove: function (callback) {
+                trip_member.remove(foundTripMember.id_trip, foundTripMember.owner, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
+                    }
+                });
+            }
+        }, function (error, result) {
+            if (error) {
+                var code = error;
+                var message = '';
+                if (error === -1) {
+                    message = 'Redis error';
+                } else if (error === -2) {
+                    message = 'DB error';
+                } else if (error === -3) {
+                    message = 'Token is not found';
+                } else if (error === -4) {
+                    message = 'This request is not found';
+                } else {
+                    message = error;
+                    code = 0;
+                }
+                res.json({
+                    code: code,
+                    message: message
+                });
+            } else {
+                res.json({
+                    code: 1,
+                    data: 'done'
                 });
             }
         });

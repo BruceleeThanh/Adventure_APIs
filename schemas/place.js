@@ -4,7 +4,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var placeSchema = {
+var placeSchema = mongoose.Schema({
     id_trip: {
         type: Schema.Types.ObjectId,
         ref: 'Trip',
@@ -55,5 +55,5 @@ var placeSchema = {
         required: false,
         default: 1
     }
-};
+});
 module.exports = mongoose.model('Place', placeSchema);

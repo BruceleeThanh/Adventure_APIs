@@ -25,10 +25,11 @@ exports.create = function (data, callback) { // data:{ id_trip owner status}
 };
 
 exports.update = function (data, callback) { // data:{id_trip, owner, status}
+    data.created_at = new Date();
     TripMember.findOneAndUpdate({
         id_trip: data.id_trip,
         owner: data.owner
-    }, data, function (error, result) {
+    }, data, {new: true}, function (error, result) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
             if (typeof callback === 'function') return callback(-2, null);

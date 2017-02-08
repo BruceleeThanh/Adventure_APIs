@@ -177,10 +177,9 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
-                var foundTrip = result.create.toObject();
                 res.json({
                     code: 1,
-                    data: foundTrip
+                    data: createdTrip
                 });
             }
         });

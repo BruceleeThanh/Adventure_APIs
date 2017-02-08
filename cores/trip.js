@@ -13,7 +13,6 @@ var ObjectId = mongoose.Types.ObjectId;
 exports.create = function (data, callback) {
     var currentDate = new Date();
     data.created_at = currentDate;
-    console.log(data);
     if (data.routes) {
         for (let item in data.routes) {
             if (data.routes[item] === undefined) {
@@ -152,6 +151,17 @@ exports.update = function (updatingData, data, callback) {
         updatingData[field] = data[field];
     }
     updatingData.save(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+
+exports.updateById = function (id_trip, data, callback) {
+    Trip.findByIdAndUpdate(id_trip, data, {new: true}, function (error, result) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
             if (typeof callback === 'function') return callback(-2, null);
