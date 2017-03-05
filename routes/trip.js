@@ -466,9 +466,13 @@ module.exports = function (app, redisClient) {
                 });
             } else {
                 var foundTripInterested = result.create;
+                var foundTrip = result.increaseInterested;
                 res.json({
                     code: 1,
-                    data: foundTripInterested
+                    data: {
+                        trip_interested: foundTripInterested,
+                        schedule: foundTrip
+                    }
                 });
             }
         });
@@ -556,7 +560,6 @@ module.exports = function (app, redisClient) {
                         }
                     });
                 } else return callback(null, null);
-
             }
         }, function (error, result) {
             if (error) {
@@ -581,9 +584,13 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
+                var foundTrip = result.decreaseInterested;
                 res.json({
                     code: 1,
-                    data: 'done'
+                    data: {
+                        trip_interested: 'done',
+                        schedule: foundTrip
+                    }
                 });
             }
         });

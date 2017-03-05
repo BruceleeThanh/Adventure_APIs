@@ -708,4 +708,116 @@ module.exports = function (app, redisClient) {
         });
     });
 
+    app.post('/api/trip_member/leave_trip', function (req, res) {
+        var data = {};
+        var fields = [{
+            name: 'token',
+            type: 'string',
+            required: true
+        }, {
+            name: 'id_trip',
+            type: 'string',
+            required: true
+        }];
+        var currentUser = null;
+        async.series({
+            validate: function (callback) {
+                validator(req.body, fields, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        data = result;
+                        return callback(null, null);
+                    }
+                });
+            },
+            getLoggedin: function (callback) {
+                authentication.getLoggedin(redisClient, data.token, function (error, result) {
+                    if (error) {
+                        return callback(-1, null);
+                    } else if (!result) {
+                        return callback(-3, null);
+                    } else {
+                        currentUser = JSON.parse(result);
+                        data.owner = currentUser._id;
+                        return callback(null, null);
+                    }
+                });
+            },
+            checkTripExisted: function (callback) {
+                trip.checkTripExisted(data.id_trip, function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
+                    }
+                });
+            },
+            checkTripMemberExisted: function (callback) {
+                trip_member.checkTripMemberExisted(data.id_trip, data.owner, function (error, result) {
+                    if (error === -1) {
+                        return callback(-5, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        var tripMember = JSON.parse(JSON.stringify(result));
+                        if (tripMember.status == 3) {
+                            return callback(null, null);
+                        } else
+                            return callback(-5, null);
+                    }
+                });
+            },
+            remove: function (callback) {
+                trip_member.remove(data.id_trip, data.owner, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, null);
+                    }
+                });
+            },
+            decreaseAmountMember: function (callback) {
+                Trip.findByIdAndUpdate(data.id_trip, {$inc: {amount_member: -1}}, {new: true}, function (error, result) {
+                    if (error) {
+                        require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+                        if (typeof callback === 'function') return callback(null, null);
+                    } else {
+                        if (typeof callback === 'function') return callback(null, result);
+                    }
+                });
+            }
+        }, function (error, result) {
+            if (error) {
+                var code = error;
+                var message = '';
+                if (error === -1) {
+                    message = 'Redis error';
+                } else if (error === -2) {
+                    message = 'DB error';
+                } else if (error === -3) {
+                    message = 'Token is not found';
+                } else if (error === -4) {
+                    message = 'Trip is not found';
+                } else if (error === -5) {
+                    message = 'You are not member of this trip';
+                } else {
+                    message = error;
+                    code = 0;
+                }
+                res.json({
+                    code: code,
+                    message: message
+                });
+            } else {
+                res.json({
+                    code: 1,
+                    data: 'done'
+                });
+            }
+        });
+    });
+
 };

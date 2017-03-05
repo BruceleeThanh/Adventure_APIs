@@ -42,6 +42,9 @@
       "name": "trip_map"
     },
     {
+      "name": "trip_diary"
+    },
+    {
       "name": "trip_member"
     }
   ],
@@ -3551,6 +3554,401 @@
         }
       }
     },
+    "/api/trip_diary/create": {
+      "post": {
+        "tags": [
+          "trip_diary"
+        ],
+        "description": "add trip diary",
+        "operationId": "create",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id_trip",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "title",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content",
+            "in": "formData",
+            "description": "content",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "image_description",
+            "in": "formData",
+            "description": "image and description. Example : [{'url':'https...','description':'aaa',{'url':'https...','description':'bbb'}]",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "detail_diary",
+            "in": "formData",
+            "description": "detail_diary. Example: [{\"date\":\"2016-10-05T04:27:58.144Z\",\"title\":\"This's title\",\"content\":\"This's content\"},{}]",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "permission",
+            "in": "formData",
+            "description": "permission. Example: 1: Only me, 2: Member in trip, 3: Public",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "type. Example: 1: Diary in trip, 2: Diary on timelines, 3: Diary in group",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: Trip is not found",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "test diary"
+                    },
+                    "content": {
+                      "type": "string",
+                      "example": "this's content"
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "5769097529f87b5c271728e5"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": ""
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "test description"
+                          }
+                        }
+                      }
+                    },
+                    "detail_diary": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "5769097529f87b5c271728e5"
+                          },
+                          "date": {
+                            "type": "date-time",
+                            "example": "2016-10-05T04:27:58.144Z"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "This's title"
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "This's content"
+                          }
+                        }
+                      }
+                    },
+                    "permission": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "type": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trip_diary/browse": {
+      "post": {
+        "tags": [
+          "trip_diary"
+        ],
+        "description": "browse trip diary",
+        "operationId": "browse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "query",
+            "description": "id_trip",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page to pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "item per page for pagination",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: Trip is not found; -5: Trip diary is not found",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "this's title"
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "5769097529f87b5c271728e5"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": ""
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "test description"
+                          }
+                        }
+                      }
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trip_diary/detail": {
+      "post": {
+        "tags": [
+          "trip_diary"
+        ],
+        "description": "get detail of trip diary",
+        "operationId": "detail",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip_diary",
+            "in": "formData",
+            "description": "id_trip",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4: Trip is not found",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "test diary"
+                    },
+                    "content": {
+                      "type": "string",
+                      "example": "this's content"
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "5769097529f87b5c271728e5"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": ""
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "test description"
+                          }
+                        }
+                      }
+                    },
+                    "detail_diary": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "5769097529f87b5c271728e5"
+                          },
+                          "date": {
+                            "type": "date-time",
+                            "example": "2016-10-05T04:27:58.144Z"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "This's title"
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "This's content"
+                          }
+                        }
+                      }
+                    },
+                    "permission": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "type": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/trip_member/request": {
       "post": {
         "tags": [
@@ -3989,6 +4387,54 @@
                 "code": {
                   "type": "integer",
                   "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. This request is not found",
+                  "example": 1
+                },
+                "data": {
+                  "type": "string",
+                  "description": "in case of success",
+                  "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trip_member/leave_trip": {
+      "post": {
+        "tags": [
+          "trip_member"
+        ],
+        "description": "leave trip",
+        "operationId": "leave_trip",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_trip",
+            "in": "formData",
+            "description": "id trip",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Trip is not found; 5. You are not member of this trip",
                   "example": 1
                 },
                 "data": {
