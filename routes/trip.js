@@ -345,6 +345,7 @@ module.exports = function (app, redisClient) {
                 var option = null;
                 if (isMember === true) {
                     option = {
+                        id_trip: data.id_trip,
                         permission: [2, 3], // 2: Member in trip, 3: Public
                         type: 1, // 1: Diary in trip
                         page: data.page,
@@ -352,6 +353,7 @@ module.exports = function (app, redisClient) {
                     }
                 } else {
                     option = {
+                        id_trip: data.id_trip,
                         permission: [3], // 3: Public
                         type: 1, // 1: Diary in trip
                         page: data.page,
@@ -360,9 +362,9 @@ module.exports = function (app, redisClient) {
                 }
                 trip_diary.getAll(option, function (error, results) {
                     if (error === -1) {
-                        return callback(-5, null);
+                        return callback(null, null);
                     } else if (error) {
-                        return callback(error, null);
+                        return callback(null, null);
                     } else {
                         return callback(null, results);
                     }

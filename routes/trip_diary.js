@@ -225,6 +225,7 @@ module.exports = function (app, redisClient) {
                 var option = null;
                 if (isMember === true) {
                     option = {
+                        id_trip: data.id_trip,
                         permission: [2, 3], // 2: Member in trip, 3: Public
                         type: 1, // 1: Diary in trip
                         page: data.page,
@@ -232,6 +233,7 @@ module.exports = function (app, redisClient) {
                     }
                 } else {
                     option = {
+                        id_trip: data.id_trip,
                         permission: [3], // 3: Public
                         type: 1, // 1: Diary in trip
                         page: data.page,

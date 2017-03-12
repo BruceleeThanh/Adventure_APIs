@@ -44,8 +44,9 @@ exports.create = function (data, callback) {
     });
 };
 
-exports.getAll = function (data, callback) { // data:{permission, type, page, per_page}
+exports.getAll = function (data, callback) { // data:{id_trip, permission, type, page, per_page}
     var query = TripDiary.find({
+        id_trip: data.id_trip,
         permission: {$in: data.permission},
         type: data.type
     });
