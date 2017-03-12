@@ -12,6 +12,7 @@ var mail = require(path.join(__dirname, '../', 'ultis/mail.js'));
 var helper = require(path.join(__dirname, '../', 'ultis/helper.js'));
 var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
 var trip_map = require(path.join(__dirname, '../', 'cores/trip_map.js'));
+var trip_diary = require(path.join(__dirname, '../', 'cores/trip_diary.js'));
 var trip_member = require(path.join(__dirname, '../', 'cores/trip_member.js'));
 var trip_interested = require(path.join(__dirname, '../', 'cores/trip_interested.js'));
 var Route = require(path.join(__dirname, '../', 'schemas/route.js'));
@@ -288,6 +289,7 @@ module.exports = function (app, redisClient) {
             required: true,
         }];
         var currentUser = null;
+        var isMember = null;
         async.series({
             validate: function (callback) {
                 validator(req.body, fields, function (error, result) {
@@ -319,6 +321,11 @@ module.exports = function (app, redisClient) {
                     } else if (error) {
                         return callback(error, null);
                     } else {
+                        if (result.schedule.is_member == 3) {
+                            isMember = true;
+                        } else {
+                            isMember = false;
+                        }
                         return callback(null, result);
                     }
                 });
@@ -329,6 +336,33 @@ module.exports = function (app, redisClient) {
                         return callback(null, null);
                     } else if (error) {
                         return callback(null, null);
+                    } else {
+                        return callback(null, results);
+                    }
+                });
+            },
+            getDiaries: function (callback) {
+                var option = null;
+                if (isMember === true) {
+                    option = {
+                        permission: [2, 3], // 2: Member in trip, 3: Public
+                        type: 1, // 1: Diary in trip
+                        page: data.page,
+                        per_page: data.per_page
+                    }
+                } else {
+                    option = {
+                        permission: [3], // 3: Public
+                        type: 1, // 1: Diary in trip
+                        page: data.page,
+                        per_page: data.per_page
+                    }
+                }
+                trip_diary.getAll(option, function (error, results) {
+                    if (error === -1) {
+                        return callback(-5, null);
+                    } else if (error) {
+                        return callback(error, null);
                     } else {
                         return callback(null, results);
                     }
@@ -356,14 +390,15 @@ module.exports = function (app, redisClient) {
                 });
             } else {
                 var foundTrip = results.getTrip;
-                console.log(foundTrip);
                 var foundPlaces = results.getPlaces;
+                var foundDiaries = results.getDiaries;
                 res.json({
                     code: 1,
                     data: {
                         schedule: foundTrip.schedule,
                         members: foundTrip.members,
-                        map: foundPlaces
+                        map: foundPlaces,
+                        diaries: foundDiaries
                     }
                 });
             }

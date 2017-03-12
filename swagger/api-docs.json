@@ -3116,32 +3116,32 @@
                         "is_interested": {
                           "type": "number",
                           "example": 1
+                        }
+                      }
+                    },
+                    "members": {
+                      "type": "object",
+                      "description": "list member of trip",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
                         },
-                        "member": {
-                          "type": "object",
-                          "description": "list member of trip",
-                          "properties": {
-                            "_id": {
-                              "type": "string",
-                              "example": "5769097529f87b5c271728e5"
-                            },
-                            "id_trip": {
-                              "type": "string",
-                              "example": "5769097529f87b5c271728e5"
-                            },
-                            "owner": {
-                              "type": "string",
-                              "example": "5769097529f87b5c271728e5"
-                            },
-                            "created_at": {
-                              "type": "date-time",
-                              "example": "2016-10-05T04:27:58.144Z"
-                            },
-                            "status": {
-                              "type": "number",
-                              "example": 1
-                            }
-                          }
+                        "id_trip": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        },
+                        "status": {
+                          "type": "number",
+                          "example": 1
                         }
                       }
                     },
@@ -3188,6 +3188,64 @@
                         "status": {
                           "type": "number",
                           "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    },
+                    "diaries": {
+                      "type": "object",
+                      "description": "in case of success",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "5769097529f87b5c271728e5"
+                            },
+                            "first_name": {
+                              "type": "string",
+                              "example": "Brucelee Thanh"
+                            },
+                            "last_name": {
+                              "type": "string",
+                              "example": "Brucelee Thanh"
+                            },
+                            "avatar": {
+                              "type": "string",
+                              "example": ""
+                            }
+                          }
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "this's title"
+                        },
+                        "images": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "5769097529f87b5c271728e5"
+                              },
+                              "image": {
+                                "type": "string",
+                                "example": ""
+                              },
+                              "description": {
+                                "type": "string",
+                                "example": "test description"
+                              }
+                            }
+                          }
                         },
                         "created_at": {
                           "type": "date-time",

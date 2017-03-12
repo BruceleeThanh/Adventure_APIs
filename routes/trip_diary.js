@@ -103,7 +103,7 @@ module.exports = function (app, redisClient) {
                     id_trip: data.id_trip,
                     title: data.title,
                     content: data.content,
-                    image_description: image_description,
+                    images: image_description,
                     detail_diary: detail_diary,
                     permission: data.permission,
                     type: data.type
