@@ -99,14 +99,11 @@ module.exports = function (app, redisClient) {
                         data = result;
                         if (data.routes) {
                             routes = JSON.parse(data.routes);
+                            for (var i in routes) {
+                                routes[i].start_at = new Date(routes[i].start_at);
+                                routes[i].end_at = new Date(routes[i].end_at);
+                            }
                         }
-                        // if (data.routes) {
-                        //     routes = JSON.parse(data.routes);
-                        //     for (var i in routes) {
-                        //         routes[i].start_at = new Date(routes[i].start_at);
-                        //         routes[i].end_at = new Date(routes[i].end_at);
-                        //     }
-                        // }
                         return callback(null, null);
                     }
                 });

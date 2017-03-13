@@ -19,8 +19,6 @@ exports.create = function (data, callback) {
                 data.routes.splice(item, 1);
             } else {
                 data.routes[item]._id = new ObjectId();
-                data.routes[item].start_at = new Date(data.routes[item].start_at);
-                data.routes[item].end_at = new Date(data.routes[item].end_at);
             }
         }
     }
@@ -77,6 +75,7 @@ exports.findOneAndCheckInteract = function (id_trip, owner, callback) {
             if (owner == foundTrip.owner) {
                 trip_member.getAllByIdTrip(id_trip, function (error, resultMemberTrip) {
                     tripMember = JSON.parse(JSON.stringify(resultMemberTrip));
+                    foundTrip.is_member = 3;
                     var option = {
                         schedule: foundTrip,
                         members: tripMember

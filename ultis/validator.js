@@ -140,8 +140,12 @@ function validType(data, type) {
                 return false;
             }
             for (var field in parsedObject[i]) {
-                if (typeof parsedObject[i][field] !== 'string') {
-                    return false;
+                if (!parsedObject[i][field]) {
+                    if (parsedObject[i][field] != null) {
+                        if (typeof parsedObject[i][field] !== 'string') {
+                            return false;
+                        }
+                    }
                 }
             }
         }
@@ -170,9 +174,13 @@ function validType(data, type) {
                 return false;
             }
             for (var field in parsedObject[i]) {
-                if (typeof parsedObject[i][field] !== 'string') {
-                    if(typeof parsedObject[i][field] !== 'date'){
-                        return false;
+                if (!parsedObject[i][field]) {
+                    if (parsedObject[i][field] != null) {
+                        if (typeof parsedObject[i][field] !== 'string') {
+                            if (typeof parsedObject[i][field] !== 'date') {
+                                return false;
+                            }
+                        }
                     }
                 }
             }

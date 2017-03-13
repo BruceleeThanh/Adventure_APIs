@@ -1,5 +1,5 @@
 {
-  "domain": "http://155.94.144.150",
+  "domain": "http://localhost",
   "port": 25763,
   "log_path": "logs/",
   "upload_path": {
