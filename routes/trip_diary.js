@@ -65,6 +65,11 @@ module.exports = function (app, redisClient) {
                         data = result;
                         if (data.detail_diary) {
                             detail_diary = JSON.parse(data.detail_diary);
+                            for (var i in detail_diary) {
+                                console.log(detail_diary[i].date);
+                                detail_diary[i].date = new Date(detail_diary[i].date);
+                                console.log(detail_diary[i].date);
+                            }
                         }
                         if (data.image_description) {
                             image_description = JSON.parse(data.image_description);
@@ -226,6 +231,7 @@ module.exports = function (app, redisClient) {
                 if (isMember === true) {
                     option = {
                         id_trip: data.id_trip,
+                        owner: data.owner,
                         permission: [2, 3], // 2: Member in trip, 3: Public
                         type: 1, // 1: Diary in trip
                         page: data.page,
@@ -234,6 +240,7 @@ module.exports = function (app, redisClient) {
                 } else {
                     option = {
                         id_trip: data.id_trip,
+                        owner:data.owner,
                         permission: [3], // 3: Public
                         type: 1, // 1: Diary in trip
                         page: data.page,

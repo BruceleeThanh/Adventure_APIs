@@ -40,6 +40,7 @@ var tripSchema = mongoose.Schema({
     end_at: {
         type: Date,
         required: false,
+        
         default: null
     },
     destination_summary: {

@@ -12,6 +12,7 @@ var mail = require(path.join(__dirname, '../', 'ultis/mail.js'));
 var helper = require(path.join(__dirname, '../', 'ultis/helper.js'));
 var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
 var trip_map = require(path.join(__dirname, '../', 'cores/trip_map.js'));
+var status = require(path.join(__dirname, '../', 'cores/status.js'));
 var trip_diary = require(path.join(__dirname, '../', 'cores/trip_diary.js'));
 var trip_member = require(path.join(__dirname, '../', 'cores/trip_member.js'));
 var trip_interested = require(path.join(__dirname, '../', 'cores/trip_interested.js'));
@@ -100,8 +101,12 @@ module.exports = function (app, redisClient) {
                         if (data.routes) {
                             routes = JSON.parse(data.routes);
                             for (var i in routes) {
+                                console.log(routes[i].start_at);
+                                console.log(routes[i].end_at);
                                 routes[i].start_at = new Date(routes[i].start_at);
                                 routes[i].end_at = new Date(routes[i].end_at);
+                                console.log(routes[i].start_at);
+                                console.log(routes[i].end_at);
                             }
                         }
                         return callback(null, null);
@@ -311,7 +316,7 @@ module.exports = function (app, redisClient) {
                     }
                 });
             },
-            getTrip: function (callback) {
+            getTripAndMember: function (callback) {
                 trip.findOneAndCheckInteract(data.id_trip, data.owner, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
@@ -338,11 +343,31 @@ module.exports = function (app, redisClient) {
                     }
                 });
             },
+            getDiscuss: function (callback) {
+                if (isMember === true) {
+                    var option = {
+                        id_user: data.owner,
+                        id_trip: data.id_trip
+                    };
+                    status.getTripDiscuss(option, function (error, results) {
+                        if (error === -1) {
+                            return callback(null, null);
+                        } else if (error) {
+                            return callback(null, null);
+                        } else {
+                            return callback(null, results);
+                        }
+                    });
+                } else {
+                    return callback(null, null);
+                }
+            },
             getDiaries: function (callback) {
                 var option = null;
                 if (isMember === true) {
                     option = {
                         id_trip: data.id_trip,
+                        owner: data.owner,
                         permission: [2, 3], // 2: Member in trip, 3: Public
                         type: 1, // 1: Diary in trip
                         page: data.page,
@@ -351,6 +376,7 @@ module.exports = function (app, redisClient) {
                 } else {
                     option = {
                         id_trip: data.id_trip,
+                        owner: data.owner,
                         permission: [3], // 3: Public
                         type: 1, // 1: Diary in trip
                         page: data.page,
@@ -388,8 +414,9 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
-                var foundTrip = results.getTrip;
+                var foundTrip = results.getTripAndMember;
                 var foundPlaces = results.getPlaces;
+                var foundDiscuss = results.getDiscuss;
                 var foundDiaries = results.getDiaries;
                 res.json({
                     code: 1,
@@ -397,6 +424,7 @@ module.exports = function (app, redisClient) {
                         schedule: foundTrip.schedule,
                         members: foundTrip.members,
                         map: foundPlaces,
+                        discuss: foundDiscuss,
                         diaries: foundDiaries
                     }
                 });

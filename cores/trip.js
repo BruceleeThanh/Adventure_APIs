@@ -6,6 +6,7 @@ var async = require('async');
 var path = require('path');
 var mongoose = require('mongoose');
 var Trip = require(path.join(__dirname, '../', 'schemas/trip.js'));
+var TripMember = require(path.join(__dirname, '../', 'schemas/trip_member.js'));
 var trip_member = require(path.join(__dirname, '../', 'cores/trip_member.js'));
 var trip_interested = require(path.join(__dirname, '../', 'cores/trip_interested.js'));
 var ObjectId = mongoose.Types.ObjectId;
@@ -166,6 +167,75 @@ exports.updateById = function (id_trip, data, callback) {
             if (typeof callback === 'function') return callback(-2, null);
         } else {
             if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+
+exports.countAllTripsCreatedByUser = countAllTripsCreatedByUser;
+function countAllTripsCreatedByUser(id_user, callback) {
+    Trip.count({owner: id_user}, function (error, count) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (typeof callback === 'function') return callback(null, count);
+        }
+    });
+};
+
+exports.countAllTripsJoinedOfUser = countAllTripsJoinedOfUser;
+function countAllTripsJoinedOfUser(id_user, callback) {
+    TripMember.count({owner: id_user, status: 3}, function (error, count) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            countAllTripsCreatedByUser(id_user, function (error, countCreate) {
+                if (error) {
+                    if (typeof callback === 'function') return callback(error, null);
+                } else {
+                    if (typeof callback === 'function') return callback(null, count - countCreate);
+                }
+            });
+        }
+    });
+};
+
+exports.getAllIdTripCreatedByUser = function (id_user, callback) {
+    var query = Trip.find({
+        owner: id_user
+    });
+    query.select('_id');
+    query.exec(function (error, results) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else if (results.length <= 0) {
+            if (typeof callback === 'function') return callback(-1, null);
+        } else {
+            if (typeof callback === 'function') {
+                return callback(null, results);
+            }
+        }
+    });
+};
+
+exports.getAllIdTripCreatedAndJoinedByUser = function (id_user, callback) {
+    var query = TripMember.find({
+        owner: id_user,
+        status: 3
+    });
+    query.select('id_trip -_id');
+    query.exec(function (error, results) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else if (results.length <= 0) {
+            if (typeof callback === 'function') return callback(-1, null);
+        } else {
+            if (typeof callback === 'function') {
+                return callback(null, results);
+            }
         }
     });
 };

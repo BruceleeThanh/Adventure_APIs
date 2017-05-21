@@ -255,7 +255,6 @@ exports.likeStatus = function (id_status, hasFcm, callback) {
                         object: foundStatus._id,
                         type: 2
                     };
-                    console.log(options);
                     remove(options, function (error, result) {
                         return callback(null, null);
                     });

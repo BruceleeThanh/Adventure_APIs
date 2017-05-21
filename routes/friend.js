@@ -55,13 +55,13 @@ module.exports = function(app, redisClient) {
                 });
             },
             browse: function(callback) {
-                friend.browse(data, function(error, result) {
+                friend.browse(data, function(error, results) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
                         return callback(error, null);
                     } else {
-                        return callback(null, result);
+                        return callback(null, results);
                     }
                 });
             }
@@ -86,12 +86,110 @@ module.exports = function(app, redisClient) {
                     message: message
                 });
             } else {
-                var foundFriend = results.browse.get;
-                var total = results.browse.count;
+                var foundFriend = results.browse;
+                var total = foundFriend.length;
                 res.json({
                     code: 1,
                     data: foundFriend,
                     total: total
+                });
+            }
+        });
+    });
+
+    app.post('/api/friend/search', function(req, res) {
+        var data = {};
+        var fields = [{
+            name: 'token',
+            type: 'string',
+            required: true
+        },{
+            name: 'keyword',
+            type: 'string',
+            required: true
+        }, {
+            name: 'page',
+            type: 'number',
+            required: false,
+            min: 1
+        }, {
+            name: 'per_page',
+            type: 'number',
+            required: false,
+            min: 10,
+            max: 100
+        }];
+        var currentUser = null;
+        async.series({
+            validate: function(callback) {
+                validator(req.body, fields, function(error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        data = result;
+                        return callback(null, null);
+                    }
+                });
+            },
+            getLoggedin: function(callback) {
+                authentication.getLoggedin(redisClient, data.token, function(error, result) {
+                    if (error) {
+                        return callback(-1, null);
+                    } else if (!result) {
+                        return callback(-3, null);
+                    } else {
+                        currentUser = JSON.parse(result);
+                        data._id = currentUser._id;
+                        return callback(null, null);
+                    }
+                });
+            },
+            search: function(callback) {
+                friend.search(data, function(error, results) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, results);
+                    }
+                });
+            }
+        }, function(error, results) {
+            if (error) {
+                var code = error;
+                var message = '';
+                if (error === -1) {
+                    message = 'Redis error';
+                } else if (error === -2) {
+                    message = 'DB error';
+                } else if (error === -3) {
+                    message = 'Token is not found';
+                } else {
+                    message = error;
+                    code = 0;
+                }
+                res.json({
+                    code: code,
+                    message: message
+                });
+            } else {
+                var foundFriends = results.search.findFriends;
+                var totalFriend = 0;
+                if(foundFriends){
+                    totalFriend = foundFriends.length;
+                }
+                var foundStrangers = results.search.findStrangers;
+                var totalStranger = 0;
+                if(foundStrangers){
+                    totalStranger = foundStrangers.length;
+                }
+                res.json({
+                    code: 1,
+                    data: {
+                        friends: foundFriends,
+                        total_friend: totalFriend,
+                        strangers: foundStrangers,
+                        total_stranger: totalStranger
+                    }
                 });
             }
         });
@@ -149,7 +247,7 @@ module.exports = function(app, redisClient) {
                     } else if (error) {
                         return callback(error, null);
                     } else {
-                        var friends = result.get;
+                        var friends = result;
                         for (i in friends) {
                             if (friends[i].user_one._id.toHexString() !== currentUser._id) {
                                 lstFriend.push(friends[i].user_one._id);
@@ -177,7 +275,9 @@ module.exports = function(app, redisClient) {
                 });
             },
             suggest: function(callback) {
-                friend.findListUserIsNotFriend({ _id: lstFriend }, function(error, result) {
+                var option = data;
+                option._id = lstFriend;
+                friend.findListUserIsNotFriend(option, function(error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
@@ -208,8 +308,8 @@ module.exports = function(app, redisClient) {
                     message: message
                 });
             } else {
-                var foundUser = results.suggest.get;
-                var total = results.suggest.count;
+                var foundUser = results.suggest;
+                var total = foundUser.length;
                 res.json({
                     code: 1,
                     data: foundUser,

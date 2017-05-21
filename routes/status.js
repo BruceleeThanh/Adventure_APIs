@@ -74,7 +74,6 @@ module.exports = function (app, redisClient) {
                 });
             },
             create: function (callback) {
-                console.log(typeof image_description);
                 if (data.content || data.image_description) {
                     var options = {
                         owner: data.owner,

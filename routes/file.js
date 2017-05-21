@@ -97,7 +97,7 @@ module.exports = function(app, redisClient) {
                     saveFile: function(callback) {
                         filename = currentUser._id + '_' + timeStamp + '_' + unixsid + '.' + extension;
                         localUrl = path.join(__dirname, '../', config.upload_path.root + config.upload_path.image + '/' + filename);
-                        serveUrl = config.domain + ':' + config.port + config.upload_path.root + config.upload_path.image + '/' + filename;
+                        serveUrl = config.upload_path.root + config.upload_path.image + '/' + filename;
                         fs.rename(files.file.path, localUrl, function(error) {
                             if (error) {
                                 require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));

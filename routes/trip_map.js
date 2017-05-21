@@ -59,7 +59,6 @@ module.exports = function (app, redisClient) {
                         return callback(error, null);
                     } else {
                         data = result;
-                        console.log(data);
                         return callback(null, null);
                     }
                 });
@@ -77,8 +76,6 @@ module.exports = function (app, redisClient) {
             },
             checkTripExisted: function (callback) {
                 trip.checkTripExisted(data.id_trip, function (error, result) {
-                    console.log("loi: " + error);
-                    console.log("kq: " + result);
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {

@@ -25,7 +25,6 @@ exports.create = function (data, callback) {
                 data.detail_diary.splice(item, 1);
             } else {
                 data.detail_diary[item]._id = new ObjectId();
-                data.detail_diary[item].date = new Date(data.detail_diary[item].date);
             }
         }
     }
@@ -44,11 +43,18 @@ exports.create = function (data, callback) {
     });
 };
 
-exports.getAll = function (data, callback) { // data:{id_trip, permission, type, page, per_page}
+exports.getAll = function (data, callback) { // data:{id_trip, owner, permission, type, page, per_page}
     var query = TripDiary.find({
-        id_trip: data.id_trip,
-        permission: {$in: data.permission},
-        type: data.type
+        $or: [{
+            id_trip: data.id_trip,
+            permission: {$in: data.permission},
+            type: data.type
+        }, {
+            id_trip: data.id_trip,
+            owner: data.owner,
+            permission: 1,
+            type: data.type
+        }]
     });
     var limit = 10;
     var offset = 0;
@@ -57,7 +63,7 @@ exports.getAll = function (data, callback) { // data:{id_trip, permission, type,
         offset = (data.page - 1) * data.per_page;
         query.skip(offset).limit(limit);
     }
-    query.select('_id owner title images created_at');
+    query.select('_id owner title images permission created_at');
     query.populate('owner', '_id first_name last_name avatar');
     query.sort({created_at: -1});
     query.exec(function (error, results) {

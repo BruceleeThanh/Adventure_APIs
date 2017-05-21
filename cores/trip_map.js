@@ -5,11 +5,11 @@ var async = require('async');
 var path = require('path');
 var Place = require(path.join(__dirname, '../', 'schemas/place.js'));
 var Trip = require(path.join(__dirname, '../', 'schemas/trip.js'));
+var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
 
 exports.createPlace = function (data, callback) {
     var currentDate = new Date();
     data.created_at = currentDate;
-    console.log(data);
     var creatingPlace = new Place(data);
     creatingPlace.save(function (error, result) {
         if (error) {
@@ -41,5 +41,11 @@ exports.getAllByIdTrip = function (id_trip, callback) {
                 return callback(null, results);
             }
         }
+    });
+};
+
+exports.countAllPlaceArrivedByUser = function (id_user, callback) {
+    trip.getAllIdTripCreatedAndJoinedByUser(id_user, function (error, results) {
+
     });
 };

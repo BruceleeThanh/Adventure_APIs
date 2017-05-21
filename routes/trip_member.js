@@ -462,7 +462,6 @@ module.exports = function (app, redisClient) {
                     } else if (error) {
                         return callback(error, null);
                     } else {
-                        console.log("trip day ne: "+ result);
                         return callback(null, null);
                     }
                 });

@@ -26,13 +26,14 @@ exports.update = function(updatingData, data, callback) {
     for (var field in data) {
         updatingData[field] = data[field];
     }
-    updatingData.save(function(error, result) {
+    var userUpdate = new User(updatingData);
+    userUpdate.save(function(error, result) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
             if (typeof callback === 'function') return callback(-2, null);
         } else {
             if (!result) {
-                if (typeof callback === 'function') return callback(-8, null);
+                if (typeof callback === 'function') return callback(-1, null);
             }
             var updated = result;
             if (typeof callback === 'function') return callback(null, updated);
@@ -223,7 +224,7 @@ exports.get = function(data, callback) {
     var query = User.findOne({
         _id: data._id
     });
-    query.select('_id first_name last_name email phone_number gender birthday address religion intro fb_id avatar cover created_at last_visited_at');
+    query.select('_id first_name last_name email phone_number gender birthday address religion intro fb_id avatar avatar_actual cover created_at last_visited_at');
     query.exec(function(error, result) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
@@ -236,6 +237,23 @@ exports.get = function(data, callback) {
     });
 };
 
+function checkExisted(id_user, callback) {
+    var query = User.findOne({
+        _id: id_user
+    });
+    query.exec(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (!result) {
+                if (typeof callback === 'function') return callback(-1, null);
+            }
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+exports.checkExisted = checkExisted;
 
 exports.saveLoginDate = function(data, callback) {
     User.findOne({ _id: data._id }).update({

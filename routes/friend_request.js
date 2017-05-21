@@ -176,8 +176,6 @@ module.exports = function (app, redisClient) {
                 });
             },
             checkSent: function (callback) {
-                console.log('sender ', request.sender);
-                console.log('recipient ', currentUser._id);
                 var options = {
                     sender: request.sender,
                     recipient: currentUser._id

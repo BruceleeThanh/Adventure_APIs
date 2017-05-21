@@ -43,8 +43,6 @@ module.exports = function (app, redisClient) {
                         data = result;
                         isEmail = helper.isEmail(data.phone_number_email);
                         isPhone_number = helper.isNumber(data.phone_number_email);
-                        // console.log('email ', isEmail);
-                        // console.log('phone_number ', isPhone_number);
                         if (!isEmail && !isPhone_number) {
                             return callback(-3, null);
                         }
@@ -225,7 +223,6 @@ module.exports = function (app, redisClient) {
                     _id : foundUser._id,
                     fcm_token : data.fcm_token
                 };
-                console.log(options);
                 authentication.cacheLogin(redisClient, token, options);
                 res.json({
                     code: 1,
@@ -333,6 +330,157 @@ module.exports = function (app, redisClient) {
         });
     });
 
+    app.post('/api/user/edit_profile', function (req, res) {
+        var data = {};
+        var fields = [{
+            name: 'token',
+            type: 'string',
+            required: true
+        }, {
+            name: '_id',
+            type: 'hex_string',
+            required: false
+        },{
+            name: 'first_name',
+            type: 'string',
+            required: false
+        },{
+            name: 'last_name',
+            type: 'string',
+            required: false
+        },{
+            name: 'email',
+            type: 'string',
+            required: false
+        },{
+            name: 'phone_number',
+            type: 'string',
+            required: false
+        },{
+            name: 'gender',
+            type: 'number',
+            required: false
+        },{
+            name: 'birthday',
+            type: 'date',
+            required: false
+        },{
+            name: 'address',
+            type: 'string',
+            required: false
+        },{
+            name: 'religion',
+            type: 'string',
+            required: false
+        },{
+            name: 'intro',
+            type: 'string',
+            required: false
+        },{
+            name: 'avatar',
+            type: 'string',
+            required: false
+        },{
+            name: 'avatar_actual',
+            type: 'string',
+            required: false
+        },{
+            name: 'cover',
+            type: 'string',
+            required: false
+        }];
+
+        var currentUser = null;
+        var foundUser = null;
+        var _id = null;
+        async.series({
+            validate: function (callback) {
+                validator(req.body, fields, function (error, result) {
+                    if (error) {
+                        return callback(error, null);
+                    } else {
+                        data = result;
+                        return callback(null, null);
+                    }
+                });
+            },
+            getLoggedin: function (callback) {
+                authentication.getLoggedin(redisClient, data.token, function (error, result) {
+                    if (error) {
+                        return callback(-1, null);
+                    } else if (!result) {
+                        return callback(-3, null);
+                    } else {
+                        currentUser = JSON.parse(result);
+                        if (data._id) {
+                            if (currentUser._id === data._id) {
+                                _id = currentUser._id;
+                            } else {
+                                _id = data._id;
+                            }
+                        } else {
+                            _id = currentUser._id;
+                        }
+
+                        return callback(null, null);
+                    }
+                });
+            },
+            checkExisted: function (callback) {
+                user.checkExisted(_id, function (error, result) {
+                    if (error === -1) {
+                        return callback(-4, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        foundUser = result;
+                        return callback(null, result);
+                    }
+                });
+            },
+            update: function (callback) {
+                user.update(foundUser, data, function (error, result) {
+                    if (error === -1) {
+                        return callback(-5, null);
+                    } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, result);
+                    }
+                });
+            }
+        }, function (error, result) {
+            if (error) {
+                var code = error;
+                var message = '';
+                if (error === -1) {
+                    message = 'Redis error';
+                } else if (error === -2) {
+                    message = 'DB error';
+                } else if (error === -3) {
+                    message = 'Token is not found';
+                } else if (error === -4) {
+                    message = 'User is not found';
+                } else if (error === -5) {
+                    message = 'Can not update profile info.';
+                } else {
+                    message = error;
+                    code = 0;
+                }
+                res.json({
+                    code: code,
+                    message: message
+                });
+            } else {
+                var foundUser = result.update;
+                res.json({
+                    code: 1,
+                    data: foundUser
+                });
+            }
+        });
+    });
+
     app.post('/api/user/fb_login', function (req, res) {
         var data = {};
         var fields = [{
@@ -382,7 +530,6 @@ module.exports = function (app, redisClient) {
                 });
             } else {
                 var token = uuid.v4();
-                console.log('tokennnnnnnnnnnnnnnnnnnnn', token);
                 var foundAccount = results.fblogin;
                 foundAccount.token = token;
                 user.saveLoginDate({_id: foundAccount._id});

@@ -6,30 +6,25 @@ var userSchema = mongoose.Schema({
     first_name: {
         type: String,
         required: false,
-        default: null
     },
     last_name: {
         type: String,
         required: false,
-        default: null
     },
     email: {
         type: String,
         required: false,
-        default: null
     },
     phone_number: {
         type: String,
         required: false,
-        default: null
     },
     password: {
         type: String,
         required: true,
-        default: null
     },
     gender: {
-        type: Number, // 0 : male , 1 : female
+        type: Number, // 1 : male , 2 : female, 3: other
         required: false,
         default: 0
     },
@@ -40,32 +35,30 @@ var userSchema = mongoose.Schema({
     address: {
         type: String,
         required: false,
-        default: null
     },
     religion: {
         type: String,
         required: false,
-        default: null
     },
     intro: {
         type: String,
         required: false,
-        default: null
     },
     id_facebook: {
         type: String,
         required: false,
-        default: null
     },
     avatar: {
         type: String,
         required: false,
-        default: null
+    },
+    avatar_actual: {
+        type: String,
+        required: false,
     },
     cover: {
         type: String,
         required: false,
-        default: null
     },
     created_at: {
         type: Date,
@@ -80,7 +73,6 @@ var userSchema = mongoose.Schema({
     fcm_token:{
         type:String,
         required:false,
-        default:null
     }
 });
 module.exports = mongoose.model('User', userSchema);

@@ -536,6 +536,207 @@
         }
       }
     },
+    "/api/user/edit_profile": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "description": "edit profile info",
+        "operationId": "edit_profile",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "_id",
+            "in": "formData",
+            "description": "user id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "first_name",
+            "in": "formData",
+            "description": "first name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "last_name",
+            "in": "formData",
+            "description": "last name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "email",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "phone_number",
+            "in": "formData",
+            "description": "phone number",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "gender",
+            "in": "formData",
+            "description": "gender: 1 = male, 2 = female",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "birthday",
+            "in": "formData",
+            "description": "birthday",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "description": "address",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "religion",
+            "in": "formData",
+            "description": "religion",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "intro",
+            "in": "formData",
+            "description": "intro",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "description": "avatar",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "avatar_actual",
+            "in": "formData",
+            "description": "user id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "cover",
+            "in": "formData",
+            "description": "cover",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Email or phone_number is not existed; -2: DB error; -3: Token is not found; -4 : User is not found' ",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "first_name": {
+                      "type": "string",
+                      "example": "Brucelee Thanh"
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "example": "Brucelee Thanh"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "123456"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "Brucelee Thanh@gmail.com"
+                    },
+                    "phone_number": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "gender": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "birthday": {
+                      "type": "date-time",
+                      "example": "1993-07-05T04:27:58.144Z"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "religion": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "intro": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "fb_id": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "avatar": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "avatar_actual": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "cover": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "last_visited_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/friend/browse": {
       "get": {
         "tags": [
@@ -648,6 +849,119 @@
                 "total": {
                   "type": "number",
                   "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/friend/search": {
+      "post": {
+        "tags": [
+          "friend"
+        ],
+        "description": "search friend or other people by keyword",
+        "operationId": "search_friend",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "keyword",
+            "in": "formData",
+            "description": "keyword",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "formData",
+            "description": "page to pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "formData",
+            "description": "item per page for pagination",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found; -4 : Can not found anythings; ",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "friends":{
+                      "type": "array",
+                      "item":{
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },
+                    "total_friend:": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "strangers":{
+                      "type": "array",
+                      "item":{
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },
+                    "total_stranger:": {
+                      "type": "number",
+                      "example": 10
+                    }
+                  }
                 },
                 "message": {
                   "type": "string",

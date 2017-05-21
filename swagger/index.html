@@ -88,9 +88,9 @@
     </script>
 </head>
 
-<body class="swagger-section">
+<body class="swagger-section" style="background-color:gray;">
     <div id='header'>
-        <div class="swagger-ui-wrap">
+        <div class="swagger-ui-wrap" style="background-color:gray;">
             <a id="logo" href="http://swagger.io"><img class="logo__img" alt="swagger" height="30" width="30" src="images/logo_small.png" /><span class="logo__title">swagger</span></a>
             <form id='api_selector'>
                 <div class='input'>
@@ -103,6 +103,13 @@
     </div>
     <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
     <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+
+    <script>
+        $(document).ready(function () {
+            $('#api_info').css('background-color', 'gray');
+            $('#resources_container').css('background-color', 'gray');
+        });
+    </script>
 </body>
 
 </html>
