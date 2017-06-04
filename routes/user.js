@@ -211,7 +211,7 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
-                if(typeof data.fcm_token == 'undefined'){
+                if (typeof data.fcm_token == 'undefined') {
                     data.fcm_token = "";
                 }
                 var token = uuid.v4();
@@ -220,8 +220,8 @@ module.exports = function (app, redisClient) {
                 foundUser.fcm_token = data.fcm_token;
 
                 var options = {
-                    _id : foundUser._id,
-                    fcm_token : data.fcm_token
+                    _id: foundUser._id,
+                    fcm_token: data.fcm_token
                 };
                 authentication.cacheLogin(redisClient, token, options);
                 res.json({
@@ -340,51 +340,51 @@ module.exports = function (app, redisClient) {
             name: '_id',
             type: 'hex_string',
             required: false
-        },{
+        }, {
             name: 'first_name',
             type: 'string',
             required: false
-        },{
+        }, {
             name: 'last_name',
             type: 'string',
             required: false
-        },{
+        }, {
             name: 'email',
             type: 'string',
             required: false
-        },{
+        }, {
             name: 'phone_number',
             type: 'string',
             required: false
-        },{
+        }, {
             name: 'gender',
             type: 'number',
             required: false
-        },{
+        }, {
             name: 'birthday',
             type: 'date',
             required: false
-        },{
+        }, {
             name: 'address',
             type: 'string',
             required: false
-        },{
+        }, {
             name: 'religion',
             type: 'string',
             required: false
-        },{
+        }, {
             name: 'intro',
             type: 'string',
             required: false
-        },{
+        }, {
             name: 'avatar',
             type: 'string',
             required: false
-        },{
+        }, {
             name: 'avatar_actual',
             type: 'string',
             required: false
-        },{
+        }, {
             name: 'cover',
             type: 'string',
             required: false
@@ -487,6 +487,10 @@ module.exports = function (app, redisClient) {
             name: 'fb_token',
             type: 'string',
             required: true
+        }, {
+            name: 'fcm_token',
+            type: 'string',
+            required: false, // not done yet
         }];
         var fb_id = null;
         var exits = false;
@@ -505,21 +509,25 @@ module.exports = function (app, redisClient) {
             },
             fblogin: function (callback) {
                 user.fblogin(data, function (error, result) {
-                    if (error) {
+                    if (error == -3) {
+                        return callback(null, result);
+                    } else if (error == -4) {
+                        return callback(-3, null);
+                    } else if (error) {
                         return callback(error, null);
                     } else {
                         return callback(null, result);
                     }
                 });
             }
-        }, function (error, results) {
+        }, function (error, result) {
             if (error) {
                 var message = '';
                 var code = error;
                 if (error === -2) {
                     message = 'DB error';
                 } else if (error === -3) {
-                    message = 'Account is existed';
+                    message = 'Email is existed';
                 } else {
                     message = error;
                     code = 0;
@@ -529,11 +537,20 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
+                var foundAccount = result.fblogin.toObject();
+                if (typeof data.fcm_token == 'undefined') {
+                    data.fcm_token = "";
+                }
                 var token = uuid.v4();
-                var foundAccount = results.fblogin;
+
+                foundAccount.fcm_token = data.fcm_token;
                 foundAccount.token = token;
-                user.saveLoginDate({_id: foundAccount._id});
-                authentication.cacheLogin(redisClient, token, foundAccount);
+                console.log(foundAccount);
+                var options = {
+                    _id: foundAccount._id,
+                    fcm_token: data.fcm_token
+                };
+                authentication.cacheLogin(redisClient, token, options);
                 res.json({
                     code: 1,
                     data: foundAccount

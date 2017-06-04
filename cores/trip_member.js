@@ -7,8 +7,7 @@ var path = require('path');
 var TripMember = require(path.join(__dirname, '../', 'schemas/trip_member.js'));
 
 exports.create = function (data, callback) { // data:{ id_trip owner status}
-    var currentDate = new Date();
-    data.created_at = currentDate;
+    data.created_at = new Date();
     var creating = new TripMember(data);
     creating.save(function (error, result) {
         if (error) {

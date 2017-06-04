@@ -142,7 +142,7 @@ function findListUserIsNotFriend(data, callback) {
         query.limit(limit).offset(offset);
     }
     query.select('_id first_name last_name avatar');
-    query.sort({create_at: -1});
+    query.sort({created_at: -1});
     query.exec(function (error, results) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
@@ -168,7 +168,7 @@ exports.findFriend = function (data, callback) {
     if (data.page !== undefined && data.per_page !== undefined) {
         limit = data.per_page;
         offset = (data.page - 1) * data.per_page;
-        query.limit(limit).offset(offset);
+        query.skip(limit).offset(offset);
     }
     query.select('_id user_one user_two created_at');
     query.populate('user_one', '_id first_name last_name avatar');

@@ -10,12 +10,13 @@ exports.checkToken = function(token, callback) {
         	if (typeof callback === 'function') return callback(JSON.stringify(response.error), null);
         }else{
         	var fbUser = {
-        		fb_id: response.id,
+                id_facebook: response.id,
         		email: response.email,
         		first_name: response.first_name,
         		last_name: response.last_name,
         		display_name: response.name,
-        		avatar: response.picture.data.url
+        		avatar: response.picture.data.url,
+                avatar_actual: response.picture.data.url
         	};
         	if (typeof callback === 'function') return callback(null, fbUser);
         }

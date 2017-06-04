@@ -46,6 +46,12 @@
     },
     {
       "name": "trip_member"
+    },
+    {
+      "name": "group"
+    },
+    {
+      "name": "group_member"
     }
   ],
   "schemes": [
@@ -911,9 +917,9 @@
                   "type": "object",
                   "description": "in case of success",
                   "properties": {
-                    "friends":{
+                    "friends": {
                       "type": "array",
-                      "item":{
+                      "item": {
                         "_id": {
                           "type": "string",
                           "example": "5769097529f87b5c271728e5"
@@ -936,9 +942,9 @@
                       "type": "number",
                       "example": 10
                     },
-                    "strangers":{
+                    "strangers": {
                       "type": "array",
-                      "item":{
+                      "item": {
                         "_id": {
                           "type": "string",
                           "example": "5769097529f87b5c271728e5"
@@ -4824,9 +4830,1073 @@
           }
         }
       }
+    },
+    "/api/group/create": {
+      "post": {
+        "tags": [
+          "group"
+        ],
+        "description": "create group",
+        "operationId": "group_create",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "name of group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "description of group",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "cover",
+            "in": "formData",
+            "description": "cover photo url",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "permission",
+            "in": "formData",
+            "description": "permission: 1: Secret group, 2: Close group, 3: Open group",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; ",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Tên nhóm"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Miêu tả nhóm"
+                    },
+                    "cover": {
+                      "type": "string",
+                      "example": "/uploads/images/url_image.jpg"
+                    },
+                    "permission": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "DB error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group/browse": {
+      "get": {
+        "tags": [
+          "group"
+        ],
+        "description": "browse all group of user",
+        "operationId": "browse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page to pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "item per page for pagination",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "group_create": {
+                      "type": "object",
+                      "description": "list group your created",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Tên nhóm"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Miêu tả nhóm"
+                        },
+                        "cover": {
+                          "type": "string",
+                          "example": "/uploads/images/url_image.jpg"
+                        },
+                        "permission": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    },
+                    "group_manage": {
+                      "type": "object",
+                      "description": "list group your created",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Tên nhóm"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Miêu tả nhóm"
+                        },
+                        "cover": {
+                          "type": "string",
+                          "example": "/uploads/images/url_image.jpg"
+                        },
+                        "permission": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    },
+                    "group_join": {
+                      "type": "object",
+                      "description": "list group your created",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Tên nhóm"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Miêu tả nhóm"
+                        },
+                        "cover": {
+                          "type": "string",
+                          "example": "/uploads/images/url_image.jpg"
+                        },
+                        "permission": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    },
+                    "group_suggest": {
+                      "type": "object",
+                      "description": "list group your created",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Tên nhóm"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Miêu tả nhóm"
+                        },
+                        "cover": {
+                          "type": "string",
+                          "example": "/uploads/images/url_image.jpg"
+                        },
+                        "permission": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    },
+                    "group_invite": {
+                      "type": "object",
+                      "description": "list group your created",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Tên nhóm"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Miêu tả nhóm"
+                        },
+                        "cover": {
+                          "type": "string",
+                          "example": "/uploads/images/url_image.jpg"
+                        },
+                        "permission": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group/detail": {
+      "post": {
+        "tags": [
+          "group"
+        ],
+        "description": "group detail",
+        "operationId": "detail",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id of a group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "formData",
+            "description": "page to pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "formData",
+            "description": "item per page for pagination",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "group": {
+                      "type": "object",
+                      "description": "list group your created",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Tên nhóm"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Miêu tả nhóm"
+                        },
+                        "cover": {
+                          "type": "string",
+                          "example": "/uploads/images/url_image.jpg"
+                        },
+                        "permission": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    },
+                    "your_status": {
+                      "type": "number",
+                      "description": "status: 1: you are NOT a member, 2: you are a member of this group.",
+                      "example": 1
+                    },
+                    "group_post": {
+                      "type": "object",
+                      "description": "list post in group",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "5769097529f87b5c271728e5"
+                            },
+                            "first_name": {
+                              "type": "string",
+                              "example": "Brucelee Thanh"
+                            },
+                            "last_name": {
+                              "type": "string",
+                              "example": "Brucelee Thanh"
+                            },
+                            "avatar": {
+                              "type": "string",
+                              "example": ""
+                            }
+                          }
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "test status"
+                        },
+                        "images": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "5769097529f87b5c271728e5"
+                              },
+                              "image": {
+                                "type": "string",
+                                "example": ""
+                              },
+                              "description": {
+                                "type": "string",
+                                "example": "test description"
+                              }
+                            }
+                          }
+                        },
+                        "amount_like": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "amount_comment": {
+                          "type": "number",
+                          "example": 30
+                        },
+                        "permission": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "type": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        },
+                        "is_like": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "is_comment": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "description": "total of post in group",
+                      "example": 1
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group/info": {
+      "post": {
+        "tags": [
+          "group"
+        ],
+        "description": "group detail",
+        "operationId": "detail",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id of a group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "group": {
+                      "type": "object",
+                      "description": "list group your created",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Tên nhóm"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Miêu tả nhóm"
+                        },
+                        "cover": {
+                          "type": "string",
+                          "example": "/uploads/images/url_image.jpg"
+                        },
+                        "permission": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    },
+                    "your_status": {
+                      "type": "number",
+                      "description": "status: 1: you are NOT a member, 2: you are a member of this group.",
+                      "example": 1
+                    },
+                    "group_post": {
+                      "images": {
+                        "type": "array",
+                        "items": {
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "example": ""
+                            },
+                            "id_status": {
+                              "type": "string",
+                              "example": "5769097529f87b5c271728e5"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "total": {
+                    "type": "number",
+                    "description": "total of post in group",
+                    "example": 1
+                  }
+                }
+              },
+              "message": {
+                "type": "string",
+                "description": "in case of error",
+                "example": "token is not found"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/browse": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "browse all of member, request, block in group",
+        "operationId": "browse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Group is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "request": {
+                      "type": "object",
+                      "description": "in case of success",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "id_trip": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        },
+                        "status": {
+                          "type": "number",
+                          "example": 1
+                        }
+                      }
+                    },
+                    "total_request": {
+                      "type": "number",
+                      "description": "total of request array",
+                      "example": 10
+                    },
+                    "admins": {
+                      "type": "object",
+                      "description": "in case of success",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "id_trip": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        },
+                        "status": {
+                          "type": "number",
+                          "example": 1
+                        }
+                      }
+                    },
+                    "total_admin": {
+                      "type": "number",
+                      "description": "total of request array",
+                      "example": 10
+                    },
+                    "member": {
+                      "type": "object",
+                      "description": "in case of success",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "id_trip": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        },
+                        "status": {
+                          "type": "number",
+                          "example": 1
+                        }
+                      }
+                    },
+                    "total_member": {
+                      "type": "number",
+                      "description": "total of member array",
+                      "example": 10
+                    },
+                    "block": {
+                      "type": "object",
+                      "description": "in case of success",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "id_trip": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        },
+                        "status": {
+                          "type": "number",
+                          "example": 1
+                        }
+                      }
+                    },
+                    "total_block": {
+                      "type": "number",
+                      "description": "total of data array",
+                      "example": 10
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "description": "total of data array",
+                  "example": 10
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/request": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "request member group",
+        "operationId": "request",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Group is not found; 5. Group is secret",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "status": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/browse_request": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "browse request member group",
+        "operationId": "browse_request",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Group is not found; 5. Group is secret",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "status": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/cancel_request": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "cancel request member group",
+        "operationId": "cancel_request",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Group is not found; 5. Group is secret",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/invite": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "invite member group",
+        "operationId": "inivite",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_user",
+            "in": "formData",
+            "description": "id user",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Group is not found; 5. Group is secret",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "status": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
   }
 }
+
 

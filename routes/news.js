@@ -165,7 +165,7 @@ module.exports = function (app, redisClient) {
                     } else if (error) {
                         return callback(error, null);
                     } else {
-                        var friends = result.get;
+                        var friends = result;
                         for (i in friends) {
                             if (friends[i].user_one._id.toHexString() !== currentUser._id) {
                                 lstFriend.push(friends[i].user_one._id);

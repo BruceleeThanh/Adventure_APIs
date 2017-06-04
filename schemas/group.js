@@ -4,27 +4,33 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
-var groupSchema = ({
+var groupSchema = Schema({
+    owner:{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     name: {
         type: String,
-        required:false,
-        default:null
+        required:true
     },
     description:{
         type:String,
-        required:false,
-        default:null
+        required:false
     },
-    cover_photo:{
+    cover:{
         type:String,
-        required:false,
-        default:null
+        required:false
     },
-    permission:{ // 1: Open group, 2: Close group, 3: Secret group
+    total_member:{
         type: Number,
         required:false,
         default: 1
+    },
+    permission:{ // 1: Secret group, 2: Close group, 3: Open group
+        type: Number,
+        required:false,
+        default: 3
     },
     created_at:{
         type:Date,

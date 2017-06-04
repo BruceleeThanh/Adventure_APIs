@@ -21,7 +21,7 @@ var userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: false,
     },
     gender: {
         type: Number, // 1 : male , 2 : female, 3: other
