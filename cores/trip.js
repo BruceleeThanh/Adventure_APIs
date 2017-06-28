@@ -12,8 +12,7 @@ var trip_interested = require(path.join(__dirname, '../', 'cores/trip_interested
 var ObjectId = mongoose.Types.ObjectId;
 
 exports.create = function (data, callback) {
-    var currentDate = new Date();
-    data.created_at = currentDate;
+    data.created_at = new Date();
     if (data.routes) {
         for (let item in data.routes) {
             if (data.routes[item] === undefined) {
@@ -50,7 +49,7 @@ exports.getAll = function (data, callback) { // data: {permission, type, page, p
         offset = (data.page - 1) * data.per_page;
         query.skip(offset).limit(limit);
     }
-    query.select('_id owner name start_position start_at end_at destination_summary expense images amount_people amount_member amount_interested amount_rating rating created_at permission');
+    query.select('_id owner name start_position start_at end_at destination_summary expense images amount_people amount_member amount_interested amount_rating rating created_at permission type');
     query.populate('owner', '_id first_name last_name avatar');
     query.sort({created_at: -1});
     query.exec(function (error, results) {
@@ -79,7 +78,60 @@ exports.getByGroup = function(data, callback){ // data: id_group, page, per_page
         offset = (data.page - 1) * data.per_page;
         query.skip(offset).limit(limit);
     }
-    query.select('_id owner name start_position start_at end_at destination_summary expense images amount_people amount_member amount_interested amount_rating rating created_at permission');
+    query.select('_id owner name start_position start_at end_at destination_summary expense images amount_people amount_member amount_interested amount_rating rating created_at permission type');
+    query.populate('owner', '_id first_name last_name avatar');
+    query.sort({created_at: -1});
+    query.exec(function (error, results) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else if (results.length <= 0) {
+            if (typeof callback === 'function') return callback(-1, null);
+        } else {
+            if (typeof callback === 'function') {
+                return callback(null, results);
+            }
+        }
+    });
+};
+
+/**
+ * Get all Trip by specify Id user (user maybe exactly person called this API or another)
+ * @param data : {id_user, relation (1: is you, 2: friend, 3: stranger), page, per_page}
+ * @param callback : function(error, result)
+ * @return : all Trip of an user and interact of person called this API
+ */
+exports.getByUser = function(data, callback){ // data: id_user, relation, page, per_page
+    /*
+     * relation: 1: is you, 2: friend, 3: stranger
+     * */
+    var query;
+    if (data.relation === 1) {
+        query = Trip.find({
+            owner: data.id_user,
+            type: 1
+        });
+    } else if (data.relation === 2) {
+        query = Trip.find({
+            owner: data.id_user,
+            type: 1,
+            permission: {$in: [2, 3]}
+        });
+    } else if (data.relation === 3) {
+        query = Trip.find({
+            owner: data.id_user,
+            type: 1,
+            permission: 3
+        });
+    }
+    var limit = 10;
+    var offset = 0;
+    if (data.page !== undefined && data.per_page !== undefined) {
+        limit = data.per_page;
+        offset = (data.page - 1) * data.per_page;
+        query.skip(offset).limit(limit);
+    }
+    query.select('_id owner name start_position start_at end_at destination_summary expense images amount_people amount_member amount_interested amount_rating rating created_at permission type');
     query.populate('owner', '_id first_name last_name avatar');
     query.sort({created_at: -1});
     query.exec(function (error, results) {

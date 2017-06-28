@@ -7,30 +7,50 @@ var config = require(path.join(__dirname, '../', 'config.json'));
 var Status = require(path.join(__dirname, '../', 'schemas/status.js'));
 var like_status = require(path.join(__dirname, '../', 'cores/like_status.js'));
 var comment_status = require(path.join(__dirname, '../', 'cores/comment_status.js'));
+var status = require(path.join(__dirname, '../', 'cores/status.js'));
+var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
 
-exports.getTimeLine = function (data, callback) {
-    var query = Status.find({
-        owner: data.owner,
-        type: 1
-    });
-    var limit = 10;
-    var offset = 0;
-    if (data.page !== undefined && data.per_page !== undefined) {
-        limit = data.per_page;
-        offset = (data.page - 1) * data.per_page;
-        query.limit(limit).offset(offset);
-    }
-    query.select('_id owner content images type created_at');
-    query.populate('owner', '_id first_name last_name email intro fb_id phone_number address gender birthday religion avatar cover created_at');
-    query.sort({created_at: -1});
-    query.exec(function (error, results) {
-        if (error) {
-            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
-            if (typeof callback === 'function') return callback(-2, null);
-        } else if (results.length < 0) {
-            if (typeof callback === 'function') return callback(-1, null);
-        } else {
-            if (typeof callback === 'function') return callback(null, results);
+exports.getTimeLine = function (data, callback) { // data : {id_user, relation, page, per_page}
+    async.parallel({
+        getStatus: function (callback) {
+            status.getByUser(data, function (error, results) {
+                if (error) {
+                    return callback(null, null);
+                } else {
+                    return callback(null, results);
+                }
+            });
+        },
+        getTrips: function (callback) {
+            trip.getByUser(data, function (error, results) {
+                if (error) {
+                    return callback(null, null);
+                } else {
+                    return callback(null, results);
+                }
+            });
+        }
+    }, function (error, results) {
+        var foundPost = [];
+        var foundStatus = JSON.parse(JSON.stringify(results.getStatus));
+        var foundTrips = JSON.parse(JSON.stringify(results.getTrips));
+        for (let i in foundStatus) {
+            foundStatus[i].type_item = 1;
+            foundPost.push(foundStatus[i]);
+        }
+        for (let i in foundTrips) {
+            foundTrips[i].type_item = 2;
+            foundPost.push(foundTrips[i]);
+        }
+        if(foundPost.length === 0){
+            return callback(null, null);
+        }else{
+            async.sortBy(foundPost, function (obj, callback) {
+                callback(error,  new Date(obj.created_at).getTime() * -1);
+            }, function (error, sorted) {
+                foundPost = sorted;
+                return callback(null, foundPost);
+            });
         }
     });
 };

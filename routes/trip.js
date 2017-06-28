@@ -26,6 +26,10 @@ module.exports = function (app, redisClient) {
             type: 'string',
             required: true
         }, {
+            name: 'id_group',
+            type: 'string',
+            required: false
+        }, {
             name: 'name',
             type: 'string',
             required: false,

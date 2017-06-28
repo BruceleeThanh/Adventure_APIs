@@ -16,6 +16,11 @@ var tripMemberSchema = Schema({
         ref: 'User',
         required: true
     },
+    message: {
+        type: String,
+        required: false,
+        default: null
+    },
     created_at: {
         type: Date,
         required: false,

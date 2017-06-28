@@ -30,6 +30,7 @@
     "redis": "^2.6.1",
     "request": "^2.73.0",
     "shortid": "^2.2.6",
+    "socket.io": "*",
     "validator": "^5.4.0",
     "winston": "^2.2.0"
   }

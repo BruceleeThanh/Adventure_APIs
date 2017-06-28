@@ -189,6 +189,15 @@ module.exports = function (app, redisClient) {
                             }
                         });
                     },
+                    yourRequest: function (callback) {
+                        group_member.getGroupByUserAndStatus(data.id_user, 1, function (error, results) {
+                            if (error) {
+                                return callback(null, null);
+                            } else {
+                                return callback(null, results);
+                            }
+                        });
+                    },
                     suggest: function (callback) {
                         var option = {
                             id_user: data.id_user,
@@ -204,7 +213,7 @@ module.exports = function (app, redisClient) {
                         });
                     },
                     yourInvite: function (callback) {
-                        group_member.getGroupByUserAndStatus(currentUser._id, 2, function (error, results) {
+                        group_member.getGroupByUserAndStatus(data.id_user, 2, function (error, results) {
                             if (error) {
                                 return callback(null, null);
                             } else {
@@ -238,6 +247,7 @@ module.exports = function (app, redisClient) {
                 var groupYourCreate = results.browse.yourCreate;
                 var groupYourManage = results.browse.yourManage;
                 var groupYourJoin = results.browse.yourJoin;
+                var groupYourRequest = results.browse.yourRequest;
                 var groupSuggest = results.browse.suggest;
                 var groupYourInvite = results.browse.yourInvite;
 
@@ -247,6 +257,7 @@ module.exports = function (app, redisClient) {
                         group_create: groupYourCreate,
                         group_manage: groupYourManage,
                         group_join: groupYourJoin,
+                        group_request: groupYourRequest,
                         group_suggest: groupSuggest,
                         group_invite: groupYourInvite
                     }
@@ -314,6 +325,7 @@ module.exports = function (app, redisClient) {
                     }
                 });
             }
+            // check admin or member or guest
         }, function (error, result) {
             if (error) {
                 var code = error;

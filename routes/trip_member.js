@@ -24,6 +24,10 @@ module.exports = function (app, redisClient) {
             name: 'id_trip',
             type: 'string',
             required: true
+        },{
+            name: 'message',
+            type: 'string',
+            required: false
         }];
         var currentUser = null;
         async.series({
@@ -83,6 +87,7 @@ module.exports = function (app, redisClient) {
                 var option = {
                     id_trip: data.id_trip,
                     owner: data.owner,
+                    message: data.message,
                     status: 1
                 };
                 trip_member.create(option, function (error, result) {

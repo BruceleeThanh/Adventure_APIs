@@ -5,6 +5,8 @@ var shortid = require('shortid');
 var config = require(path.join(__dirname, '../', 'config.json'));
 var fb = require(path.join(__dirname, '../', 'ultis/fb.js'));
 var User = require(path.join(__dirname, '../', 'schemas/user.js'));
+var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
+var trip_map = require(path.join(__dirname, '../', 'cores/trip_map.js'));
 
 exports.create = function (data, callback) {
     data.password = crypto.createHash('sha256').update(data.password).digest('hex');
@@ -88,7 +90,7 @@ exports.login = function (data, callback) {
                         if (typeof callback === 'function') return callback(-1, null);
                     } else {
                         currentUser = result;
-                        result.latest_active = new Date();
+                        result.last_visited_at = new Date();
                         result.fcm_token = data.fcm_token;
                         result.save(function (error, doc) {
                             if (error) {
@@ -111,7 +113,7 @@ exports.login = function (data, callback) {
                         if (typeof callback === 'function') return callback(-1, null);
                     } else {
                         currentUser = result;
-                        result.latest_active = new Date();
+                        result.last_visited_at = new Date();
                         result.fcm_token = data.fcm_token;
                         result.save(function (error, doc) {
                             if (error) {
@@ -167,7 +169,7 @@ exports.fblogin = function (data, callback) {
                     } else if (result) {
                         if (result.id_facebook == fbUser.id_facebook) {
                             foundAccount = result;
-                            result.latest_active = new Date();
+                            result.last_visited_at = new Date();
                             result.fcm_token = data.fcm_token;
                             result.save(function (error, doc) {
                                 if (error) {
@@ -199,7 +201,7 @@ exports.fblogin = function (data, callback) {
                     if (typeof callback === 'function') return callback(-2, null);
                 } else if (result) {
                     foundAccount = result;
-                    result.latest_active = new Date();
+                    result.last_visited_at = new Date();
                     result.fcm_token = data.fcm_token;
                     result.save(function (error, doc) {
                         if (error) {
@@ -218,7 +220,7 @@ exports.fblogin = function (data, callback) {
 
             var creatingAccount = new User(fbUser);
             creatingAccount.created_at = new Date();
-            creatingAccount.latest_active = new Date();
+            creatingAccount.last_visited_at = new Date();
             creatingAccount.fcm_token = data.fcm_token;
             creatingAccount.save(function (error, result) {
                 if (error) {
@@ -244,11 +246,11 @@ exports.fblogin = function (data, callback) {
     });
 };
 
-exports.get = function (data, callback) {
+exports.get = function (id_user, callback) {
     var query = User.findOne({
-        _id: data._id
+        _id: id_user
     });
-    query.select('_id first_name last_name email phone_number gender birthday address religion intro fb_id avatar avatar_actual cover created_at last_visited_at');
+    query.select('_id first_name last_name email phone_number gender birthday address religion intro id_facebook avatar avatar_actual cover created_at last_visited_at');
     query.exec(function (error, result) {
         if (error) {
             require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
@@ -259,6 +261,62 @@ exports.get = function (data, callback) {
             if (typeof callback === 'function') return callback(null, result);
         }
     });
+};
+
+exports.getDetail = function (id_user, callback) {
+    async.series({
+        getInfo: function (callback) {
+            var query = User.findOne({
+                _id: id_user
+            });
+            query.select('_id first_name last_name intro avatar avatar_actual cover');
+            query.exec(function (error, result) {
+                if (error) {
+                    require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+                    if (typeof callback === 'function') return callback(-2, null);
+                } else if (!result) {
+                    if (typeof callback === 'function') return callback(-1, null);
+                } else {
+                    if (typeof callback === 'function') return callback(null, result);
+                }
+            });
+        },
+        countAllTripsCreatedByUser: function (callback) {
+            trip.countAllTripsCreatedByUser(id_user, function (error, result) {
+                if (error) {
+                    return callback(null, null);
+                } else {
+                    return callback(null, result);
+                }
+            })
+        },
+        countAllTripsJoinedOfUser: function (callback) {
+            trip.countAllTripsJoinedOfUser(id_user, function (error, result) {
+                if (error) {
+                    return callback(null, null);
+                } else {
+                    return callback(null, result);
+                }
+            })
+        },
+        countAllPlaceArrivedByUser: function (callback) {
+            trip_map.countAllPlaceArrivedByUser(id_user, function (error, result) {
+                if (error) {
+                    return callback(null, null);
+                } else {
+                    return callback(null, result);
+                }
+            })
+        }
+    }, function (error, result) {
+        if (error === -1) {
+            return callback(-1, null);
+        } else if (error) {
+            return callback(error, null);
+        } else {
+            return callback(null, result);
+        }
+    })
 };
 
 function checkExisted(id_user, callback) {
@@ -279,8 +337,8 @@ function checkExisted(id_user, callback) {
 };
 exports.checkExisted = checkExisted;
 
-exports.saveLoginDate = function (data, callback) {
-    User.findOne({_id: data._id}).update({
+exports.saveLoginDate = function (id_user, callback) {
+    User.findOne({_id: id_user}).update({
         last_visited_at: new Date()
     }, function (error, result) {
         if (error) {

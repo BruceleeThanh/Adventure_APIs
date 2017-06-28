@@ -45,7 +45,37 @@ exports.getAllByIdTrip = function (id_trip, callback) {
 };
 
 exports.countAllPlaceArrivedByUser = function (id_user, callback) {
+    var idTrips = [];
     trip.getAllIdTripCreatedAndJoinedByUser(id_user, function (error, results) {
+        if (error === -1) {
+            return callback(-1, null);
+        } else if (error) {
+            return callback(error, null);
+        } else {
+            var trips = JSON.parse(JSON.stringify(results));
+            for(let i in trips){
+                idTrips.push(trips[i]._id);
+            }
+            Place.count({id_trip: {$in : idTrips}}, function (error, count) {
+                if (error) {
+                    require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+                    if (typeof callback === 'function') return callback(-2, null);
+                } else {
+                    if (typeof callback === 'function') return callback(null, count);
+                }
+            });
+        }
+    });
+};
 
+exports.countAllTripsCreatedByUser = countAllTripsCreatedByUser;
+function countAllTripsCreatedByUser(id_user, callback) {
+    Trip.count({owner: id_user}, function (error, count) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (typeof callback === 'function') return callback(null, count);
+        }
     });
 };

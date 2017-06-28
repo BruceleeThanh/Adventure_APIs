@@ -6,6 +6,8 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var config = require(path.join(__dirname, '/config.json'));
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 //allow cross origin
 app.use(require('cors')());
@@ -51,5 +53,7 @@ require(path.join(__dirname, '/routes'))(app, redisClient);
 // require(path.join(__dirname, '/cores/background.js'))();
 
 //server start
-app.listen(config.port);
+server.listen(config.port);
 console.log('Server start on port: ' + config.port);
+
+require(path.join(__dirname, '/routes/socket.js'))(io, redisClient);

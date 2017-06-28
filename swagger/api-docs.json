@@ -445,7 +445,7 @@
             "type": "string"
           },
           {
-            "name": "_id",
+            "name": "id_user",
             "in": "query",
             "description": "user id",
             "required": false,
@@ -5074,6 +5074,40 @@
                         }
                       }
                     },
+                    "group_request": {
+                      "type": "object",
+                      "description": "list group your request",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Tên nhóm"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Miêu tả nhóm"
+                        },
+                        "cover": {
+                          "type": "string",
+                          "example": "/uploads/images/url_image.jpg"
+                        },
+                        "permission": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "created_at": {
+                          "type": "date-time",
+                          "example": "2016-10-05T04:27:58.144Z"
+                        }
+                      }
+                    },
                     "group_suggest": {
                       "type": "object",
                       "description": "list group your created",
@@ -5818,6 +5852,123 @@
         }
       }
     },
+    "/api/group_member/accept_request": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "accept request member group",
+        "operationId": "accept_request",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group_member",
+            "in": "formData",
+            "description": "id group member",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Group is not found; 5. Group is secret",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "status": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/reject_request": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "reject request member group",
+        "operationId": "reject_request",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group_member",
+            "in": "formData",
+            "description": "id group member",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Group is not found; 5. Group is secret",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/group_member/invite": {
       "post": {
         "tags": [
@@ -5882,6 +6033,458 @@
                       "example": 1
                     }
                   }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/remove_invite": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "remove invite member in group",
+        "operationId": "remove_invite",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/search_invite": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "search friend by keyword to invite member group",
+        "operationId": "search_invite",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "keyword",
+            "in": "formData",
+            "description": "keyword",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "formData",
+            "description": "page to pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "formData",
+            "description": "item per page for pagination",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "friends": {
+                      "type": "array",
+                      "item": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },
+                    "total_search_invite:": {
+                      "type": "number",
+                      "example": 10
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/make_admin": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "make a member to admin group",
+        "operationId": "make_admin",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group_member",
+            "in": "formData",
+            "description": "id group member",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Member is not found; 5. Member is blocked",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/remove_admin": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "remove an admin in group",
+        "operationId": "remove_admin",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group_member",
+            "in": "formData",
+            "description": "id group member",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Member is not found; 5. Member is blocked",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/leave_group": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "leave group",
+        "operationId": "leave_group",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group",
+            "in": "formData",
+            "description": "id group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Member is not found; 5. Member is blocked",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/remove_member": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "remove member in group",
+        "operationId": "remove_member",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group_member",
+            "in": "formData",
+            "description": "id group member",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Member is not found; 5. Member is blocked",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/block_member": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "block member group",
+        "operationId": "block_member",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group_member",
+            "in": "formData",
+            "description": "id group member",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Group is not found; 5. Group is secret",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "id_trip": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "status": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/group_member/unblock_member": {
+      "post": {
+        "tags": [
+          "group_member"
+        ],
+        "description": "unblock member in group",
+        "operationId": "unblock_member",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_group_member",
+            "in": "formData",
+            "description": "id group member",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1. Redis error; 2. DB error; 3. Token is not found; 4. Member is not found; 5. Member is blocked",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "example": "done"
                 },
                 "message": {
                   "type": "string",

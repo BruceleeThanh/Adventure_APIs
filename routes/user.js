@@ -249,7 +249,7 @@ module.exports = function (app, redisClient) {
             type: 'string',
             required: true
         }, {
-            name: '_id',
+            name: 'id_user',
             type: 'hex_string',
             required: false
         }];
@@ -275,11 +275,11 @@ module.exports = function (app, redisClient) {
                         return callback(-3, null);
                     } else {
                         currentUser = JSON.parse(result);
-                        if (data._id) {
-                            if (currentUser._id === data._id) {
+                        if (data.id_user) {
+                            if (currentUser._id === data.id_user) {
                                 _id = currentUser._id;
                             } else {
-                                _id = data._id;
+                                _id = data.id_user;
                             }
                         } else {
                             _id = currentUser._id;

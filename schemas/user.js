@@ -65,7 +65,7 @@ var userSchema = mongoose.Schema({
         required: false,
         default: Date.now()
     },
-    latest_active: {
+    last_visited_at: {
         type: Date,
         required: false,
         default: Date.now()

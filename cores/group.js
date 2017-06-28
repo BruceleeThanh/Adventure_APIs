@@ -27,6 +27,33 @@ exports.create = function (data, callback) {
     });
 };
 
+exports.increaseTotalMember = function (id_group, callback) {
+    Group.findByIdAndUpdate(id_group, {$inc: {total_member: 1}}, {new: true}, function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(error, null);
+        } else if (!result) {
+            if (typeof callback === 'function') return callback(-1, null);
+        } else {
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+
+exports.decreaseTotalMember = function (id_group, callback) {
+    Group.findByIdAndUpdate(id_group, {$inc: {total_member: -1}}, {new: true}, function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(error, null);
+        } else if (!result) {
+            if (typeof callback === 'function') return callback(-1, null);
+        } else {
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+
+
 exports.getSuggestGroup = function (data, callback) { // data: id_user, page, per_page
     var lstGroupIds = [];
     group_member.getAllIdGroupByUser(data.id_user, function (error, results) {
@@ -34,11 +61,11 @@ exports.getSuggestGroup = function (data, callback) { // data: id_user, page, pe
         for (let i in groups) {
             lstGroupIds.push(groups[i].id_group);
         }
-        console.log("group: " + lstGroupIds);
         var query = Group.find({
             _id: {
                 $nin: lstGroupIds
-            }
+            },
+            permission: {$in: [2, 3]}
         });
         query.select('_id name cover permission');
         var limit = 10;
@@ -71,7 +98,7 @@ function getById(id_group, callback) {
         } else {
             if (!result) {
                 if (typeof callback === 'function') return callback(-1, null);
-            }else {
+            } else {
                 if (typeof callback === 'function') return callback(null, result);
             }
         }
@@ -80,7 +107,8 @@ function getById(id_group, callback) {
 
 exports.getDetail = function (data, callback) { // data: id_user, id_group, page, per_page
     var foundGroup = null;
-    var yourStatus = null; // 1: you are NOT a member, 2: you are a member of this group.
+    // 0: none activity, 1: request member, 2: invite member, 3: member, 4: blocked member, 5: admin, 6: creator
+    var yourStatus = null;
     async.series({
         getGroup: function (callback) {
             getById(data.id_group, function (error, result) {
@@ -97,23 +125,31 @@ exports.getDetail = function (data, callback) { // data: id_user, id_group, page
         getYourStatus: function (callback) {
             group_member.getByGroupAndUser(data.id_group, data.id_user, function (error, result) {
                 if (error == -1) {
-                    yourStatus = 1;
+                    yourStatus = 0;
                     return callback(null, yourStatus);
                 } else if (error) { // error
                     return callback(error, null);
                 } else {
-                    if (result.status == 3) { // you are a member of this group
-                        yourStatus = 2;
-                        return callback(null, yourStatus);
+                    if (result.status == 3) {
+                        if (result.permission == 3) {
+                            yourStatus = 3;
+                            return callback(null, yourStatus);
+                        } else if (result.permission == 2) {
+                            yourStatus = 5;
+                            return callback(null, yourStatus);
+                        } else if (result.permission == 1) {
+                            yourStatus = 6;
+                            return callback(null, yourStatus);
+                        }
                     } else {
-                        yourStatus = 1;
+                        yourStatus = result.status;
                         return callback(null, yourStatus);
                     }
                 }
             });
         },
         getPost: function (callback) {
-            if (yourStatus == 2 || foundGroup.permission == 3) {
+            if (yourStatus == 3 || yourStatus == 5 || yourStatus == 6 || (foundGroup.permission == 3 && yourStatus != 4)) {
                 async.parallel({
                     getStatus: function (callback) {
                         status.getByGroup(data, function (error, results) {
@@ -146,7 +182,7 @@ exports.getDetail = function (data, callback) { // data: id_user, id_group, page
                         foundPost.push(foundTrips[i]);
                     }
                     async.sortBy(foundPost, function (obj, callback) {
-                        callback(error, obj.created_at);
+                        callback(error, new Date(obj.created_at).getTime() * -1);
                     }, function (error, sorted) {
                         foundPost = sorted;
                         return callback(null, foundPost);
@@ -224,7 +260,6 @@ exports.getInfo = function (data, callback) { // data: id_user, id_group
                         });
                     },
                     filterImages: function (callback) {
-                        console.log(lstStatus);
                         status.filterImages(lstStatus, function (error, results) {
                             if (error) {
                                 return callback(null, null);
@@ -265,7 +300,7 @@ function checkOwner(id_group, id_user, callback) {
         } else {
             if (!result) {
                 if (typeof callback === 'function') return callback(-1, null);
-            }else {
+            } else {
                 if (typeof callback === 'function') return callback(null, result);
             }
         }

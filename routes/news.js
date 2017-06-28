@@ -11,6 +11,7 @@ var mail = require(path.join(__dirname, '../', 'ultis/mail.js'));
 var helper = require(path.join(__dirname, '../', 'ultis/helper.js'));
 var news = require(path.join(__dirname, '../', 'cores/news.js'));
 var friend = require(path.join(__dirname, '../', 'cores/friend.js'));
+var user = require(path.join(__dirname, '../', 'cores/user.js'));
 
 module.exports = function (app, redisClient) {
     app.get('/api/news/time_line', function (req, res) {
@@ -38,6 +39,8 @@ module.exports = function (app, redisClient) {
 
         var currentUser = null;
         var userId = null;
+        var isYou = false;
+        var relation = null;
         async.series({
             validate: function (callback) {
                 validator(req.query, fields, function (error, result) {
@@ -60,23 +63,59 @@ module.exports = function (app, redisClient) {
                         if (data.user) {
                             if (currentUser._id !== data.user) {
                                 userId = data.user;
+                                isYou = false;
                             } else {
                                 userId = currentUser._id;
+                                isYou = true;
                             }
                         } else {
                             userId = currentUser._id;
+                            isYou = true;
                         }
                         return callback(null, null);
                     }
                 });
             },
-            getOwnStatus: function (callback) {
-                news.getTimeLine({
-                    owner: userId
-                }, function (error, results) {
+            checkFriend: function (callback) {
+                if (isYou === false) {
+                    var option = {
+                        user_one: userId,
+                        user_two: currentUser._id
+                    };
+                    friend.checkExits(option, function (error, result) {
+                        if (error) {
+                            relation = 3;
+                            return callback(null, null);
+                        } else {
+                            relation = 2;
+                            return callback(null, null);
+                        }
+                    })
+                } else {
+                    relation = 1;
+                    return callback(null, null);
+                }
+            },
+            getInfo: function (callback) {
+                user.getDetail(userId, function (error, result) {
                     if (error === -1) {
                         return callback(-4, null);
                     } else if (error) {
+                        return callback(error, null);
+                    } else {
+                        return callback(null, result);
+                    }
+                })
+            },
+            getOwnPost: function (callback) {
+                var option = {
+                    id_user: userId,
+                    relation: relation,
+                    page: data.page,
+                    per_page: data.per_page
+                };
+                news.getTimeLine(option, function (error, results) {
+                    if (error) {
                         return callback(error, null);
                     } else {
                         return callback(null, results);
@@ -94,7 +133,7 @@ module.exports = function (app, redisClient) {
                 } else if (error === -3) {
                     message = 'Token is not found';
                 } else if (error === -4) {
-                    message = 'Timeline is not found';
+                    message = 'User is not found';
                 } else {
                     message = error;
                     code = 0;
@@ -104,15 +143,35 @@ module.exports = function (app, redisClient) {
                     message: message
                 });
             } else {
-                var foundStatus = results.getOwnStatus;
+                var foundInfo = JSON.parse(JSON.stringify(results.getInfo.getInfo));
+                var countTripCreated = results.getInfo.countAllTripsCreatedByUser;
+                var countTripJoined = results.getInfo.countAllTripsJoinedOfUser;
+                var countPlaceArrived = results.getInfo.countAllPlaceArrivedByUser;
+                var foundPost = null;
+                var totalPost = 0;
+                if(results.getOwnPost){
+                    foundPost = JSON.parse(JSON.stringify(results.getOwnPost));
+                    totalPost = foundPost.length;
+                }
                 res.json({
                     code: 1,
-                    data: foundStatus,
-                    total: foundStatus.length
+                    data: {
+                        summary_info: {
+                            info: foundInfo,
+                            count_trip_created: countTripCreated,
+                            count_trip_joined: countTripJoined,
+                            count_place_arrived: countPlaceArrived
+                        },
+                        time_line:{
+                            user_post: foundPost,
+                            total: totalPost
+                        }
+                    }
                 });
             }
         });
     });
+
     app.get('/api/news/news_feed', function (req, res) {
         var data = {};
         var fields = [{
@@ -183,8 +242,8 @@ module.exports = function (app, redisClient) {
                     _id: lstFriend,
                     permission: [2, 3], // 2: friend, 3: public
                     type: 1, // 1: normal status
-                    page : data.page,
-                    per_page : data.per_page
+                    page: data.page,
+                    per_page: data.per_page
                 };
                 news.getNewsFeed(currentUser._id, opts, function (error, result) {
                     if (error === -1) {
