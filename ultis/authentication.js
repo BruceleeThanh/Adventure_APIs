@@ -57,12 +57,12 @@ module.exports.cleanSocket = function (redisClient, id_user, callback) {
 };
 
 module.exports.getSocket = function (redisClient, id_user, callback) {
-    redisClient.get(id_user, function (error, reply) {
+    redisClient.get(id_user.toString(), function (error, reply) {
         if (error) {
             require(path.join(__dirname, '/logger.js'))().log('error', JSON.stringify(error));
             if (typeof callback === 'function') return callback(JSON.stringify(error), null);
         } else {
-            if (typeof callback === 'function') return callback(error, reply);
+            if (typeof callback === 'function') return callback(null, reply);
         }
     });
 };

@@ -6,6 +6,7 @@ var async = require('async');
 var path = require('path');
 var config = require(path.join(__dirname, '../', 'config.json'));
 var Conversation = require(path.join(__dirname, '../', 'schemas/conversation.js'));
+var message = require(path.join(__dirname, '../', 'cores/message.js'));
 
 exports.create = function (data, callback) {
     data.created_at = new Date();
@@ -49,14 +50,31 @@ exports.browse = function (data, callback) { // data : {id_user, page, per_page}
                 results = JSON.parse(JSON.stringify(results));
                 var conversations = [];
                 async.eachSeries(results, function (item, callback) {
-                    if (item.user_one._id.toHexString() === data.id_user) {
-                        delete item.user_one;
-                        conversations.push(item);
-                    } else if (item.user_two._id.toHexString() === data.id_user) {
-                        delete item.user_two;
-                        conversations.push(item);
+                    var partner = null;
+                    var notify = null;
+                    if (item.user_one._id === data.id_user) {
+                        partner = item.user_two;
+                        notify = item.notify_user_two;
+                    } else if (item.user_two._id === data.id_user) {
+                        partner = item.user_one;
+                        notify = item.notify_user_one;
                     }
-                    return callback(null);
+                    delete item.user_one;
+                    delete item.user_two;
+                    delete item.notify_user_one;
+                    delete item.notify_user_two;
+                    item.partner = partner;
+                    item.notify = notify;
+                    message.getLatestMessageByConversation(item._id, function (error, result) {
+                        var latestMessage = null;
+                        if (result) {
+                            latestMessage = JSON.parse(JSON.stringify(result));
+
+                        }
+                        item.latest_message = latestMessage[0];
+                        conversations.push(item);
+                        return callback(null);
+                    });
                 }, function (error) {
                     if (typeof callback === 'function') return callback(null, conversations);
                 });
@@ -65,3 +83,42 @@ exports.browse = function (data, callback) { // data : {id_user, page, per_page}
     });
 };
 
+exports.checkExisted = function (id_conversation, callback) {
+    var query = Conversation.findOne({
+        _id: id_conversation
+    });
+    query.exec(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (!result) {
+                if (typeof callback === 'function') return callback(-1, null);
+            }
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};
+
+exports.checkExistedByUser = function (user_one, user_two, callback) {
+    var query = Conversation.findOne({
+        $or: [{
+            user_one: user_one,
+            user_two: user_two
+        }, {
+            user_one: user_two,
+            user_two: user_one
+        }]
+    });
+    query.exec(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else {
+            if (!result) {
+                if (typeof callback === 'function') return callback(-1, null);
+            }
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+};

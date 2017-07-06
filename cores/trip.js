@@ -66,7 +66,166 @@ exports.getAll = function (data, callback) { // data: {permission, type, page, p
     });
 };
 
-exports.getByGroup = function(data, callback){ // data: id_group, page, per_page
+exports.getAllByUser = function (data, callback) { // data:{id_user, page, per_page}
+    var createdTrips = [];
+    getByOwner(data, function (error, results) {
+        if (results) {
+            createdTrips = JSON.parse(JSON.stringify(results));
+        }
+        async.parallel({
+            getCreated: function (callback) {
+                if (createdTrips.length > 0) {
+                    return callback(null, createdTrips);
+                } else {
+                    return callback(null, null);
+                }
+            },
+            getJoined: function (callback) {
+                var joinedTrips = [];
+                var option = {
+                    id_user: data.id_user,
+                    status: 3,
+                    page: data.page,
+                    per_page: data.per_page
+                };
+                trip_member.getIdTripByOwnerAndStatus(option, function (error, results) {
+                    if (results) {
+                        results = JSON.parse(JSON.stringify(results));
+                        var member = [];
+                        for (let i in results) {
+                            member.push(results[i].id_trip);
+                        }
+                        var create = [];
+                        for (let i in createdTrips) {
+                            create.push(createdTrips[i]._id);
+                        }
+                        joinedTrips = member.filter(function (e) {
+                            return create.indexOf(e) < 0;
+                        });
+                        getByListId(joinedTrips, function (error, results) {
+                            if (results) {
+                                return callback(null, results);
+                            } else {
+                                return callback(null, null);
+                            }
+                        });
+                    } else {
+                        return callback(null, null);
+                    }
+                })
+            },
+            getRequested: function (callback) {
+                var option = {
+                    id_user: data.id_user,
+                    status: 1,
+                    page: data.page,
+                    per_page: data.per_page
+                };
+                trip_member.getIdTripByOwnerAndStatus(option, function (error, results) {
+                    if (results) {
+                        var requestedTrips = [];
+                        results = JSON.parse(JSON.stringify(results));
+                        for (let i in results) {
+                            requestedTrips.push(results[i].id_trip);
+                        }
+                        getByListId(requestedTrips, function (error, results) {
+                            if (results) {
+                                return callback(null, results);
+                            } else {
+                                return callback(null, null);
+                            }
+                        });
+                    } else {
+                        return callback(null, null);
+                    }
+                })
+            },
+            getInterested: function (callback) {
+                trip_interested.getAllByUser(data, function (error, results) {
+                    if (results) {
+                        var interestedTrips = [];
+                        results = JSON.parse(JSON.stringify(results));
+                        for (let i in results) {
+                            interestedTrips.push(results[i].id_trip);
+                        }
+                        getByListId(interestedTrips, function (error, results) {
+                            if (results) {
+                                return callback(null, results);
+                            } else {
+                                return callback(null, null);
+                            }
+                        });
+                    } else {
+                        return callback(null, null);
+                    }
+                });
+            }
+        }, function (error, results) {
+            if (error) {
+                return callback(error, null);
+            } else if (!results) {
+                return callback(-1, null);
+            } else {
+                return callback(null, results);
+            }
+        });
+    });
+};
+
+exports.getByListId = getByListId;
+function getByListId(idTrips, callback) {
+    var query = Trip.find({
+        _id: {$in: idTrips}
+    });
+    query.select('_id owner id_group name start_position start_at end_at destination_summary expense images amount_people amount_member amount_interested amount_rating rating created_at permission type');
+    query.populate('owner', '_id first_name last_name avatar');
+    query.populate('id_group', '_id name');
+    query.sort({created_at: -1});
+    query.exec(function (error, results) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else if (results.length <= 0) {
+            if (typeof callback === 'function') return callback(-1, null);
+        } else {
+            if (typeof callback === 'function') {
+                return callback(null, results);
+            }
+        }
+    });
+};
+
+exports.getByOwner = getByOwner;
+function getByOwner(data, callback) { // data:{id_user, page, per_page}
+    var query = Trip.find({
+        owner: data.id_user
+    });
+    var limit = 10;
+    var offset = 0;
+    if (data.page !== undefined && data.per_page !== undefined) {
+        limit = data.per_page;
+        offset = (data.page - 1) * data.per_page;
+        query.skip(offset).limit(limit);
+    }
+    query.select('_id owner id_group name start_position start_at end_at destination_summary expense images amount_people amount_member amount_interested amount_rating rating created_at permission type');
+    query.populate('owner', '_id first_name last_name avatar');
+    query.populate('id_group', '_id name');
+    query.sort({created_at: -1});
+    query.exec(function (error, results) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else if (results.length <= 0) {
+            if (typeof callback === 'function') return callback(-1, null);
+        } else {
+            if (typeof callback === 'function') {
+                return callback(null, results);
+            }
+        }
+    });
+};
+
+exports.getByGroup = function (data, callback) { // data: id_group, page, per_page
     var query = Trip.find({
         id_group: data.id_group,
         type: 2
@@ -101,7 +260,7 @@ exports.getByGroup = function(data, callback){ // data: id_group, page, per_page
  * @param callback : function(error, result)
  * @return : all Trip of an user and interact of person called this API
  */
-exports.getByUser = function(data, callback){ // data: id_user, relation, page, per_page
+exports.getByUser = function (data, callback) { // data: id_user, relation, page, per_page
     /*
      * relation: 1: is you, 2: friend, 3: stranger
      * */

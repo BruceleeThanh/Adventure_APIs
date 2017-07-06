@@ -7,6 +7,8 @@ var fb = require(path.join(__dirname, '../', 'ultis/fb.js'));
 var User = require(path.join(__dirname, '../', 'schemas/user.js'));
 var trip = require(path.join(__dirname, '../', 'cores/trip.js'));
 var trip_map = require(path.join(__dirname, '../', 'cores/trip_map.js'));
+var friend = require(path.join(__dirname, '../', 'cores/friend.js'));
+var authentication = require(path.join(__dirname, '../', 'ultis/authentication.js'));
 
 exports.create = function (data, callback) {
     data.password = crypto.createHash('sha256').update(data.password).digest('hex');
@@ -319,6 +321,7 @@ exports.getDetail = function (id_user, callback) {
     })
 };
 
+exports.checkExisted = checkExisted;
 function checkExisted(id_user, callback) {
     var query = User.findOne({
         _id: id_user
@@ -334,8 +337,7 @@ function checkExisted(id_user, callback) {
             if (typeof callback === 'function') return callback(null, result);
         }
     });
-};
-exports.checkExisted = checkExisted;
+}
 
 exports.saveLoginDate = function (id_user, callback) {
     User.findOne({_id: id_user}).update({
@@ -346,4 +348,50 @@ exports.saveLoginDate = function (id_user, callback) {
         }
         if (typeof callback === 'function') return callback(null, null);
     });
+};
+
+exports.getLastVisitedAt = getLastVisitedAt;
+function getLastVisitedAt(id_user, callback) {
+    var query = User.findOne({
+        _id: id_user
+    });
+    query.select('last_visited_at -_id');
+    query.exec(function (error, result) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else if (!result) {
+            if (typeof callback === 'function') return callback(-1, null);
+        } else {
+            if (typeof callback === 'function') return callback(null, result);
+        }
+    });
+}
+
+exports.getUserOnline = function (redisClient, id_user, callback) {
+    var users = [];
+    friend.browse({_id: id_user}, function (error, results) {
+        async.eachSeries(results, function (item, callback) {
+            authentication.getSocket(redisClient, item._id, function (error, result) {
+                if (result) {
+                    users.push(item);
+                }
+                return callback(null, null);
+            });
+        }, function (error) {
+            return callback(null, users);
+        })
+    });
+};
+
+exports.checkUserOnline = function (redisClient, id_user, callback) {
+    authentication.getSocket(redisClient, id_user, function (error, result) {
+        if (error) {
+            return callback(error, null);
+        } else if (!result) {
+            return callback(-1, null);
+        } else {
+            return callback(null, result);
+        }
+    })
 };

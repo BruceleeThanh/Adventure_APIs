@@ -168,3 +168,27 @@ exports.checkTripMemberExistedById = function (_id, callback) {
         if (typeof callback === 'function') return callback(null, result);
     });
 };
+
+exports.getIdTripByOwnerAndStatus = function (data, callback) { // data:{id_user, status, page, per_page}
+    var query = TripMember.find({
+        owner: data.id_user,
+        status: data.status
+    });
+    var limit = 10;
+    var offset = 0;
+    if (data.page !== undefined && data.per_page !== undefined) {
+        limit = data.per_page;
+        offset = (data.page - 1) * data.per_page;
+        query.skip(offset).limit(limit);
+    }
+    query.select('-_id id_trip');
+    query.exec(function (error, results) {
+        if (error) {
+            require(path.join(__dirname, '../', 'ultis/logger.js'))().log('error', JSON.stringify(error));
+            if (typeof callback === 'function') return callback(-2, null);
+        } else if (results.length <= 0) {
+            if (typeof callback === 'function') return callback(-1, null);
+        }
+        if (typeof callback === 'function') return callback(null, results);
+    });
+};

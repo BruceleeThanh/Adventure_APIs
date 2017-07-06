@@ -17,15 +17,18 @@ var conversationSchema = Schema({
     },
     notify_user_one: {
         type: Number,
-        required: false
+        required: false,
+        default: 0
     },
     notify_user_two: {
         type: Number,
-        required: false
+        required: false,
+        default: 0
     },
     created_at: {
         type: Date,
-        required: false
+        required: false,
+        default: new Date()
     }
 });
 

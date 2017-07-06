@@ -103,7 +103,7 @@ function getById(id_group, callback) {
             }
         }
     });
-};
+}
 
 exports.getDetail = function (data, callback) { // data: id_user, id_group, page, per_page
     var foundGroup = null;
@@ -305,4 +305,4 @@ function checkOwner(id_group, id_user, callback) {
             }
         }
     });
-};
+}

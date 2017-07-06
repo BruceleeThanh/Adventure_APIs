@@ -42,11 +42,11 @@ exports.getTimeLine = function (data, callback) { // data : {id_user, relation, 
             foundTrips[i].type_item = 2;
             foundPost.push(foundTrips[i]);
         }
-        if(foundPost.length === 0){
+        if (foundPost.length === 0) {
             return callback(null, null);
-        }else{
+        } else {
             async.sortBy(foundPost, function (obj, callback) {
-                callback(error,  new Date(obj.created_at).getTime() * -1);
+                callback(error, new Date(obj.created_at).getTime() * -1);
             }, function (error, sorted) {
                 foundPost = sorted;
                 return callback(null, foundPost);
@@ -55,16 +55,21 @@ exports.getTimeLine = function (data, callback) { // data : {id_user, relation, 
     });
 };
 
-exports.getNewsFeed = function (id_user, data, callback) {
+exports.getNewsFeed = function (data, callback) {
     var lstStatus = null;
     async.series({
         getStatus: function (callback) {
             var query = Status.find({
-                $and: [
-                    {owner: {$in: data._id}},
-                    {permission: {$in: data.permission}}
-                ],
-                type: data.type
+                $or: [{
+                    $and: [
+                        {owner: {$in: data.friends}},
+                        {permission: {$in: [2, 3]}}
+                    ],
+                    type: 1
+                },{
+                    id_group: {$in: data.groups},
+                    type: 3
+                }]
             });
             var limit = 10;
             var offset = 0;
@@ -73,8 +78,9 @@ exports.getNewsFeed = function (id_user, data, callback) {
                 offset = (data.page - 1) * data.per_page;
                 query.skip(offset).limit(limit);
             }
-            query.select('_id owner content images amount_like amount_comment type permission created_at');
+            query.select('_id owner id_group content images amount_like amount_comment type permission created_at');
             query.populate('owner', '_id first_name last_name avatar');
+            query.populate('id_group', '_id name');
             query.sort({created_at: -1});
             query.exec(function (error, results) {
                 if (error) {
@@ -95,7 +101,7 @@ exports.getNewsFeed = function (id_user, data, callback) {
             async.eachSeries(lstStatus, function (item, callback) {
                 async.parallel({
                     checkLike: function (callback) {
-                        like_status.checkLikeStatusExits(item._id, id_user, function (error, result) {
+                        like_status.checkLikeStatusExits(item._id, data.id_user, function (error, result) {
                             if (error) {
                                 item.is_like = 0;
                                 return callback(null, null);
@@ -106,7 +112,7 @@ exports.getNewsFeed = function (id_user, data, callback) {
                         });
                     },
                     checkComment: function (callback) {
-                        comment_status.checkUserAlreadyCommentOnStatus(item._id, id_user, function (error, result) {
+                        comment_status.checkUserAlreadyCommentOnStatus(item._id, data.id_user, function (error, result) {
                             if (error) {
                                 item.is_comment = 0;
                                 return callback(null, null);

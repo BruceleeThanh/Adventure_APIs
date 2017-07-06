@@ -15,6 +15,8 @@ var comment_status = require(path.join(__dirname, '/comment_status.js'));
 var notification = require(path.join(__dirname, '/notification.js'));
 var group = require(path.join(__dirname, '/group.js'));
 var group_member = require(path.join(__dirname, '/group_member.js'));
+var conversation = require(path.join(__dirname, '/conversation.js'));
+var message = require(path.join(__dirname, '/message.js'));
 
 module.exports = function (app, redisClient) {
     user(app, redisClient);
@@ -32,4 +34,6 @@ module.exports = function (app, redisClient) {
     notification(app, redisClient);
     group(app, redisClient);
     group_member(app, redisClient);
+    conversation(app, redisClient);
+    //message(app, redisClient);
 };

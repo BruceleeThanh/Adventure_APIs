@@ -52,6 +52,9 @@
     },
     {
       "name": "group_member"
+    },
+    {
+      "name": "conversation"
     }
   ],
   "schemes": [
@@ -1947,6 +1950,154 @@
         }
       }
     },
+    "/api/news/public_trip": {
+      "get": {
+        "tags": [
+          "news"
+        ],
+        "description": "browse public trip",
+        "operationId": "public_trip",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page to pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "item per page for pagination",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "test status"
+                    },
+                    "start_position": {
+                      "type": "string",
+                      "example": "start position"
+                    },
+                    "start_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "end_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "destination_summary": {
+                      "type": "string",
+                      "example": "description summary"
+                    },
+                    "expense": {
+                      "type": "string",
+                      "example": "100$"
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "url",
+                          "other url"
+                        ]
+                      }
+                    },
+                    "amount_people": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "amount_member": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "amount_interested": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "amount_rating": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "rating": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "permission": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "description": "total of record",
+                  "example": 10
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/like_status/browse": {
       "post": {
         "tags": [
@@ -2848,154 +2999,6 @@
         }
       }
     },
-    "/api/trip/browse": {
-      "get": {
-        "tags": [
-          "trip"
-        ],
-        "description": "browse public trip",
-        "operationId": "browse",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "query",
-            "description": "token",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "page to pagination",
-            "required": false,
-            "type": "number"
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "item per page for pagination",
-            "required": false,
-            "type": "number"
-          }
-        ],
-        "responses": {
-          "200": {
-            "schema": {
-              "properties": {
-                "code": {
-                  "type": "integer",
-                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
-                  "example": 1
-                },
-                "data": {
-                  "type": "object",
-                  "description": "in case of success",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "example": "5769097529f87b5c271728e5"
-                    },
-                    "owner": {
-                      "type": "object",
-                      "properties": {
-                        "_id": {
-                          "type": "string",
-                          "example": "5769097529f87b5c271728e5"
-                        },
-                        "first_name": {
-                          "type": "string",
-                          "example": "Brucelee Thanh"
-                        },
-                        "last_name": {
-                          "type": "string",
-                          "example": "Brucelee Thanh"
-                        },
-                        "avatar": {
-                          "type": "string",
-                          "example": ""
-                        }
-                      }
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "test status"
-                    },
-                    "start_position": {
-                      "type": "string",
-                      "example": "start position"
-                    },
-                    "start_at": {
-                      "type": "date-time",
-                      "example": "2016-10-05T04:27:58.144Z"
-                    },
-                    "end_at": {
-                      "type": "date-time",
-                      "example": "2016-10-05T04:27:58.144Z"
-                    },
-                    "destination_summary": {
-                      "type": "string",
-                      "example": "description summary"
-                    },
-                    "expense": {
-                      "type": "string",
-                      "example": "100$"
-                    },
-                    "images": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "url",
-                          "other url"
-                        ]
-                      }
-                    },
-                    "amount_people": {
-                      "type": "number",
-                      "example": 10
-                    },
-                    "amount_member": {
-                      "type": "number",
-                      "example": 10
-                    },
-                    "amount_interested": {
-                      "type": "number",
-                      "example": 10
-                    },
-                    "amount_rating": {
-                      "type": "number",
-                      "example": 10
-                    },
-                    "rating": {
-                      "type": "number",
-                      "example": 10
-                    },
-                    "created_at": {
-                      "type": "date-time",
-                      "example": "2016-10-05T04:27:58.144Z"
-                    },
-                    "permission": {
-                      "type": "number",
-                      "example": 1
-                    }
-                  }
-                },
-                "total": {
-                  "type": "number",
-                  "description": "total of record",
-                  "example": 10
-                },
-                "message": {
-                  "type": "string",
-                  "description": "in case of error",
-                  "example": "token is not found"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/trip/create": {
       "post": {
         "tags": [
@@ -3254,6 +3257,154 @@
                       "example": 1
                     }
                   }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trip/browse": {
+      "get": {
+        "tags": [
+          "trip"
+        ],
+        "description": "browse all trip of user",
+        "operationId": "browse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page to pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "item per page for pagination",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5769097529f87b5c271728e5"
+                    },
+                    "owner": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "5769097529f87b5c271728e5"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Brucelee Thanh"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "test status"
+                    },
+                    "start_position": {
+                      "type": "string",
+                      "example": "start position"
+                    },
+                    "start_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "end_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "destination_summary": {
+                      "type": "string",
+                      "example": "description summary"
+                    },
+                    "expense": {
+                      "type": "string",
+                      "example": "100$"
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "url",
+                          "other url"
+                        ]
+                      }
+                    },
+                    "amount_people": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "amount_member": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "amount_interested": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "amount_rating": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "rating": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2016-10-05T04:27:58.144Z"
+                    },
+                    "permission": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "description": "total of record",
+                  "example": 10
                 },
                 "message": {
                   "type": "string",
@@ -6485,6 +6636,127 @@
                   "type": "object",
                   "description": "in case of success",
                   "example": "done"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/conversation/browse": {
+      "post": {
+        "tags": [
+          "conversation"
+        ],
+        "description": "browse all user online and conversation",
+        "operationId": "browse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "formData",
+            "description": "page to pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "formData",
+            "description": "item per page for pagination",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "description": "in case of error",
+                  "example": "token is not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/conversation/initialize": {
+      "post": {
+        "tags": [
+          "conversation"
+        ],
+        "description": "initialize conversation",
+        "operationId": "initialize",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_partner",
+            "in": "formData",
+            "description": "id partner",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "formData",
+            "description": "page to pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "in": "formData",
+            "description": "item per page for pagination",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "1: success; 0: invalid params; -1: Redis error; -2: DB error; -3: Token is not found;",
+                  "example": 1
+                },
+                "data": {
+                  "type": "object",
+                  "description": "in case of success",
+                  "properties": {
+
+                  }
                 },
                 "message": {
                   "type": "string",
