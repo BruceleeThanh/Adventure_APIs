@@ -2,12 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7a9469a-14aa-4ca4-8f74-da481260a783" name="Default" comment="" />
+    <list id="e330c07b-9e61-4d52-b8d2-d5963ee622f7" name="git exclude" comment="git exclude">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.json" afterPath="$PROJECT_DIR$/config.json" />
+    </list>
     <ignored path="AdventureServer.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <file path="$PROJECT_DIR$/config.json" ignored="true" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,116 +34,92 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="group.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/schemas/group.js">
+      <file leaf-file-name="trip.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/trip.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+            <state relative-caret-position="6858">
+              <caret line="381" column="33" selection-start-line="381" selection-start-column="33" selection-end-line="381" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="friend.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/schemas/friend.js">
+      <file leaf-file-name="news.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cores/news.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#51#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="216">
+              <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="member_group.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/schemas/member_group.js">
+      <file leaf-file-name="status.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cores/status.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="25" column="23" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#51#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="2484">
+              <caret line="138" column="23" selection-start-line="138" selection-start-column="23" selection-end-line="138" selection-end-column="23" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="request_group.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/schemas/request_group.js">
+      <file leaf-file-name="status.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/schemas/status.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#51#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="882">
+              <caret line="49" column="69" selection-start-line="49" selection-start-column="69" selection-end-line="49" selection-end-column="69" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="news.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/routes/news.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="576">
+              <caret line="136" column="42" selection-start-line="136" selection-start-column="42" selection-end-line="136" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="trip_member.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/schemas/trip_member.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="trip.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/schemas/trip.js">
+        <entry file="file://$PROJECT_DIR$/cores/trip.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1530">
-              <caret line="87" column="20" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#51#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routes.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/schemas/routes.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#51#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="friend.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cores/friend.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+            <state relative-caret-position="5256">
+              <caret line="292" column="53" selection-start-line="292" selection-start-column="53" selection-end-line="292" selection-end-column="53" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="file.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/routes/file.js">
+      <file leaf-file-name="trip_interested.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cores/trip_interested.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state relative-caret-position="1170">
+              <caret line="65" column="33" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="period.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/schemas/period.js">
+      <file leaf-file-name="trip_interested.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/schemas/trip_interested.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-              <folding>
-                <element signature="e#0#51#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="place.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/schemas/place.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="756">
-              <caret line="44" column="23" selection-start-line="44" selection-start-column="23" selection-end-line="44" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#51#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="144">
+              <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -147,25 +134,63 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/config.js" />
-        <option value="$PROJECT_DIR$/config.json" />
-        <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/server.js" />
+        <option value="$PROJECT_DIR$/schemas/trip_request.js" />
+        <option value="$PROJECT_DIR$/routes/like_status.js" />
+        <option value="$PROJECT_DIR$/schemas/trip_interested.js" />
+        <option value="$PROJECT_DIR$/cores/notification.js" />
         <option value="$PROJECT_DIR$/schemas/place.js" />
-        <option value="$PROJECT_DIR$/schemas/routes.js" />
-        <option value="$PROJECT_DIR$/schemas/user.js" />
-        <option value="$PROJECT_DIR$/schemas/follow.js" />
-        <option value="$PROJECT_DIR$/schemas/friend.js" />
-        <option value="$PROJECT_DIR$/schemas/friend_request.js" />
+        <option value="$PROJECT_DIR$/routes/trip_map.js" />
+        <option value="$USER_HOME$/AppData/Local/Temp/Mxt93/RemoteFiles/460446_9_3/package.json" />
+        <option value="$USER_HOME$/AppData/Local/Temp/Mxt93/RemoteFiles/460446_14_4/package.json" />
+        <option value="$PROJECT_DIR$/schemas/detail_diary.js" />
+        <option value="$PROJECT_DIR$/schemas/trip_diary.js" />
+        <option value="$PROJECT_DIR$/ultis/validator.js" />
+        <option value="$PROJECT_DIR$/routes/trip_diary.js" />
+        <option value="$PROJECT_DIR$/cores/trip_diary.js" />
+        <option value="$PROJECT_DIR$/routes/file.js" />
+        <option value="$PROJECT_DIR$/swagger/index.html" />
+        <option value="$PROJECT_DIR$/routes/friend.js" />
         <option value="$PROJECT_DIR$/schemas/group.js" />
-        <option value="$PROJECT_DIR$/schemas/member_group.js" />
-        <option value="$PROJECT_DIR$/schemas/period.js" />
-        <option value="$PROJECT_DIR$/schemas/request_group.js" />
+        <option value="$PROJECT_DIR$/config.json" />
+        <option value="$PROJECT_DIR$/ultis/fb.js" />
+        <option value="$PROJECT_DIR$/schemas/group_member.js" />
+        <option value="$PROJECT_DIR$/routes/group.js" />
+        <option value="$PROJECT_DIR$/schemas/trip_member.js" />
+        <option value="$PROJECT_DIR$/routes/trip_member.js" />
+        <option value="$PROJECT_DIR$/cores/group_member.js" />
+        <option value="$PROJECT_DIR$/routes/group_member.js" />
+        <option value="$PROJECT_DIR$/cores/status.js" />
+        <option value="$PROJECT_DIR$/cores/trip_map.js" />
+        <option value="$PROJECT_DIR$/routes/user.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/server.js" />
+        <option value="$PROJECT_DIR$/schemas/message.js" />
+        <option value="$PROJECT_DIR$/cores/friend.js" />
+        <option value="$PROJECT_DIR$/schemas/user.js" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/routes/message.js" />
+        <option value="$PROJECT_DIR$/schemas/conversation.js" />
+        <option value="$PROJECT_DIR$/cores/user.js" />
+        <option value="$PROJECT_DIR$/ultis/authentication.js" />
+        <option value="$PROJECT_DIR$/routes/conversation.js" />
+        <option value="$PROJECT_DIR$/cores/message.js" />
+        <option value="$PROJECT_DIR$/cores/conversation.js" />
+        <option value="$PROJECT_DIR$/routes/socket.js" />
+        <option value="$PROJECT_DIR$/cores/group.js" />
+        <option value="$PROJECT_DIR$/cores/news.js" />
         <option value="$PROJECT_DIR$/schemas/trip.js" />
+        <option value="$PROJECT_DIR$/cores/trip_interested.js" />
+        <option value="$PROJECT_DIR$/swagger/api-docs.json" />
+        <option value="$PROJECT_DIR$/cores/trip_member.js" />
+        <option value="$PROJECT_DIR$/routes/news.js" />
+        <option value="$PROJECT_DIR$/routes/trip.js" />
+        <option value="$PROJECT_DIR$/cores/trip.js" />
       </list>
     </option>
   </component>
@@ -182,8 +207,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="754" />
+    <option name="width" value="1936" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -237,14 +262,14 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="2" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -262,7 +287,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -291,7 +315,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="uploads" />
+              <option name="myItemId" value="ultis" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -305,7 +329,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ultis" />
+              <option name="myItemId" value="swagger" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -353,20 +377,37 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Problems" />
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="AdventureServer">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/cores" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="GO_FMT" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Jobs\Adventure_KLTN\AdventureSource\AdventureServer\schemas" />
       <recent name="E:\Jobs\Adventure_KLTN\AdventureSource\AdventureServer\routes" />
       <recent name="E:\Jobs\Adventure_KLTN\AdventureSource\AdventureServer\cores" />
       <recent name="E:\Jobs\Adventure_KLTN\AdventureSource\AdventureServer\utils" />
@@ -457,6 +498,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b7a9469a-14aa-4ca4-8f74-da481260a783" name="Default" comment="" />
+      <changelist id="e330c07b-9e61-4d52-b8d2-d5963ee622f7" name="git exclude" comment="" />
       <created>1477672562057</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -473,34 +515,599 @@
       <workItem from="1479347451383" duration="9220000" />
       <workItem from="1479883460214" duration="1830000" />
       <workItem from="1479971771106" duration="1231000" />
-      <workItem from="1480088092865" duration="1322000" />
+      <workItem from="1480088092865" duration="6443000" />
+      <workItem from="1480177427913" duration="6119000" />
+      <workItem from="1480257798489" duration="10413000" />
+      <workItem from="1480314067211" duration="7954000" />
+      <workItem from="1480324412069" duration="5960000" />
+      <workItem from="1480336841802" duration="5904000" />
+      <workItem from="1480439558908" duration="607000" />
+      <workItem from="1480486191629" duration="10965000" />
+      <workItem from="1480519761619" duration="8906000" />
+      <workItem from="1480561919113" duration="18969000" />
+      <workItem from="1480591303584" duration="8755000" />
+      <workItem from="1480610509641" duration="9371000" />
+      <workItem from="1480643440547" duration="10261000" />
+      <workItem from="1480659939661" duration="14238000" />
+      <workItem from="1480793125521" duration="2057000" />
+      <workItem from="1480795727025" duration="667000" />
+      <workItem from="1480869170665" duration="1360000" />
+      <workItem from="1480922449783" duration="7003000" />
+      <workItem from="1481013603852" duration="2408000" />
+      <workItem from="1481042271909" duration="1534000" />
+      <workItem from="1481081792960" duration="2090000" />
+      <workItem from="1481163737397" duration="5995000" />
+      <workItem from="1481178228578" duration="3046000" />
+      <workItem from="1481181429249" duration="3253000" />
+      <workItem from="1481213631486" duration="1219000" />
+      <workItem from="1481278443981" duration="2617000" />
+      <workItem from="1481351716717" duration="10517000" />
+      <workItem from="1481388195513" duration="601000" />
+      <workItem from="1481460548345" duration="6645000" />
+      <workItem from="1481537948526" duration="2184000" />
+      <workItem from="1481602472003" duration="598000" />
+      <workItem from="1481700169708" duration="6405000" />
+      <workItem from="1481741964427" duration="939000" />
+      <workItem from="1481801633541" duration="1559000" />
+      <workItem from="1482079602780" duration="653000" />
+      <workItem from="1482134083450" duration="8984000" />
+      <workItem from="1482166470877" duration="3802000" />
+      <workItem from="1482203920774" duration="3563000" />
+      <workItem from="1482219204114" duration="1184000" />
+      <workItem from="1482251530125" duration="25665000" />
+      <workItem from="1482339739579" duration="10066000" />
+      <workItem from="1482384081594" duration="662000" />
+      <workItem from="1482416216615" duration="3933000" />
+      <workItem from="1482426902109" duration="5368000" />
+      <workItem from="1482483637866" duration="7464000" />
+      <workItem from="1482506993991" duration="7359000" />
+      <workItem from="1482570423287" duration="4998000" />
+      <workItem from="1482582168882" duration="2673000" />
+      <workItem from="1482595867526" duration="1341000" />
+      <workItem from="1482678371679" duration="8042000" />
+      <workItem from="1482695808560" duration="404000" />
+      <workItem from="1482734581854" duration="6681000" />
+      <workItem from="1482834400460" duration="3871000" />
+      <workItem from="1482863124162" duration="1523000" />
+      <workItem from="1482903113070" duration="8555000" />
+      <workItem from="1482951187033" duration="5199000" />
+      <workItem from="1483007875223" duration="77000" />
+      <workItem from="1483159113248" duration="2823000" />
+      <workItem from="1483259257014" duration="2515000" />
+      <workItem from="1483293667604" duration="598000" />
+      <workItem from="1483371123281" duration="2362000" />
+      <workItem from="1483419820839" duration="12086000" />
+      <workItem from="1483640464711" duration="869000" />
+      <workItem from="1483674593352" duration="761000" />
+      <workItem from="1483685722916" duration="1297000" />
+      <workItem from="1483897140381" duration="708000" />
+      <workItem from="1484037146059" duration="1468000" />
+      <workItem from="1484128164419" duration="3012000" />
+      <workItem from="1484155474132" duration="1683000" />
+      <workItem from="1484214676687" duration="16059000" />
+      <workItem from="1484291548518" duration="3885000" />
+      <workItem from="1484331240155" duration="6843000" />
+      <workItem from="1484425699384" duration="3291000" />
+      <workItem from="1484485579343" duration="3917000" />
+      <workItem from="1484639905054" duration="1789000" />
+      <workItem from="1484710643727" duration="2043000" />
+      <workItem from="1484808164722" duration="11828000" />
+      <workItem from="1484848040229" duration="5950000" />
+      <workItem from="1484937476278" duration="5418000" />
+      <workItem from="1484986717432" duration="3453000" />
+      <workItem from="1485188795684" duration="8262000" />
+      <workItem from="1485448870875" duration="2452000" />
+      <workItem from="1485541741205" duration="3489000" />
+      <workItem from="1485628730027" duration="904000" />
+      <workItem from="1485712986109" duration="1227000" />
+      <workItem from="1485852239441" duration="5459000" />
+      <workItem from="1485939437192" duration="3305000" />
+      <workItem from="1485969380968" duration="9483000" />
+      <workItem from="1486133268846" duration="10202000" />
+      <workItem from="1486218705647" duration="3001000" />
+      <workItem from="1486374105190" duration="2241000" />
+      <workItem from="1486448414829" duration="12939000" />
+      <workItem from="1486573560388" duration="6843000" />
+      <workItem from="1486628460539" duration="3700000" />
+      <workItem from="1487088325458" duration="2382000" />
+      <workItem from="1487258195550" duration="835000" />
+      <workItem from="1487481919919" duration="2783000" />
+      <workItem from="1488296152391" duration="997000" />
+      <workItem from="1488467666107" duration="611000" />
+      <workItem from="1488565392732" duration="11825000" />
+      <workItem from="1488643649310" duration="12902000" />
+      <workItem from="1488713711833" duration="761000" />
+      <workItem from="1488736430902" duration="1358000" />
+      <workItem from="1488987357104" duration="6534000" />
+      <workItem from="1489310906183" duration="2562000" />
+      <workItem from="1489339866331" duration="599000" />
+      <workItem from="1489423073377" duration="3885000" />
+      <workItem from="1489505738454" duration="4285000" />
+      <workItem from="1489592742309" duration="7700000" />
+      <workItem from="1489775300747" duration="1745000" />
+      <workItem from="1489830032841" duration="913000" />
+      <workItem from="1489852701151" duration="7032000" />
+      <workItem from="1490377084124" duration="2645000" />
+      <workItem from="1490458039937" duration="4615000" />
+      <workItem from="1490725704335" duration="367000" />
+      <workItem from="1491118638366" duration="3243000" />
+      <workItem from="1491147448438" duration="669000" />
+      <workItem from="1491715320507" duration="1156000" />
+      <workItem from="1492018581297" duration="899000" />
+      <workItem from="1492221008343" duration="4087000" />
+      <workItem from="1493400988109" duration="2638000" />
+      <workItem from="1493483382224" duration="1304000" />
+      <workItem from="1493655576676" duration="4654000" />
+      <workItem from="1493741752642" duration="4248000" />
+      <workItem from="1493828311729" duration="7640000" />
+      <workItem from="1494477433519" duration="605000" />
+      <workItem from="1494568883464" duration="11169000" />
+      <workItem from="1494694314580" duration="3812000" />
+      <workItem from="1494825579525" duration="3278000" />
+      <workItem from="1494867713793" duration="733000" />
+      <workItem from="1494903500397" duration="1574000" />
+      <workItem from="1494953561562" duration="2565000" />
+      <workItem from="1494993687828" duration="6773000" />
+      <workItem from="1495044374189" duration="3024000" />
+      <workItem from="1495084614446" duration="1199000" />
+      <workItem from="1495128720964" duration="2397000" />
+      <workItem from="1495211656128" duration="6090000" />
+      <workItem from="1495255016148" duration="2463000" />
+      <workItem from="1495301422373" duration="1472000" />
+      <workItem from="1495343384714" duration="847000" />
+      <workItem from="1495344421612" duration="2485000" />
+      <workItem from="1495439643671" duration="2965000" />
+      <workItem from="1495503687611" duration="13842000" />
+      <workItem from="1495594478279" duration="4214000" />
+      <workItem from="1495637021362" duration="2333000" />
+      <workItem from="1495820315761" duration="9728000" />
+      <workItem from="1495987214026" duration="663000" />
+      <workItem from="1496026916238" duration="22718000" />
+      <workItem from="1496112304199" duration="5595000" />
+      <workItem from="1496162446189" duration="6230000" />
+      <workItem from="1496289667881" duration="1481000" />
+      <workItem from="1496338710593" duration="848000" />
+      <workItem from="1496384522869" duration="9365000" />
+      <workItem from="1496428141846" duration="1737000" />
+      <workItem from="1496469857782" duration="4608000" />
+      <workItem from="1496598513488" duration="3836000" />
+      <workItem from="1496648895700" duration="5221000" />
+      <workItem from="1496689162498" duration="1159000" />
+      <workItem from="1496726407030" duration="1148000" />
+      <workItem from="1496736440686" duration="1798000" />
+      <workItem from="1496819770207" duration="4665000" />
+      <workItem from="1496856197486" duration="2071000" />
+      <workItem from="1496907973943" duration="5399000" />
+      <workItem from="1496944548512" duration="2932000" />
+      <workItem from="1496978500055" duration="7997000" />
+      <workItem from="1497336240720" duration="2757000" />
+      <workItem from="1497421820145" duration="11951000" />
+      <workItem from="1497463034343" duration="2398000" />
+      <workItem from="1497507881100" duration="4254000" />
+      <workItem from="1497546429407" duration="1986000" />
+      <workItem from="1497585863674" duration="3733000" />
+      <workItem from="1497634946794" duration="4151000" />
+      <workItem from="1497805395642" duration="2982000" />
+      <workItem from="1498034911509" duration="10187000" />
+      <workItem from="1498224626626" duration="13629000" />
+      <workItem from="1498463344310" duration="1754000" />
+      <workItem from="1498495302837" duration="611000" />
+      <workItem from="1498537123798" duration="8982000" />
+      <workItem from="1498624460212" duration="21313000" />
+      <workItem from="1498706853863" duration="8593000" />
+      <workItem from="1498757918134" duration="595000" />
+      <workItem from="1498809105898" duration="8906000" />
+      <workItem from="1498828440089" duration="6953000" />
+      <workItem from="1498878746651" duration="12318000" />
+      <workItem from="1498926617304" duration="6055000" />
+      <workItem from="1498969302177" duration="3103000" />
+      <workItem from="1498981211719" duration="887000" />
+      <workItem from="1499068717580" duration="6153000" />
+      <workItem from="1499139555518" duration="8253000" />
+      <workItem from="1499278796368" duration="667000" />
+      <workItem from="1499323060793" duration="7187000" />
+      <workItem from="1499376113026" duration="101000" />
+      <workItem from="1499403743313" duration="658000" />
+      <workItem from="1499625385659" duration="54000" />
     </task>
+    <task id="LOCAL-00039" summary="edit FCM #2">
+      <created>1482911909409</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1482911909410</updated>
+    </task>
+    <task id="LOCAL-00040" summary="edit FCM #3, create Find One Status">
+      <created>1482954474696</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1482954474696</updated>
+    </task>
+    <task id="LOCAL-00041" summary="fix bug FCM #7">
+      <created>1482959025468</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1482959025468</updated>
+    </task>
+    <task id="LOCAL-00042" summary="edit FCM #4 create FCM for comment status">
+      <created>1483162991057</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1483162991057</updated>
+    </task>
+    <task id="LOCAL-00043" summary="fix bug FCM comment status">
+      <created>1483261201630</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1483261201630</updated>
+    </task>
+    <task id="LOCAL-00044" summary="create viewed and clicked noti">
+      <created>1483434519868</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1483434519868</updated>
+    </task>
+    <task id="LOCAL-00045" summary="edit perPage to per_page">
+      <created>1483464872117</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1483464872117</updated>
+    </task>
+    <task id="LOCAL-00046" summary="fix bug News Feed missing pagination">
+      <created>1483465880018</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1483465880018</updated>
+    </task>
+    <task id="LOCAL-00047" summary="fix bug News Feed missing pagination #2">
+      <created>1483466886924</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1483466886924</updated>
+    </task>
+    <task id="LOCAL-00048" summary="edit Viewed Notifications">
+      <created>1483474537862</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1483474537862</updated>
+    </task>
+    <task id="LOCAL-00049" summary="fix bug like status notif #8, edit swagger Viewed Notif">
+      <created>1483686401498</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1483686401498</updated>
+    </task>
+    <task id="LOCAL-00050" summary="fix bug swagger create trip">
+      <created>1484128286205</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1484128286206</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Fix bug newsfeed and trip/create. Create trip/browse (public trip)">
+      <created>1484253830103</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1484253830104</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Fix bug trip/browse (public trip)">
+      <created>1484255182281</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1484255182281</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Fix bug trip/browse (public trip) #2">
+      <created>1484292895349</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1484292895351</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Fix bug trip/browse (public trip) #3">
+      <created>1484306153124</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1484306153124</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Fix bug trip/create #2">
+      <created>1484333456043</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1484333456044</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Fix bug trip/browse #4">
+      <created>1484334824556</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1484334824564</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Fix bug trip/create #4">
+      <created>1484336993512</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1484336993512</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Create trip/detail (schedule and places)">
+      <created>1484340661302</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1484340661302</updated>
+    </task>
+    <task id="LOCAL-00059" summary="fix bug trip/create #5">
+      <created>1484428501277</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1484428501279</updated>
+    </task>
+    <task id="LOCAL-00060" summary="change response in trip/detail">
+      <created>1484485870681</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1484485870682</updated>
+    </task>
+    <task id="LOCAL-00061" summary="fix bug trip_map/create">
+      <created>1484500088637</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1484500088638</updated>
+    </task>
+    <task id="LOCAL-00062" summary="fix bug trip_map/create #2">
+      <created>1484500141791</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1484500141794</updated>
+    </task>
+    <task id="LOCAL-00063" summary="fix bug noti like status, create trip_member module">
+      <created>1484939348783</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1484939348784</updated>
+    </task>
+    <task id="LOCAL-00064" summary="fix bug noti like status #2">
+      <created>1484939769231</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1484939769232</updated>
+    </task>
+    <task id="LOCAL-00065" summary="fix bug detail trip">
+      <created>1485194967846</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1485194967858</updated>
+    </task>
+    <task id="LOCAL-00066" summary="fix bug browse trip">
+      <created>1485454335100</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1485454335101</updated>
+    </task>
+    <task id="LOCAL-00067" summary="create interested trip">
+      <created>1485943875878</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1485943875879</updated>
+    </task>
+    <task id="LOCAL-00068" summary="edit trip detail">
+      <created>1486023296056</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1486023296057</updated>
+    </task>
+    <task id="LOCAL-00069" summary="fix bug detail trip">
+      <created>1486024916850</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1486024916850</updated>
+    </task>
+    <task id="LOCAL-00070" summary="undo fix bug detail trip">
+      <created>1486028987789</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1486028987789</updated>
+    </task>
+    <task id="LOCAL-00071" summary="fix bug interested trip and uninterested trip">
+      <created>1486059010326</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1486059010326</updated>
+    </task>
+    <task id="LOCAL-00072" summary="fix bug uninterested trip #2">
+      <created>1486060129441</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1486060129442</updated>
+    </task>
+    <task id="LOCAL-00073" summary="edit detail trip #2">
+      <created>1486143511046</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1486143511046</updated>
+    </task>
+    <task id="LOCAL-00074" summary="fix bug and rename func">
+      <created>1486148599005</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1486148599005</updated>
+    </task>
+    <task id="LOCAL-00075" summary="done task insert owner trip into member trip">
+      <created>1486148765283</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1486148765283</updated>
+    </task>
+    <task id="LOCAL-00076" summary="create accept and reject trip member">
+      <created>1486574402333</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1486574402334</updated>
+    </task>
+    <task id="LOCAL-00077" summary="done task trip_member, create trip_diary (not done yet)">
+      <created>1488736964799</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1488736964800</updated>
+    </task>
+    <task id="LOCAL-00078" summary="revert ip server">
+      <created>1488737420228</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1488737420228</updated>
+    </task>
+    <task id="LOCAL-00079" summary="revert ip server">
+      <created>1488737590833</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1488737590833</updated>
+    </task>
+    <task id="LOCAL-00080" summary="create trip diary detail">
+      <created>1489311203930</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1489311203930</updated>
+    </task>
+    <task id="LOCAL-00081" summary="edit trip detail">
+      <created>1489313033275</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1489313033275</updated>
+    </task>
+    <task id="LOCAL-00082" summary="edit create trip and trip detail">
+      <created>1489428493430</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1489428493431</updated>
+    </task>
+    <task id="LOCAL-00083" summary="reverse ip server">
+      <created>1489428588453</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1489428588453</updated>
+    </task>
+    <task id="LOCAL-00084" summary="create edit_profile, fix bug.">
+      <created>1495344325829</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1495344325830</updated>
+    </task>
+    <task id="LOCAL-00085" summary="edit login_fb, fb_auth. create group. group member, fix bug">
+      <created>1496604493213</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1496604493213</updated>
+    </task>
+    <task id="LOCAL-00086" summary="done group, profile_basic_info, create SocketIO">
+      <created>1498680694332</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1498680694335</updated>
+    </task>
+    <task id="LOCAL-00087" summary="edit many many many">
+      <created>1499376195920</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1499376195922</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46599000" />
+    <option name="totallyTimeSpent" value="965155000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24851191" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24288724" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.3296582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.3296582" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -513,399 +1120,406 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="change response in trip/detail" />
+    <MESSAGE value="fix bug trip_map/create" />
+    <MESSAGE value="fix bug trip_map/create #2" />
+    <MESSAGE value="fix bug noti like status, create trip_member module" />
+    <MESSAGE value="fix bug noti like status #2" />
+    <MESSAGE value="fix bug browse trip" />
+    <MESSAGE value="create interested trip" />
+    <MESSAGE value="fix bug detail trip" />
+    <MESSAGE value="undo fix bug detail trip" />
+    <MESSAGE value="fix bug interested trip and uninterested trip" />
+    <MESSAGE value="fix bug uninterested trip #2" />
+    <MESSAGE value="edit detail trip #2" />
+    <MESSAGE value="fix bug and rename func" />
+    <MESSAGE value="done task insert owner trip into member trip" />
+    <MESSAGE value="create accept and reject trip member" />
+    <MESSAGE value="done task trip_member, create trip_diary (not done yet)" />
+    <MESSAGE value="revert ip server" />
+    <MESSAGE value="create trip diary detail" />
+    <MESSAGE value="edit trip detail" />
+    <MESSAGE value="edit create trip and trip detail" />
+    <MESSAGE value="reverse ip server" />
+    <MESSAGE value="create edit_profile, fix bug." />
+    <MESSAGE value="edit login_fb, fb_auth. create group. group member, fix bug" />
+    <MESSAGE value="done group, profile_basic_info, create SocketIO" />
+    <MESSAGE value="edit many many many" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit many many many" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/swagger/api-docs.json">
+    <entry file="file://$PROJECT_DIR$/routes/comment_status.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+        <state relative-caret-position="-5292">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ultis/authentication.js">
+    <entry file="file://$PROJECT_DIR$/schemas/route.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
+        <state relative-caret-position="486">
+          <caret line="27" column="3" selection-start-line="27" selection-start-column="3" selection-end-line="27" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/schemas/rate_trip.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/trip_diary.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/schemas/detail_diary.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/schemas/trip_diary.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="50" column="6" selection-start-line="50" selection-start-column="6" selection-end-line="50" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/schemas/place.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-540">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/schemas/group_member.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/schemas/notification.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/group_member.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="971" column="55" selection-start-line="971" selection-start-column="55" selection-end-line="971" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/status.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="23" column="9" selection-start-line="23" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cores/like_status.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="162" column="62" selection-start-line="162" selection-start-column="62" selection-end-line="162" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cores/trip_map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1134">
+          <caret line="63" column="66" selection-start-line="63" selection-start-column="66" selection-end-line="63" selection-end-column="66" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="43" column="23" selection-start-line="43" selection-start-column="23" selection-end-line="43" selection-end-column="23" />
+        <state relative-caret-position="587">
+          <caret line="58" column="64" selection-start-line="58" selection-start-column="64" selection-end-line="58" selection-end-column="64" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/user.js">
+    <entry file="file://$PROJECT_DIR$/schemas/comment_status.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1386">
-          <caret line="77" column="20" selection-start-line="77" selection-start-column="20" selection-end-line="77" selection-end-column="20" />
-          <folding />
+        <state relative-caret-position="54">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="28" selection-end-column="71" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/friend_request.js">
+    <entry file="file://$PROJECT_DIR$/routes/friend.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="24" column="71" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="843">
+          <caret line="141" column="31" selection-start-line="141" selection-start-column="31" selection-end-line="141" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/schemas/friend.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="450">
+          <caret line="25" column="11" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/follow.js">
+    <entry file="file://$PROJECT_DIR$/schemas/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="24" column="57" selection-start-line="24" selection-start-column="57" selection-end-line="24" selection-end-column="57" />
+        <state relative-caret-position="1278">
+          <caret line="71" column="6" selection-start-line="71" selection-start-column="6" selection-end-line="71" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/schemas/conversation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="36" column="35" selection-start-line="36" selection-start-column="35" selection-end-line="36" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ultis/authentication.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/socket.io/lib/socket.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="285" column="0" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/schemas/message.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cores/conversation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1278">
+          <caret line="73" column="61" selection-start-line="73" selection-start-column="61" selection-end-line="73" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cores/message.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="864">
+          <caret line="50" column="28" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/conversation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1872">
+          <caret line="106" column="48" selection-start-line="106" selection-start-column="48" selection-end-line="106" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/message.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1260">
+          <caret line="72" column="12" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cores/group.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1134">
+          <caret line="63" column="32" selection-start-line="63" selection-start-column="32" selection-end-line="63" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cores/group_member.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2286">
+          <caret line="127" column="9" selection-start-line="127" selection-start-column="9" selection-end-line="127" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/schemas/group.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="216">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cores/friend.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2124">
+          <caret line="118" column="9" selection-start-line="118" selection-start-column="9" selection-end-line="118" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/trip_member.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="786" column="48" selection-start-line="786" selection-start-column="48" selection-end-line="786" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/schemas/trip.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/socket.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1206">
+          <caret line="67" column="44" selection-start-line="67" selection-start-column="44" selection-end-line="67" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/group.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4608">
+          <caret line="256" column="45" selection-start-line="256" selection-start-column="45" selection-end-line="256" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/swagger/api-docs.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+        <state relative-caret-position="56430">
+          <caret line="3282" column="30" selection-start-line="3282" selection-start-column="30" selection-end-line="3282" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ultis/authentication.js">
+    <entry file="file://$PROJECT_DIR$/cores/trip_member.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
+        <state relative-caret-position="3096">
+          <caret line="172" column="31" selection-start-line="172" selection-start-column="31" selection-end-line="172" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="43" column="23" selection-start-line="43" selection-start-column="23" selection-end-line="43" selection-end-column="23" />
+        <state relative-caret-position="418">
+          <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/user.js">
+    <entry file="file://$PROJECT_DIR$/cores/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1386">
-          <caret line="77" column="20" selection-start-line="77" selection-start-column="20" selection-end-line="77" selection-end-column="20" />
+        <state relative-caret-position="4806">
+          <caret line="267" column="0" selection-start-line="267" selection-start-column="0" selection-end-line="267" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/friend_request.js">
+    <entry file="file://$PROJECT_DIR$/schemas/trip_member.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="24" column="71" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/friend.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/follow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/swagger/api-docs.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ultis/authentication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="43" column="23" selection-start-line="43" selection-start-column="23" selection-end-line="43" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1440">
-          <caret line="80" column="10" selection-start-line="80" selection-start-column="10" selection-end-line="80" selection-end-column="10" />
+        <state relative-caret-position="144">
+          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/swagger/api-docs.json">
+    <entry file="file://$PROJECT_DIR$/cores/trip.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ultis/authentication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="43" column="23" selection-start-line="43" selection-start-column="23" selection-end-line="43" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1440">
-          <caret line="80" column="10" selection-start-line="80" selection-start-column="10" selection-end-line="80" selection-end-column="10" />
+        <state relative-caret-position="5256">
+          <caret line="292" column="53" selection-start-line="292" selection-start-column="53" selection-end-line="292" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/swagger/api-docs.json">
+    <entry file="file://$PROJECT_DIR$/cores/trip_interested.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ultis/authentication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="43" column="23" selection-start-line="43" selection-start-column="23" selection-end-line="43" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="1170">
+          <caret line="65" column="33" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/swagger/api-docs.json">
+    <entry file="file://$PROJECT_DIR$/schemas/trip_interested.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+        <state relative-caret-position="144">
+          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ultis/authentication.js">
+    <entry file="file://$PROJECT_DIR$/routes/trip.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
+        <state relative-caret-position="6858">
+          <caret line="381" column="33" selection-start-line="381" selection-start-column="33" selection-end-line="381" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tsconfig.json" />
-    <entry file="file://$PROJECT_DIR$/config.js" />
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/cores/status.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
+        <state relative-caret-position="2484">
+          <caret line="138" column="23" selection-start-line="138" selection-start-column="23" selection-end-line="138" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/swagger/css/print.css">
+    <entry file="file://$PROJECT_DIR$/schemas/status.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="882">
+          <caret line="49" column="69" selection-start-line="49" selection-start-column="69" selection-end-line="49" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cores/news.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
-          <caret line="18" column="50" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ultis/authentication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/swagger/api-docs.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="38" column="28" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/follow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="21" column="24" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/friend_request.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+          <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/group.js">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/friend.js">
+    <entry file="file://$PROJECT_DIR$/routes/news.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/member_group.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="25" column="23" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/request_group.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/trip.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="87" column="20" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/period.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/schemas/place.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="44" column="23" selection-start-line="44" selection-start-column="23" selection-end-line="44" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cores/friend.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/file.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        <state relative-caret-position="576">
+          <caret line="136" column="42" selection-start-line="136" selection-start-column="42" selection-end-line="136" selection-end-column="42" />
           <folding />
         </state>
       </provider>

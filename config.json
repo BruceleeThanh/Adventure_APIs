@@ -1,5 +1,5 @@
 {
-  "domain": "http://155.94.144.150",
+  "domain": "http://192.168.0.102",
   "port": 25763,
   "log_path": "logs/",
   "upload_path": {
@@ -15,9 +15,9 @@
     "port": 2587
   },
   "fb": {
-    "appId": "1759487717653055 ",
-    "appSecret": "f92ddc3ce788a252372e1e417a00133b",
-    "version": "v2.6"
+    "appId": "1757209921226171",
+    "appSecret": "69b2355b2418dfe1958ab41c7ebc1faf",
+    "version": "v2.7"
   },
   "time_zone": "Asia/Saigon"
 
